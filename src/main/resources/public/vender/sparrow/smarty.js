@@ -2,6 +2,7 @@ window.HOST_URL = "http://" + window.location.host + "/";
 window.STATIC_URL = window.HOST_URL;
 window.JSTPL_URL = window.STATIC_URL + "jstpl/";
 
+var make_page_arg = { };
 var $ = jQuery.noConflict();
 empty = sparrow.empty;
 var current_tpl_name = null;
@@ -70,12 +71,24 @@ window.smarty = {
 		return 'function' === typeof window.JS_TPL[ 'func_' + smarty_tpl_name( tpl_name ) ];
 	},
 	/**
+	 * 检查字符串末尾是否包含 _html
+	 */
+	has_html_tpl: function ( str )
+	{
+		var arr = str.split("_");
+		var len = arr.length;
+		if( arr[ len - 1 ] == "html" ){
+			return true;
+		}
+		return false;
+	},
+	/**
 	 * 手动编译模板
 	 * @returns {undefined}
 	 */
 	parse_tpl : function( tpl, tpl_name )
 	{
-		tpl_name = tpl_name.replace( '.html', '' );
+		tpl_name = tpl_name.replace( '.tpl', '' );
 		tpl_name = smarty_tpl_name( tpl_name );
 		return smarty_parse_tpl( tpl, tpl_name, false );
 	},
@@ -114,7 +127,7 @@ window.smarty = {
 		}
 		if ( 'function' !== typeof func_name && global_parse_eval )
 		{
-			throw 'smarty plugin ' + plugin_name + ' is not a function';
+			throw 'smarty 插件 ' + plugin_name + ' is not a function';
 		}
 		smartyPlugin.pluginFunc[ plugin_name ] = func_name;
 	},
@@ -202,6 +215,20 @@ window.smarty = {
 		window_option = window_option || { };
 		var arg = { tpl : tpl, option : window_option, callback : callback };
 		ajax.post( url, data, smarty_open_re, is_loading, arg );
+	},
+	/**
+	 * 设置系统保留关键字
+	 */
+	define : function( key, value )
+	{
+		smarty_keep_var[ key ] = value;
+	},
+	/**
+	 * 获取系统保留关键字
+	 */
+	get_define : function( key )
+	{
+		return sparrow.isset( smarty_keep_var[ key ] ) ? smarty_keep_var[ key ] : null;
 	}
 };
 /**
@@ -255,7 +282,7 @@ function smarty_to_html( tpl_name, data )
 	//模板不存在, 先去加载模板
 	if ( !smarty.has_tpl( tpl_name ) )
 	{
-		sparrow.error( 'template:' + tpl_name + ' no exists' );
+		sparrow.error( '模板:' + tpl_name + ' 不存在' );
 		return 'tpl not exist';
 	}
 	try
@@ -264,7 +291,7 @@ function smarty_to_html( tpl_name, data )
 	}
 	catch ( excp )
 	{
-		var msg = 'jssmarty ' + tpl_name + ' template runtime error: ' + excp;
+		var msg = 'jssmarty ' + tpl_name + ' 模板运行出错：' + excp;
 		//IE下
 		if ( excp.description )
 		{
@@ -273,6 +300,10 @@ function smarty_to_html( tpl_name, data )
 		sparrow.error( msg );
 		return msg;
 	}
+	/*if ( -1 !== tmp_html.indexOf( '[[^' ) )			//解析JS语言包
+	 {
+	 tmp_html = sparrow.magic_js( tmp_html );
+	 }*/
 	return tmp_html;
 }
 
@@ -314,6 +345,7 @@ function smarty_load_tpl( tpl_name, callback )
 				_on_tpl_load();
 			} );
 		}
+
 	}
 }
 
@@ -393,7 +425,7 @@ function smarty_exception( err )
 			}
 		}
 	}
-	throw err + 'error location: number' + line + 'row';
+	throw err + '错误位置: 第' + line + '行';
 }
 
 
@@ -418,18 +450,19 @@ function smarty_do_parse( func_name )
 		tmp_end_pos = tpl_code.indexOf( suffix, beg_pos );
 		if ( tmp_end_pos < 0 )
 		{
-			smarty_exception( 'smarty syntax mismatch: ' + tpl_code.substring( beg_pos ) );
+			smarty_exception( 'smarty语法不配对：' + tpl_code.substring( beg_pos ) );
 		}
 		re_func.push( smartySyntax.doParse( tpl_code.substring( beg_pos + prefix_len, tmp_end_pos ) ) );
 		beg_pos = tpl_code.indexOf( prefix, tmp_end_pos );
 	}
 	if ( 0 != smartySyntax.syntaxStack.length )
 	{
-		smarty_exception( 'syntax mismatch' );
+		smarty_exception( '语法不配对' );
 	}
 	re_func.push( result_var + ".push('" + smarty_clean_str( tpl_code.substring( tmp_end_pos + suffix_len ) ) +
-			"');return " + result_var + ".join('');}" );
-	return re_func.join( '' );
+		"');return " + result_var + ".join('');}" );
+	var result_js_tpl = re_func.join( '' );
+	return result_js_tpl;
 }
 
 /**
@@ -565,7 +598,7 @@ var smartySyntax = {
 		var plugin_re = smartyPlugin.check_plugin( str );
 		if ( !plugin_re[ 're' ] && global_parse_eval )
 		{
-			smarty_exception( 'error syntax' + str );
+			smarty_exception( '无法解析的语法' + str );
 		}
 		else
 		{
@@ -611,7 +644,7 @@ var smartySyntax = {
 		var tmp_value;
 		if ( !/^name\s*=\s*"([^\"]+)"\svalue\s*=\s*([^\s]+)\s*$/.test( str ) )
 		{
-			smarty_exception( 'error assign expression:' + str );
+			smarty_exception( '错误的assign表达式:' + str );
 		}
 		tmp_value = RegExp.$2;
 		if ( '$' == tmp_value.substring( 0, 1 ) )
@@ -629,7 +662,7 @@ var smartySyntax = {
 	{
 		if ( !/^file\s*=\s*"([^\.]+)\.html"$/.test( str ) )
 		{
-			smarty_exception( 'error include expresion:' + str );
+			smarty_exception( '错误的include表达式:' + str );
 		}
 		var tmp = RegExp.$1;
 		if ( global_parse_eval )
@@ -637,7 +670,7 @@ var smartySyntax = {
 			include_tpl_arr.push( tmp );
 		}
 		var func_name = 'JS_TPL.func_' + smarty_tpl_name( tmp );
-		var re_str = 'if("function" !== typeof ' + func_name + ') throw "no include template :' + tmp + '";';
+		var re_str = 'if("function" !== typeof ' + func_name + ') throw "没有包括模板:' + tmp + '";';
 		return re_str + result_var + '.push(JS_TPL.func_' + smarty_tpl_name( tmp ) + '(' + param_name + '));';
 	},
 	parseelseif : function( str )
@@ -672,7 +705,7 @@ var smartySyntax = {
 		}
 		else
 		{
-			throw 'without {* pair match';
+			throw '未找到与{*配对的注释';
 		}
 		return '';
 	},
@@ -698,7 +731,7 @@ var smartySyntax = {
 		}
 		if ( false == hasFound )
 		{
-			throw 'without literal pair match';
+			throw '未找到与literal配对的标签';
 		}
 		else
 		{
@@ -734,7 +767,7 @@ var smartySyntax = {
 				parm = [ ];
 				if ( '' == greps[ i ] )
 				{
-					throw 'error pip expression: ' + str;
+					throw '错误的管道表达式：' + str;
 				}
 				if ( -1 != greps[ i ].indexOf( ':' ) )
 				{
@@ -763,7 +796,7 @@ var smartySyntax = {
 				}
 				if ( 'function' !== typeof( smartyGrep[ tmpGrep ] ) && global_parse_eval )
 				{
-					throw 'Smarty no support pip function "' + tmpGrep + '" in "' + str + '.';
+					throw 'Smarty不支持的管道函数“' + tmpGrep + '” 在 “' + str + '里';
 				}
 			}
 		}
@@ -789,7 +822,7 @@ var smartySyntax = {
 		}
 		if ( block != tmp )
 		{
-			this.exception( block + 'no match' );
+			this.exception( block + '不匹配' );
 		}
 
 		if ( 'foreach' == block || 'section' == block )
@@ -803,7 +836,7 @@ var smartySyntax = {
 	},
 	exception : function( err )
 	{
-		smarty_exception( 'syntax: ' + this.str + 'parsing error\n\n mabay reson is: ' + err );
+		smarty_exception( '语句：' + this.str + ' 解析出错\n\n可能的原因是：' + err );
 	}
 };
 
@@ -815,7 +848,7 @@ var smartyForeach = {
 		this.forStr = this.forStr.replace( /(from|name|key|item)\s?=\s?/g, '$1=' ); //将XX = XX换成 XX=XX
 		if ( /(^|\s)(?!name=|from=|key=|item=)/.test( this.forStr ) )
 		{
-			smartySyntax.exception( 'error foreach expression' )
+			smartySyntax.exception( '错误的foreach表达式' )
 		}
 		/*if ( /(\s|^)?name=([^\s]+)(\s|$)/.test( this.forStr ) )
 		 {
@@ -910,7 +943,7 @@ var smartyIf = {
 	{
 		if ( /\(\s+\)/.test( this.ifStr ) )
 		{
-			smartySyntax.exception( 'parentheses is not  can content' );
+			smartySyntax.exception( '括号内不能无内容' );
 		}
 		this.ifStr = smarty_format_brackets( this.ifStr ); //处理括号,在括号前后加空格
 		var arrIf = this.ifStr.split( ' ' );
@@ -932,7 +965,7 @@ var smartyIf = {
 		}
 		if ( 0 != isPair )
 		{
-			smartySyntax.exception( '{ is not match' );
+			smartySyntax.exception( '括号不匹配' );
 		}
 	},
 	getIsStr : function( )
@@ -957,7 +990,7 @@ var smartyIf = {
 			{
 				if ( false != isFlag )
 				{
-					smartySyntax.exception( 'is use method error' );
+					smartySyntax.exception( 'is 用法出错' );
 				}
 				begInd = i - 1; //从前一个位置开始
 				if ( ')' == ifArr[ begInd ] )
@@ -1013,7 +1046,7 @@ var smartyIf = {
 		//debug('var: ' + isArr[0]);
 		if ( isArr.length < 3 || isArr.length > 6 )
 		{
-			smartySyntax.exception( 'Unrecognized expression :' + isArr.join( ' ' ) );
+			smartySyntax.exception( '无法识别的表达式：' + isArr.join( ' ' ) );
 		}
 		var isType = isArr[ 2 ];
 		if ( 'not' == isType )
@@ -1022,7 +1055,7 @@ var smartyIf = {
 		}
 		if ( !/^(odd|div|even)$/.test( isType ) )
 		{
-			smartySyntax.exception( 'Unrecognized expression :' + isType );
+			smartySyntax.exception( '无法识别的表达式：' + isType );
 		}
 		//alert(typeof this[ 'parse' + RegExp.$1 ] );
 		return this[ 'parse' + RegExp.$1 ]( isArr );
@@ -1043,7 +1076,7 @@ var smartyIf = {
 		}
 		if ( 2 != isArr.length || 'by' != isArr[ 0 ] )
 		{
-			smartySyntax.exception( 'can not parsing is expression' );
+			smartySyntax.exception( '无法解析的 is 表达式' );
 		}
 		return '0 ' + flag + '= ' + parm + ' % ' + isArr[ 1 ];
 	},
@@ -1066,7 +1099,7 @@ var smartyIf = {
 		}
 		else
 		{
-			smartySyntax.exception( 'can not parsing is expression' );
+			smartySyntax.exception( '无法解析的 is 表达式' );
 		}
 	},
 	parseodd : function( isArr )
@@ -1087,7 +1120,7 @@ var smartySection = {
 		this.str = this.str.replace( /(name|loop|start|step|max|show)\s?=\s?/g, '$1=' ); //将XX = XX换成 XX=XX
 		if ( /(^|\s)(?!name=|loop=|start=|step=|max=|show=)/.test( this.str ) )
 		{
-			smartySyntax.exception( 'error section expression' )
+			smartySyntax.exception( '错误的section表达式' )
 		}
 		smartySyntax.syntaxStack.push( 'section' );
 		return this.doParse( );
@@ -1096,7 +1129,7 @@ var smartySection = {
 	{
 		if ( !/loop\s*=\s*([^\s]+)/.test( this.str ) )
 		{
-			smartySyntax.exception( 'section is without loop' );
+			smartySyntax.exception( 'section表达式缺少loop' );
 		}
 		else
 		{
@@ -1104,7 +1137,7 @@ var smartySection = {
 		}
 		if ( !/name\s*=\s*([^\s]+)/.test( this.str ) )
 		{
-			smartySyntax.exception( 'section expression is without name' );
+			smartySyntax.exception( 'section表达式缺少name' );
 		}
 		else
 		{
@@ -1135,10 +1168,10 @@ var smartyFormula = {
 	{
 		this.str = this.formatFormula( str );
 		var s_len = this.str.length,
-				pp_s = this.str.substring( s_len - 2, s_len ),
-				pp_e = this.str.substring( 0, 2 ),
-				tmp_re,
-				has_self_add = 0;
+			pp_s = this.str.substring( s_len - 2, s_len ),
+			pp_e = this.str.substring( 0, 2 ),
+			tmp_re,
+			has_self_add = 0;
 		if ( '++' == pp_s || '--' == pp_s )
 		{
 			this.str = this.str.substring( 0, s_len - 2 );
@@ -1196,7 +1229,7 @@ var smartyVar = { //smarty变量表达式分析器
 		}
 		if ( true == this.checkValid() )
 		{
-			smartySyntax.exception( 'expression is error' );
+			smartySyntax.exception( '表达式不正确' );
 		}
 		this.reStr = '';
 		this.dotFlag = false;
@@ -1204,7 +1237,7 @@ var smartyVar = { //smarty变量表达式分析器
 		this.doParse();
 		if ( 0 != this.isPair )
 		{
-			smartySyntax.exception( '[] is not match' );
+			smartySyntax.exception( '中括号不配对' );
 		}
 		return this.reStr;
 	},
@@ -1212,8 +1245,8 @@ var smartyVar = { //smarty变量表达式分析器
 	{
 		//检查变量表达式是否正确
 		return true == /\$[^a-zA-Z_]/.test( this.varStr ) || //$后面只能给[a-zA-Z_]
-				//true == /\.((\.|$)|((0|([1-9]\d*))[^.\[\]]))/.test(this.varStr) || //1：不能两个..或者以.结束 2：.后面接数字，数字后面必须再接'.','[',']'之一
-				true == /\[(\[|\]|\.|((0|([1-9]\d*))[^\]]))/.test( this.varStr ); //以[开始，后面不能接 [, ], .，如果是数字，后面只能是]
+			//true == /\.((\.|$)|((0|([1-9]\d*))[^.\[\]]))/.test(this.varStr) || //1：不能两个..或者以.结束 2：.后面接数字，数字后面必须再接'.','[',']'之一
+			true == /\[(\[|\]|\.|((0|([1-9]\d*))[^\]]))/.test( this.varStr ); //以[开始，后面不能接 [, ], .，如果是数字，后面只能是]
 	},
 	doParse : function()
 	{
@@ -1224,7 +1257,7 @@ var smartyVar = { //smarty变量表达式分析器
 		{
 			if ( this.isPair < 0 )
 			{
-				smartySyntax.exception( '[] is not match' );
+				smartySyntax.exception( '中括号不配对' );
 			}
 			c = strArr[ i ];
 			switch ( c )
@@ -1335,6 +1368,7 @@ var smartyGrep = { //Smarty管道
 };
 window.smartyGrep = smartyGrep;
 
+
 //默认的插件
 function default_url( url, page_arg )
 {
@@ -1354,9 +1388,8 @@ function default_url( url, page_arg )
 	{
 		if ( '/' !== re.substr( -1, 1 ) )
 		{
+			//lzz++
 			//re += '/';
-			/* lzz */
-			re += '';
 		}
 	}
 	else
@@ -1365,6 +1398,329 @@ function default_url( url, page_arg )
 	}
 	return re;
 }
+/**
+ * 一页
+ */
+function a_page( page, goto_page, css_name, link_text )
+{
+	if ( page === goto_page )
+	{
+		css_name = 'active';
+	}
+	if ( 'undefined' === typeof link_text )
+	{
+		link_text = goto_page;
+	}
+	var str = '<a';
+	if ( 'string' === typeof css_name && css_name.length > 0 )
+	{
+		str += ' class="' + css_name + '"';
+	}
+	str += ' href="javascript:void(0)"';
+	if ( 'event' === make_page_arg[ make_page_index ] )
+	{
+		str += ' data-form-item="page" data-value="' + goto_page + '"';
+	}
+	else
+	{
+		str += ' onclick="smarty_plugin_page( ' + goto_page + ', \'' + make_page_index + '\' )"';
+	}
+	str += '>' + link_text + '</a>';
+	return str;
+}
+
+window.smarty_plugin_page = function( page, key )
+{
+	if ( 'function' !== typeof make_page_arg[ key ] )
+	{
+		sparrow.error( '翻页出错了!' );
+	}
+	make_page_arg[ key ].apply( window, [ page ] );
+}
+
+window.smarty_jump_page = function( key )
+{
+	var dom_id = 'page_jump_' + key;
+	var page = document.getElementById( dom_id ).value;
+	if ( page < 1 )
+	{
+		page = 1;
+	}
+	smarty_plugin_page( page, key );
+}
+/**
+ * 翻页
+ */
+function smarty_function_make_page( params )
+{
+	if ( !sparrow.isset( params[ 'page_count' ] ) )
+	{
+		throw 'Make_page 缺少 page_count 参数';
+	}
+	//当前页
+	var page = sparrow.isset( params[ 'page' ] ) ? sparrow.intval( params[ 'page' ] ) : 1;
+	var type = sparrow.isset( params[ 'type' ] ) ?  params[ 'type' ] : "POST";
+	//总页数
+	var page_count = sparrow.intval( params[ 'page_count' ] );
+	//控制翻页变更的名字
+	var page_arg = sparrow.isset( params[ 'page_arg' ] ) ? params[ 'page_arg' ] : 'page';
+	//url
+	var url = 'string' === typeof params[ 'url' ] ? params[ 'url' ] : document.location.href;
+	//模板名
+	var tpl = 'string' === typeof params[ 'tpl' ] ? params[ 'tpl' ] : smarty.current_tpl();
+	//服务器控制不使用smarty输出的变量名
+	var no_tpl_arg = 'string' === typeof params[ 'no_tpl' ] ? params[ 'no_tpl' ] : 'no_tpl';
+	//总共显示多少页
+	var page_length = sparrow.isset( params[ 'page_len' ] ) ? sparrow.intval( params[ 'page_len' ] ) : 10;
+	//左边固定多少页
+	var left_fix_page = sparrow.isset( params[ 'left_fix' ] ) ? sparrow.intval( params[ 'left_fix' ] ) : 2;
+	//右边固定多少页
+	var right_fix_page = sparrow.isset( params[ 'right_fix' ] ) ? sparrow.intval( params[ 'right_fix' ] ) : -1;
+	//显示上一页
+	var show_pre = true === params[ 'disable_pre' ] ? false : true;
+	//显示下一页
+	var show_next = true === params[ 'disable_next' ] ? false : true;
+	//显示总共页数
+	var show_page_count = true === params[ 'disable_total' ] ? false : true;
+	//跳转
+	var show_page_jump = false === params[ 'disable_jump' ] ? true : false;
+	//显示方式
+	var view_type = sparrow.intval( params[ 'view_type' ] );
+	if ( view_type < 1 || view_type > 3 )
+	{
+		view_type = 3;
+	}
+	make_page_index = tpl.replace( /\//g, '_' );
+	//如果url是一个可执行函数
+	if ( 'function' === typeof window[ url ] )
+	{
+		make_page_arg[ make_page_index ] = window[ url ];
+	}
+	else if ( 'event' === url )
+	{
+		make_page_arg[ make_page_index ] = url;
+	}
+	else
+	{
+		url = default_url( url, page_arg );
+		if ( 'string' !== typeof params[ 'id' ] )
+		{
+			return '<div class="sparrow_page_list red">make_page url不是回调函数 id 参数是必须的<div class="clear"></div></div>';
+		}
+		var div_id = params[ 'id' ];
+		//加载内容存放的ID
+		make_page_arg[ make_page_index ] = function( page ) {
+			/*lzz modify*/
+			//var new_url = url + page_arg + '=' + page;
+			console.log(page);
+			var new_url = url;
+			var data = { };
+			data[ page_arg ] = page; //lzz add
+			var tmp = new_url.split("?");
+			new_url = tmp[0];
+			if( tmp.length >1 ){
+				var param_str = tmp[1];
+				var arr = param_str.split(",");
+				for(var i = 0; i < arr.length; i++){
+					data[ arr[i] ] = params[ arr[i] ];
+				}
+			}
+
+			if(window.queryConditions){
+				data.conditions = window.queryConditions;
+			}
+			if(window.sortList){
+				data.sortList = window.sortList;
+			}
+			//data[ no_tpl_arg ] = 1;
+			if(type == "GET"){
+				new_url += "?";
+				for(var key in data){
+					new_url += key + "=" + data[key] + "&"
+				}
+				smarty.get(new_url, tpl, div_id);
+			}else{
+				smarty.post( new_url, JSON.stringify(data), tpl, div_id );
+			}
+		}
+	}
+
+	//分页的主要逻辑
+	var result_arr = [ ];
+	if ( page_count <= page_length )
+	{
+		for ( var i = 1;i <= page_count;++i )
+		{
+			result_arr.push( a_page( page, i ) );
+		}
+	}
+	else
+	{
+		if ( left_fix_page + right_fix_page >= page_length )
+		{
+			left_fix_page = right_fix_page = sparrow.intval( page_length / 2 );
+		}
+		//从第一页开始
+		result_arr.push( '' );
+		var beg_page = 1;
+		var end_page = page_count;
+		var left_position = page_length;
+		var tmp_result_arr = [ ];
+		if ( left_fix_page > 0 )
+		{
+			for ( i = 1;i <= left_fix_page;i++ )
+			{
+				result_arr.push( i );
+				beg_page++;
+				left_position--;
+			}
+		}
+		if ( right_fix_page > 0 )
+		{
+			for ( i = right_fix_page;i > 0;--i )
+			{
+				result_arr[ page_length - i + 1 ] = page_count - i + 1;
+				end_page--;
+				left_position--;
+			}
+		}
+		var while_beg = page;
+		if ( page < beg_page )
+		{
+			while_beg = beg_page;
+		}
+		else if ( page > end_page )
+		{
+			while_beg = end_page;
+		}
+		tmp_result_arr.push( while_beg );
+		--left_position;
+		var rank = 1;
+		while ( left_position > 0 )
+		{
+			if ( while_beg + rank <= end_page )
+			{
+				tmp_result_arr.push( while_beg + rank );
+				if ( 0 === --left_position )
+				{
+					break;
+				}
+			}
+			if ( while_beg - rank >= beg_page )
+			{
+				tmp_result_arr.unshift( while_beg - rank );
+				--left_position;
+			}
+			rank++;
+		}
+		for ( i = 0;i < tmp_result_arr.length;i++ )
+		{
+			result_arr[ i + beg_page ] = tmp_result_arr[ i ];
+		}
+		//左边固定长度
+		if ( left_fix_page > 0 )
+		{
+			if ( left_fix_page > 1 && result_arr[ left_fix_page ] + 1 !== result_arr[ left_fix_page + 1 ] )
+			{
+				result_arr[ left_fix_page ] = -1;
+			}
+		}
+		//右边固定
+		if ( right_fix_page > 0 )
+		{
+			if ( right_fix_page > 1 && result_arr[ page_length - right_fix_page + 1 ] - 1 !== result_arr[ page_length - right_fix_page ] )
+			{
+				result_arr[ page_length - right_fix_page + 1 ] = -1;
+			}
+		}
+		for ( i = 1;i <= page_length;i++ )
+		{
+			if ( -1 === result_arr[ i ] )
+			{
+				result_arr[ i ] = '<a class="more">...</a>';
+			}
+			else
+			{
+				result_arr[ i ] = a_page( page, result_arr[ i ] );
+			}
+		}
+	}
+	//显示前一页
+	if ( show_pre )
+	{
+		var text = '';
+		//需要显示文字
+		if ( view_type & 1 )
+		{
+			text = i18n.get( 'previous' );
+		}
+		if ( page > 1 )
+		{
+			result_arr.unshift( a_page( page, page - 1, 'pre', text ) );
+		}
+		else
+		{
+			result_arr.unshift( '<a class="pre disabled">' + text + '</a>' );
+		}
+
+	}
+	//显示下一页
+	if ( show_next )
+	{
+		//需要显示文字
+		if ( view_type & 1 )
+		{
+			text = i18n.get( 'next' );
+		}
+		if ( page !== page_count && page_count != 0 )
+		{
+			result_arr.push( a_page( page, page + 1, 'next', text ) );
+		}
+		else
+		{
+			result_arr.push( '<a class="next disabled">' + text + '</a>' );
+		}
+	}
+	//显示图标
+	if ( view_type & 2 )
+	{
+		var css_name = 'arrowOnly';
+		//还要显示文字
+		if ( view_type & 1 )
+		{
+			css_name = 'arrow';
+		}
+		result_arr.unshift( '<span class="page ' + css_name + '">' );
+		result_arr.push( '</span>' );
+	}
+
+	//显示总共有多少页
+	if ( show_page_count )
+	{
+		var tmp_count_str = '<span class="total"><span>共</span><span class="b">' + page_count + '</span><span>页</span></span>';
+		result_arr.push( tmp_count_str );
+	}
+	//显示跳转
+	if ( show_page_jump )
+	{
+		var dom_id = 'page_jump_' + make_page_index;
+		var jump_tmp_str = '<span class="to"><span>去第</span><input id="' + dom_id + '" class="num" type="number" value="' + page + '" min="1" max="' + page_count + '"><span>页</span>';
+		if ( 'event' === url ) {
+			jump_tmp_str += '<input class="btn" type="button" value="确定" data-form-item="page" data-value="input:'+ dom_id +'">';
+		}
+		else {
+			jump_tmp_str += '<input class="btn" type="button" value="确定" onclick="smarty_jump_page(\'' + make_page_index + '\')">';
+		}
+		result_arr.push( jump_tmp_str );
+	}
+	result_arr.unshift( '<div class="sparrow_page_list">' );
+	result_arr.push( '</div>' );
+	return result_arr.join( '' );
+}
+smarty.register_function( 'make_page', smarty_function_make_page );
+smarty.register_function( 'fix_static', function( arg ) {
+	return sparrow.fix_static( arg.file );
+} );
 
 /**
  * 截取字符串修正器
@@ -1403,6 +1759,45 @@ smarty.register_modifier( 'in_array', function( id, array ){
 } );
 
 smarty.register_modifier( 'fix_static', sparrow.fix_static );
+smarty.register_modifier( 'json_encode', function( obj, is_replace )
+{
+	var str = json.encode( obj );
+	if ( false === is_replace )
+	{
+		return str;
+	}
+	return sparrow.filt_quote( str );
+} );
+/**
+ * 将数据导出到前端
+ */
+smarty.register_modifier( 'msgpack', function( obj, need_field )
+{
+	if ( !sparrow_pack )
+	{
+		sparrow.error( '没有加载 sparrow/pack, json 模块, 请在主js文件中引入' );
+	}
+	var data = { };
+	if ( 'string' === typeof need_field )
+	{
+		var tmp_need = need_field.split( ',' );
+		for ( var i = 0; i < tmp_need.length; i++ )
+		{
+			var tmp_key = tmp_need[ i ].trim();
+			if ( 0 == tmp_key.length || !sparrow.isset( obj[ tmp_key ] ) )
+			{
+				continue;
+			}
+			data[ tmp_key ] = obj[ tmp_key ];
+		}
+	}
+	else
+	{
+		data = obj;
+	}
+	var str = sparrow_pack.encode( data );
+	return 'PACK::' + str;
+} );
 
 /**
  * 强转数字
@@ -1436,9 +1831,12 @@ function param_ext_string( params, normal_arr, validate_arr )
 	return { ext_str : ext_str, val_str : val_str };
 }
 
-
 /**
  * 格式化时间
  */
 smarty.register_modifier( 'date', sparrow.date );
 
+//return smarty;
+smarty.register_modifier( 'json_string', function( val ) {
+	return JSON.stringify( val );
+} );

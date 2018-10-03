@@ -1,15 +1,18 @@
 <section class="panel">
     <header class="panel-heading">
         <div class="pull-left">
-            ApiList
+            <span class="label label-default r-activity">
+                <i id="table-title"></i>  <a href="javascript:void(0)" id="edit-table-name-button"><i class="icon-cogs"> </i></a>
+            </span>
         </div>
         <div class="pull-right">
-            <button type="button" class="btn btn-margin-left btn-success"><i class=" icon-plus-sign"></i> API </button>
-            <button type="button" class="btn btn-margin-left btn-info"><i class="icon-cloud"></i> JS-SDK</button>
-            <button type="button" class="btn btn-margin-left btn-primary "><i class="icon-cogs"></i> Seting</button>
+            <button type="button" id="search-form-button" class="btn btn-margin-left btn-success"><i class=" icon-plus-sign"></i> Search </button>
+            <button type="button" id="api-list-button" class="btn btn-margin-left btn-success"><i class=" icon-plus-sign"></i> API </button>
+            <button type="button" id="js-sdk-button" class="btn btn-margin-left btn-info"><i class="icon-cloud"></i> JS-SDK</button>
+            <button type="button" id="setting-field-button" class="btn btn-margin-left btn-primary"><i class="icon-cogs"></i> Seting</button>
         </div>
     </header>
-    <div class="panel-body">
+    <div class="panel-body" id="table-content">
         <p>hello world</p>
     </div>
 </section>

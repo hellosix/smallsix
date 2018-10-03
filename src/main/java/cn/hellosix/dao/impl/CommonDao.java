@@ -105,4 +105,12 @@ public class CommonDao implements ICommonDao{
     public int insert(String sql){
         return jdbcTemplate.update( sql );
     }
+
+    @Override
+    public Long getCount(String sql) {
+        List<Map<String, Object>> res = jdbcTemplate.queryForList(sql);
+        Map<String, Object> item = res.get(0);
+        Long count = (Long) item.get( "c" );
+        return count;
+    }
 }

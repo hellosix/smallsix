@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.hellosix.dao.ITableExtendDao">
+    <select id="getTableExtendList"  resultType="cn.hellosix.model.TableExtend">
+        select * from smallsix.table_extend limit 500
+    </select>
+
+    <select id="getTableExtendDetail"  resultType="cn.hellosix.model.TableExtend">
+        select * from smallsix.table_extend where database_name = #{database} AND table_name = #{table} limit 1
+    </select>
+
+
+    <insert id="addTableExtend" parameterType="cn.hellosix.model.TableExtend"  useGeneratedKeys="true" keyProperty="id">
+        insert into smallsix.table_extend(database_name,table_name,note) values(#{databaseName},#{tableName},#{note})
+    </insert>
+
+    <update id="updateTableExtend"  parameterType="cn.hellosix.model.TableExtend" >
+        UPDATE
+        smallsix.table_extend
+        SET
+        note = #{note}
+        WHERE
+        database_name = #{databaseName} AND table_name = #{tableName}
+    </update>
+
+</mapper>

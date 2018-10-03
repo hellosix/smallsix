@@ -27,7 +27,12 @@
     </a>
     <ul class="sub">
         {{foreach from=$res item=table}}
-            <li><a class="" href="javascript:void(0)">{{$table}}</a></li>
+            {{if !empty($table.note)}}
+                <li><a class="table-content" href="javascript:void(0)" data-detail={{$table|json_string}}>{{$table.note}}</a></li>
+            {{else}}
+                <li><a class="table-content" href="javascript:void(0)" data-detail={{$table|json_string}}>{{$table.tableName}}</a></li>
+            {{/if}}
+
         {{/foreach}}
     </ul>
 </li>

@@ -1,0 +1,23 @@
+
+<table class="table table-hover">
+    <thead id="field-extends-detail" data-detail={{$res.fieldExtends|json_string}}>
+    {{foreach from=$res.columns item=column}}
+    <th>{{field_note field=$column.name field_extend=$res.fieldExtends}}<span data-field="{{$column.name}}" class="table-sort-button icon-sort-by-attributes"></span></th>
+    {{/foreach}}
+    <th style="width: 50px">Operate</th>
+    </thead>
+    <tbody>
+    {{foreach from=$res.list item=row}}
+    <tr>
+        {{foreach from=$row item=v key=k}}
+        <td>{{$v}}</td>
+        {{/foreach}}
+        <td>
+            <button class="btn btn-primary btn-xs edit-field-button" data-columns={{$res.columns|json_string}} data-detail={{$row|json_string}}><i class="icon-pencil"></i></button>
+            <button class="btn btn-danger btn-xs" data-id="{{$row.id}}"><i class="icon-trash "></i></button>
+        </td>
+    </tr>
+    {{/foreach}}
+    </tbody>
+</table>
+{{make_page page=$res.page type="POST" tpl="admin_table_content" table=$res.table database=$res.database page_count=$res.pageCount id="table-container" right_fix=-1 url="getTableRowList?database,table"}}

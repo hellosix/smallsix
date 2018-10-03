@@ -1,0 +1,56 @@
+<div class="form-horizontal" id="edit-field-form" style="margin: 15px">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Field</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control disabled" name="fieldName" value="{{$column.name}}" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">FType</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control disabled" value="{{$column.type}}" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Size</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control disabled" value="{{$column.size}}" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Id</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control disabled" name="id" value="{{$fieldExtend.id}}" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Note</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="note" value="{{$fieldExtend.note}}" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">FormType</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="type" value="{{$fieldExtend.type}}" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Active</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="active" value="{{$fieldExtend.active}}" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Valitate</label>
+        <div class="col-sm-10">
+            <textarea type="text" class="form-control" name="valitate" value="{{$fieldExtend.valitate}}" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" id="save-edit-field" class="btn btn-default">Save</button>
+        </div>
+    </div>
+</div>
+

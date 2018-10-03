@@ -1,0 +1,36 @@
+<div class="search-form">
+    <div class="search-li">
+        <div class="search-title search-field" data-group="g1" data-value="">ID：</div>
+        <div class="search-item active" data-group="g1" data-value="">全部</div>
+        <div class="search-item" data-group="g1" data-value="id=1">ID1</div>
+        <div class="search-item" data-group="g1" data-value="id=2">ID2</div>
+    </div>
+    <div class="search-li">
+        <div class="search-title search-field" data-group="g2" data-value="">Name：</div>
+        <div class="search-item active" data-group="g2" data-value="">全部</div>
+        <div class="search-item" data-group="g2" data-value="name='动态仪表盘'">动态仪表盘</div>
+    </div>
+    <div class="search-li">
+        <div class="search-title search-field" data-group="g3" data-value="">Userid：</div>
+        <div class="search-item active" data-group="g3" data-value="">全部</div>
+        <div class="search-item" data-group="g3" data-value="userid > 30 and userid < 40">30-40岁</div>
+        <div class="search-item" data-group="g3" data-value="userid > 40 and userid < 50">40-50岁</div>
+        <div class="search-item-range">
+            <input type="text" name="field-min-g3">
+            <div>-</div>
+            <input type="text" name="field-max-g3">
+        </div>
+        <div class="search-item-submit" data-group="g3" data-field="userid">确定</div>
+    </div>
+    <div class="search-li">
+        <div class="search-title search-field" data-group="g5" data-value="">查找：</div>
+        <div class="search-item-query active" data-field="userId">userid</div>
+        <div class="search-item-query" data-field="id">id</div>
+        <div class="search-query">
+            <input type="text" name="field-content-g5">
+        </div>
+        <div class="search-button search-query-submit" data-group="g5">
+            搜索
+        </div>
+    </div>
+</div>

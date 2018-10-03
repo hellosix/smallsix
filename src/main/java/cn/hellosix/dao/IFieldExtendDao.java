@@ -1,6 +1,7 @@
 package cn.hellosix.dao;
 
 import cn.hellosix.model.FieldExtend;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  */
 @Repository
 public interface IFieldExtendDao {
-    List<FieldExtend> getFieldExtendList();
+    List<FieldExtend> getFieldExtendList(@Param("database")String database, @Param("table")String table);
     void addFieldExtend(FieldExtend fieldExtend);
     void removeFieldExtend(int id);
     void updateFieldExtend(FieldExtend fieldExtend);

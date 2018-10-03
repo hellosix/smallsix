@@ -4,9 +4,9 @@ package cn.hellosix.model;
  * Created by lzz on 2018/10/1.
  */
 public class Column {
-    private String name;
-    private String type;
-    private int size;
+    protected String name;
+    protected String type;
+    protected int size;
 
     public Column(){
 

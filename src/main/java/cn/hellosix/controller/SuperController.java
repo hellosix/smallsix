@@ -1,15 +1,15 @@
 package cn.hellosix.controller;
 
 import cn.hellosix.core.userapi.UserAccess;
+import cn.hellosix.model.ColumnExtend;
+import cn.hellosix.model.FieldExtend;
 import cn.hellosix.model.Response;
+import cn.hellosix.model.TableExtend;
 import cn.hellosix.service.SuperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,6 +28,7 @@ public class SuperController {
         return "super/admin";
     }
 
+
     @RequestMapping(value = "/getMenu", method = RequestMethod.GET)
     @ResponseBody
     public Response getMenu(){
@@ -42,10 +43,46 @@ public class SuperController {
         return Response.Result(0, menuList);
     }
 
+    @RequestMapping(value = "/getColumnExtendList", method = RequestMethod.GET)
+    @ResponseBody
+    public Response getColumnExtendList(@RequestParam String database, @RequestParam String table){
+        List<ColumnExtend> columnList = service.getColumnExtendList(database, table);
+        return Response.Result(0, columnList);
+    }
+
     @RequestMapping(value = "/getApiList", method = RequestMethod.GET)
     @ResponseBody
     public Response getApiList(@RequestParam String database, @RequestParam String table){
         return Response.Result(0, null);
+    }
+
+    @RequestMapping(value = "/updateFieldExtend", method = RequestMethod.POST)
+    @ResponseBody
+    public Response updateFieldExtend(@RequestBody FieldExtend fieldExtend){
+        boolean res = service.updateFieldExtend( fieldExtend );
+        if( res ){
+            return Response.Info("success");
+        }else{
+            return Response.Error("error");
+        }
+    }
+
+    @RequestMapping(value = "/updateTableExtend", method = RequestMethod.POST)
+    @ResponseBody
+    public Response updateTableExtend(@RequestBody TableExtend tableExtend){
+        boolean res = service.updateTableExtend( tableExtend );
+        if( res ){
+            return Response.Info("success");
+        }else{
+            return Response.Error("error");
+        }
+    }
+
+    @RequestMapping(value = "/getTableExtendDetail", method = RequestMethod.GET)
+    @ResponseBody
+    public Response getTableExtendDetail(@RequestParam String database, @RequestParam String table){
+        TableExtend tableExtend = service.getTableExtendDetail(database, table);
+        return Response.Result(0, tableExtend);
     }
 
 

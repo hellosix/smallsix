@@ -5,16 +5,17 @@
 
 <mapper namespace="cn.hellosix.dao.IFieldExtendDao">
     <select id="getFieldExtendList"  resultType="cn.hellosix.model.FieldExtend">
-        select * from field_extend limit 500
+        select * from smallsix.field_extend
+        where database_name = #{database} AND table_name = #{table} limit 500
     </select>
 
     <insert id="addFieldExtend" parameterType="cn.hellosix.model.FieldExtend"  useGeneratedKeys="true" keyProperty="id">
-        insert into field_extend(field_name,table_name,database_name, note, type,active, valitate) values(#{fieldName},#{tableName},#{databaseName},#{note},#{type},#{active},#{valitate})
+        insert into smallsix.field_extend(field_name,table_name,database_name, note, type,active, valitate) values(#{fieldName},#{tableName},#{databaseName},#{note},#{type},#{active},#{valitate})
     </insert>
 
     <update id="updateFieldExtend"  parameterType="cn.hellosix.model.FieldExtend" >
         UPDATE
-        field_extend
+        smallsix.field_extend
         SET
         field_name = #{fieldName},
         table_name = #{tableName},
@@ -28,7 +29,7 @@
     </update>
 
     <delete id="removeFieldExtend">
-        delete from field_extend
+        delete from smallsix.field_extend
         <where>
             id = #{id}
         </where>

@@ -1,0 +1,36 @@
+.sql_param_key_div{
+    width:20%;
+    float:left;
+}
+.param_black_div{
+    width:2%;
+    height: 2px;
+    float: left;
+}
+.sql_param_value_div{
+    width:68%;
+    float:left;
+}
+.right-button{
+    width: 8%;
+    float: left;
+}
+a.btn-xs{
+    margin-top:5px;
+    border-radius: 50px;
+}
+
+#ping-jdbc{
+    width: 40px;
+}
+.sql-button{
+    margin-right: 15px;
+    width: 70px;
+}
+
+pre {padding: 5px; margin: 5px; }
+.string { color: green; }
+.number { color: darkorange; }
+.boolean { color: blue; }
+.null { color: magenta; }
+.key { color: red; }

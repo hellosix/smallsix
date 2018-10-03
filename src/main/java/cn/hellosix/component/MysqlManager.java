@@ -18,9 +18,9 @@ import java.util.List;
 public class MysqlManager implements ApplicationListener<ContextRefreshedEvent> {
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    @Value("${mysql.scan.package}")
+    @Value("${smallsix.mysql.scan.package}")
     private String mysqlScanTable;
-    @Value("${mysql.database.name}")
+    @Value("${smallsix.mysql.database.name}")
     private String database;
 
     @Override

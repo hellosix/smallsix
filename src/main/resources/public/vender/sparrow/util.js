@@ -20,6 +20,17 @@ var sparrow_win ={
                 }
             });
         },
+        open_html:function(url, title){
+            layer.open({
+                type: 2,
+                title: title,
+                shadeClose: true,
+                shade: false,
+                maxmin: true, //开启最大化最小化按钮
+                area: ['893px', '600px'],
+                content: url
+            });
+        },
         /**
 		 * 弹出一个框,如果这个框存在了,将不会再打开, 而只是刷新内容
 		 */
@@ -135,6 +146,9 @@ var sparrow_win ={
 
 
 var sparrow ={
+    is_dev: function () {
+
+    },
     /**
      * 调试
      */

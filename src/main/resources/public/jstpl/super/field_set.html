@@ -1,0 +1,32 @@
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>Field</th>
+        <th>FType</th>
+        <th>Size</th>
+        <th>Table</th>
+        <th>Database</th>
+        <th>Note</th>
+        <th>FormType</th>
+        <th>Active</th>
+        <th>Valitate</th>
+        <th>Edit</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{foreach from=$res item=c}}
+    <tr>
+        <td>{{$c.column.name}}</td>
+        <td>{{$c.column.type}}</td>
+        <td>{{$c.column.size}}</td>
+        <td>{{$c.fieldExtend.tableName}}</td>
+        <td>{{$c.fieldExtend.databaseName}}</td>
+        <td>{{$c.fieldExtend.note}}</td>
+        <td>{{$c.fieldExtend.type}}</td>
+        <td>{{$c.fieldExtend.active}}</td>
+        <td>{{$c.fieldExtend.valitate}}</td>
+        <td><button class="btn btn-primary btn-xs edit-field-button" data-detail={{$c|json_string}}><i class="icon-pencil"></i></button></td>
+    </tr>
+    {{/foreach}}
+    </tbody>
+</table>

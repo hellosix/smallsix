@@ -17,4 +17,5 @@ public interface ICommonDao {
     List<Map<String, Object>> select(String sql);
     int update(String sql);
     int insert(String sql);
+    Long getCount(String sql);
 }

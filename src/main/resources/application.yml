@@ -7,7 +7,7 @@ spring:
       name: smallsix
   datasource:
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://localhost:3306
+      url: jdbc:mysql://localhost:3306?useUnicode=true&characterEncoding=utf8
       username: root
       password: root
       initialize: true
@@ -17,7 +17,11 @@ mybatis:
   configuration:
       mapUnderscoreToCamelCase: true
 
-mysql:
-  scan.package: cn.hellosix
-  # 配置成跟 jdbc 连接的信息一样
-  database.name: hellosix
+smallsix:
+  mysql:
+    scan.package: cn.hellosix
+    # 配置成跟 jdbc 连接的信息一样
+    database.name: smallsix
+    # 自动生成前端 js
+  user.api.path: ./src/main/resources/public/core/userApi.js
+  userapi.scan.package: cn.hellosix.controller

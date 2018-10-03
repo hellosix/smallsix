@@ -21,7 +21,7 @@ public class IFieldExtendDaoTest {
 
     @Test
     public void getFieldExtendListTest(){
-        List list = fieldExtendDao.getFieldExtendList();
+        List list = fieldExtendDao.getFieldExtendList("", "a");
         System.out.println( list );
     }
 

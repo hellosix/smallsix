@@ -122,7 +122,7 @@ sparrow_ajax.prototype = {
 		var options = {
 			url : this.url,
 			dataType : this.data_type,
-			contentType: 'application/json',
+			contentType: 'application/json;charset=UTF-8',
 			type : this.type,
 			async: this.async,
 			error : bind( this.error_handle, this ),
