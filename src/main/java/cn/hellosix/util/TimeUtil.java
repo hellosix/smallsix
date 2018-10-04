@@ -8,14 +8,20 @@ import java.util.Date;
  */
 public class TimeUtil {
     public static String timeStamp2Date(String seconds,String format) {
-      if(seconds == null || seconds.isEmpty() || seconds.equals("null")){
-                  return "";
-               }
-              if(format == null || format.isEmpty()){
-                format = "yyyy-MM-dd HH:mm:ss";
-              }
-          SimpleDateFormat sdf = new SimpleDateFormat(format);
-           return sdf.format(new Date(Long.valueOf(seconds)));
+        if(seconds == null || seconds.isEmpty() || seconds.equals("null")){
+            return "";
+        }
+        if(format == null || format.isEmpty()){
+            format = "yyyy-MM-dd HH:mm:ss";
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        String res = seconds;
+        try {
+            res = sdf.format(new Date(Long.valueOf(seconds)));
+        }catch (Exception ignore){
+
+        }
+        return seconds;
      }
 
     public static String date2TimeStamp(String date_str,String format){

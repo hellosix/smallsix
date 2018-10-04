@@ -14,16 +14,6 @@ $(document).on("click", ".load-iframe", function () {
     });
 });
 
-$(document).on("click", "#test-button", function () {
-   smarty.open("admin/upload_file", {}, { title: "Edit",width:700}, function () {
-       $("#case3").upload(
-           function(_this,data){
-               alert(data)
-           }
-       )
-   });
-});
-
 $(document).on("click", ".table-content", function (res) {
     var detail = $(this).data("detail");
     window.table = detail.tableName;
@@ -58,7 +48,17 @@ $(document).on("click", ".edit-field-button", function () {
 
 function field_form(data) {
     smarty.open("admin/field_form", data, { title: "Edit",width:700}, function(){
-        $("[data-file='file']").upload(
+        $("[data-plugin='image']").upload(
+            function(_this,data){
+                alert(data)
+            }
+        );
+        $("[data-plugin='music']").upload(
+            function(_this,data){
+                alert(data)
+            }
+        );
+        $("[data-plugin='video']").upload(
             function(_this,data){
                 alert(data)
             }
@@ -90,7 +90,9 @@ smarty.register_function( 'field_note', function( params ){
     if( arr ){
         for(var i in arr){
             if(arr[i].fieldName == field){
-                res = arr[i].note;
+                if( arr[i].note ){
+                    res = arr[i].note;
+                }
             }
         }
     }

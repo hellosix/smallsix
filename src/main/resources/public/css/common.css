@@ -17,6 +17,20 @@ html,body{
     height: 100%;
 }
 
+.img-item{
+    margin-right: 7px;
+}
+.video-item{
+    margin-right: 10px;
+}
+.music-item{
+    float: left;
+    width: 130px;
+    min-width: 130px;
+    height: 50px;
+    margin-right: 7px;
+}
+
 .string { color: green; }
 .number { color: darkorange; }
 .boolean { color: blue; }

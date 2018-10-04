@@ -10,7 +10,7 @@
     {{foreach from=$res.list item=row}}
     <tr>
         {{foreach from=$row item=v key=k}}
-        <td>{{$v}}</td>
+        <td>{{field_format value=$v field=$k field_extend=$res.fieldExtends}}</td>
         {{/foreach}}
         <td>
             <button class="btn btn-primary btn-xs edit-field-button" data-id="{{$row.id}}" data-columns={{$res.columns|json_string}} data-detail={{$row|json_string}}><i class="icon-pencil"></i></button>

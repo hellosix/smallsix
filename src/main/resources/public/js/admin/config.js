@@ -3,6 +3,8 @@
  */
 window.database="finebi";
 window.imageurl="http://localhost:8182/package/pack/" + window.database + "/";
+window.musicurl="http://localhost:8182/package/pack/" + window.database + "/";
+window.videourl="http://localhost:8182/package/pack/" + window.database + "/";
 
 $(function(){
     window.setInterval("heartbeat()", 20000);

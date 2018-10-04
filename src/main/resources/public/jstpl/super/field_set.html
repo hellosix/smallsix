@@ -10,6 +10,7 @@
         <th>FormType</th>
         <th>Active</th>
         <th>Valitate</th>
+        <th>Style</th>
         <th>Edit</th>
     </tr>
     </thead>
@@ -25,6 +26,7 @@
         <td>{{$c.fieldExtend.type}}</td>
         <td>{{$c.fieldExtend.active}}</td>
         <td>{{$c.fieldExtend.valitate}}</td>
+        <td>{{$c.fieldExtend.style}}</td>
         <td><button class="btn btn-primary btn-xs edit-field-button" data-detail={{$c|json_string}}><i class="icon-pencil"></i></button></td>
     </tr>
     {{/foreach}}
