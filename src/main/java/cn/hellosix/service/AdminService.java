@@ -62,9 +62,13 @@ public class AdminService {
     }
 
     public Boolean updateFieldForm(FieldForm fieldForm) {
-        String sql = fieldForm.updateSql();
-        System.out.println( sql );
-        commonDao.update(sql);
+        if( null != fieldForm.getFieldMap().get("id") ){
+            String sql = fieldForm.updateSql();
+            commonDao.update(sql);
+        }else{
+            String insertSql = fieldForm.insertSql();
+            commonDao.insert( insertSql );
+        }
         return true;
     }
 }

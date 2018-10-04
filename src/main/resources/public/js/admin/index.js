@@ -2,7 +2,6 @@
  * Created by lzz on 2018/10/1.
  */
 
-window.database="finebi";
 smarty.get("getMenu?database=" + window.database, "admin/admin_menu", "sidebar-menu",function () {
     initMenu();
 }, true);
@@ -13,6 +12,16 @@ $(document).on("click", ".load-iframe", function () {
     smarty.html("admin/load_iframe", data, "main-container", function () {
 
     });
+});
+
+$(document).on("click", "#test-button", function () {
+   smarty.open("admin/upload_file", {}, { title: "Edit",width:700}, function () {
+       $("#case3").upload(
+           function(_this,data){
+               alert(data)
+           }
+       )
+   });
 });
 
 $(document).on("click", ".table-content", function (res) {
@@ -26,8 +35,13 @@ $(document).on("click", ".table-content", function (res) {
     data.sortList = [];
     window.queryConditions = [];
     window.sortList = [];
-    smarty.post("getTableRowList",JSON.stringify(data), "admin/table_content_div", "main-container",function () {
-
+    smarty.post("getTableRowList",JSON.stringify(data), "admin/table_content_div", "main-container",function (res,res2) {
+        console.log(res2);
+        $("#add-field-button").click(function () {
+            getInitFieldForm(window.database, window.table, function (data) {
+                field_form(data.res);
+            });
+        });
     });
 });
 
@@ -38,24 +52,36 @@ $(document).on("click", ".edit-field-button", function () {
     data.extends = fieldExtends;
     data.fields = fieldDetail;
     data.columns = $(this).data("columns");
+    field_form(data);
+});
+
+
+function field_form(data) {
     smarty.open("admin/field_form", data, { title: "Edit",width:700}, function(){
+        $("[data-file='file']").upload(
+            function(_this,data){
+                alert(data)
+            }
+        );
         $("#submit-field-form").click(function () {
             var formdata = sparrow_form.encode( "field-form", 2 );
             if( formdata ){
-                formdata.id=fieldDetail.id;
+                if($("[name=id]").val()){
+                    formdata.id = $("[name=id]").val();
+                }
                 var req = {};
                 req.database = window.database;
                 req.table = window.table;
                 req.fieldMap = formdata;
                 req.columns = data.columns;
+
                 updateFieldForm(req, function(response){
                     console.log(response);
                 })
             }
         });
     });
-});
-
+}
 
 smarty.register_function( 'field_note', function( params ){
     var field = params['field'];

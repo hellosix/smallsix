@@ -128,7 +128,7 @@ $(document).on("click", "#edit-table-name-submit", function () {
 $(document).on("click", ".edit-field-button", function (res) {
     var detail = $(this).data("detail");
     console.log(detail);
-    smarty.open("super/field_edit",detail, { title: "Edit",width:700}, function () {
+    smarty.open("super/field_edit", detail, { title: "Edit",width:700}, function () {
 
     });
 });

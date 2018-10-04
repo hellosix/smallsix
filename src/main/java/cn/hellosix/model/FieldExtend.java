@@ -18,7 +18,7 @@ public class FieldExtend extends Column{
     private String databaseName;
     @MysqlField(field = "note", type = "varchar(15)")
     private String note;
-    @MysqlField(field = "type", type = "varchar(15)")
+    @MysqlField(field = "type", type = "varchar(255)")
     private String type;
     @MysqlField(field = "active", type = "tinyint")
     private int active = 1;

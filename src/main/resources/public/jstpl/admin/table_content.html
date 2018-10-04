@@ -13,7 +13,7 @@
         <td>{{$v}}</td>
         {{/foreach}}
         <td>
-            <button class="btn btn-primary btn-xs edit-field-button" data-columns={{$res.columns|json_string}} data-detail={{$row|json_string}}><i class="icon-pencil"></i></button>
+            <button class="btn btn-primary btn-xs edit-field-button" data-id="{{$row.id}}" data-columns={{$res.columns|json_string}} data-detail={{$row|json_string}}><i class="icon-pencil"></i></button>
             <button class="btn btn-danger btn-xs" data-id="{{$row.id}}"><i class="icon-trash "></i></button>
         </td>
     </tr>

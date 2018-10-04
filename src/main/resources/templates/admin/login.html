@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keyword" content="redis, cluster, cache, platform" />
+    <!--<link rel="shortcut icon" href="img/favicon.html">-->
+    <link href="../vender/sparrow/sparrow.css" rel="stylesheet" charset="utf-8" />
+    <!-- Bootstrap core CSS -->
+    <link href="../vender/flatlab/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../vender/flatlab/css/bootstrap-reset.css" rel="stylesheet" />
+    <!--external css-->
+    <link href="../vender/flatlab/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="../vender/flatlab/css/style.css" rel="stylesheet" />
+    <link href="../vender/flatlab/css/style-responsive.css" rel="stylesheet" />
+
+    <style>
+        body {
+            background-color: #f1f2f7;
+        }
+
+        .login-container {
+            display: inline-flex;
+            justify-content: center;
+            margin-top: 16%;
+            width: 100%;
+        }
+        .login-wrapper {
+            padding: 20px 20px 10px;
+            box-shadow: 0 9px 30px -6px rgba(0,0,0,.2);
+            background-color: #ffffff;
+            width: 300px;
+        }
+        .login-title {
+            height: 40px;
+            line-height: 40px;
+            color: black;
+            font-size: 18px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="clearfix nav-height"></div>
+<div class="container-fluid">
+    <div class="login-container" >
+        <div class="login-wrapper">
+            <div class="login-title">Small Six Login</div>
+            <div>
+                <div class="form-horizontal" id="login-form">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="text" name="username" class="form-control" data-require="1" data-len="3-20" data-len-msg="字符串长度为3-20" data-format="[a-zA-Z0-9_]+" data-format-msg="只能由英文字母数字和下划线组成" placeholder="username" />
+                            <div id="username_tip"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="password" name="password" class="form-control" data-require="1" data-len="3-20" data-len-msg="字符串长度为3-20" data-format="[a-zA-Z0-9_]+" data-format-msg="只能由英文字母数字和下划线组成" placeholder="password"  />
+                            <div id="password_tip"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button type="button" class="btn form-control btn-primary btn-sm selected" id="login-button"> LOGIN </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="../vender/jquery/jquery-1.10.2.js"></script>
+<script src="../vender/flatlab/js/bootstrap.min.js"></script>
+<!--common script for all pages-->
+<script src="../vender/sparrow/i18n/lang.js"></script>
+<script src="../vender/sparrow/layer/layer.js"></script>
+<script src="../vender/sparrow/ajax.js"></script>
+<script src="../vender/sparrow/json.js"></script>
+<script src="../vender/sparrow/pack.js"></script>
+<script src="../vender/sparrow/util.js"></script>
+<script src="../vender/sparrow/smarty.js"></script>
+<script src="../vender/sparrow/validate.js"></script>
+<script src="../core/userApi.js"></script>
+<script src="../js/admin/login.js"></script>
+</html>

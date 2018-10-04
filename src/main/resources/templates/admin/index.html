@@ -15,6 +15,7 @@
     <link href="../vender/flatlab/css/style.css" rel="stylesheet" />
     <link href="../vender/flatlab/css/style-responsive.css" rel="stylesheet" />
     <link href="../vender/sparrow/sparrow.css" rel="stylesheet" charset="utf-8" />
+    <link href="../vender/upload/upload.css" rel="stylesheet" charset="utf-8" />
     <link href="../css/common.css" rel="stylesheet" charset="utf-8" />
     <link href="../css/search-form.css" rel="stylesheet" charset="utf-8" />
 
@@ -40,7 +41,15 @@
     <script src="../core/userApi.js"></script>
     <script src="../js/common/common.js"></script>
     <script src="../js/common/search-form.js"></script>
+
+    <script src="../js/admin/config.js"></script>
+    <script src="../js/admin/file_plugin.js"></script>
+    <script src="../vender/upload/upload.js"></script>
+
 </head>
+<style>
+    .case{margin-top: 15px;}
+</style>
 
 <body>
 
@@ -62,8 +71,8 @@
                 <!-- user login dropdown start-->
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <img alt="" src="../vender/flatlab/img/avatar1_small.jpg" />
-                        <span class="username">Jhon Doue</span>
+                        <img alt="" src="../image/head.jpg" width="30" height="30" />
+                        <span class="username" id="username">smallsix</span>
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu extended logout">
@@ -71,7 +80,7 @@
                         <li><a href="#"><i class=" icon-suitcase"></i>Profile</a></li>
                         <li><a href="#"><i class="icon-cog"></i> Settings</a></li>
                         <li><a href="#"><i class="icon-bell-alt"></i> Notification</a></li>
-                        <li><a href="login.html"><i class="icon-key"></i> Log Out</a></li>
+                        <li><a href="javascript:void(0)" id="user-logout"><i class="icon-key"></i> Log Out</a></li>
                     </ul>
                 </li>
                 <!-- user login dropdown end -->
@@ -151,7 +160,9 @@
     </section>
     <!--main content end-->
 </section>
+
 <script src="../js/admin/menu.js"></script>
+<script src="../js/admin/login.js"></script>
 <script src="../js/admin/index.js"></script>
 </body>
 </html>

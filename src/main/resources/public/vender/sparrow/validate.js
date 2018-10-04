@@ -1345,6 +1345,19 @@ sparrow_form.encode = function( form_id, mod, result_arg ){
 	{
 		result_arg.result = 1;
 	}
+	//lzz 对文件控件进行处理
+	$(".multiple").each(function (i) {
+		var fieldName = $(this).data("name");
+		var imgs = [];
+		var originImg = $('[name="' + fieldName + '"]').val();
+		imgs.push( originImg );
+
+		$('[data-name="'+ fieldName +'"] > li.item.error').each(function () {
+			var img = $(this).data("error");
+			imgs.push( img );
+		});
+		result[ fieldName ] = imgs.join(",");
+	});
 	return result;
 };
 

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.hellosix.dao.IUserDao">
+    <select id="getUser"  resultType="cn.hellosix.model.User">
+        select * from smallsix.user where id=#{id}
+    </select>
+    <select id="getUserByName"  resultType="cn.hellosix.model.User">
+        select id, username, password, head from smallsix.user where username=#{username}
+    </select>
+    <delete id="removeUser" parameterType="int">
+        delete from smallsix.user where id = #{id};
+    </delete>
+    <insert id="addUser"  parameterType="cn.hellosix.model.User">
+        insert into smallsix.user(username, password, head) values(#{username},#{password},#{head})
+    </insert>
+</mapper>

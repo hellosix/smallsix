@@ -12,6 +12,11 @@ spring:
       password: root
       initialize: true
 
+# Single file max size
+multipart.maxFileSize: 100Mb
+# All files max size
+multipart.maxRequestSize: 1000Mb
+
 mybatis:
   mapper-locations: classpath*:mappers/*
   configuration:

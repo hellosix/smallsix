@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -74,10 +77,43 @@ public class AdminController {
         return Response.Result(0, resMap);
     }
 
+    @RequestMapping(value = "/getInitFieldForm", method = RequestMethod.GET)
+    @ResponseBody
+    public Response getInitFieldForm(@RequestParam String database,@RequestParam String table){
+        Map<String, Object> fieldMap = new HashMap<>();
+        List<Column> columns = service.getTableColumns(database, table);
+        for(Column column : columns){
+            fieldMap.put( column.getName(), "");
+        }
+        List<FieldExtend> fieldExtends = service.getFieldExtendList(database, table);
+        Map<String, Object> res = new HashMap<>();
+        res.put("extends", fieldExtends);
+        res.put("fields", fieldMap);
+        res.put("columns", columns);
+        return Response.Result(0, res);
+    }
+
     @RequestMapping(value = "/updateFieldForm", method = RequestMethod.POST)
     @ResponseBody
     public Response updateFieldForm(@RequestBody FieldForm fieldForm){
         Boolean res = service.updateFieldForm(fieldForm);
         return Response.Info("success");
     }
+
+    @PostMapping("/multiUpload")
+    @ResponseBody
+    public Response multiUpload(@RequestParam("file") MultipartFile file) {
+        String filePath = "/Users/lzz/work/smallsix/src/main/resources/public/package/tmp/";
+        String fileName = file.getOriginalFilename();
+
+        File dest = new File(filePath + fileName);
+        try {
+            file.transferTo(dest);
+        } catch (IOException e) {
+            return null;
+        }
+        return new Response(0, null, fileName);
+
+    }
+
 }
