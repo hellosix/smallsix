@@ -50,12 +50,6 @@ public class SuperController {
         return Response.Result(0, columnList);
     }
 
-    @RequestMapping(value = "/getApiList", method = RequestMethod.GET)
-    @ResponseBody
-    public Response getApiList(@RequestParam String database, @RequestParam String table){
-        return Response.Result(0, null);
-    }
-
     @RequestMapping(value = "/updateFieldExtend", method = RequestMethod.POST)
     @ResponseBody
     public Response updateFieldExtend(@RequestBody FieldExtend fieldExtend){

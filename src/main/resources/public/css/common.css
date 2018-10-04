@@ -4,3 +4,12 @@
 .btn-margin-left{
     margin-left: 10px;
 }
+
+.btn-xs{
+    margin-left: 3px;
+}
+.string { color: green; }
+.number { color: darkorange; }
+.boolean { color: blue; }
+.null { color: magenta; }
+.key { color: red; }

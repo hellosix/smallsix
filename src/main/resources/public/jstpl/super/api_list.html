@@ -1,5 +1,56 @@
-<div class="form-group">
-    <label>sql</label>
-    <textarea id="sql-textarea" maxlength="1000" class="form-control input-width" style="background: none;font-size:18px;height:100px">select * from table user limit 1</textarea>
-    <span>您已输入</span><span id="sql_input_num">0</span>/1000字
-</div><!-- .form-group -->
+<div class="form-horizontal" id="edit-sql-detail-form" style="margin: 15px">
+    <div class="form-group">
+        <label>sql</label>
+        <textarea name="sqlDetail" class="form-control">select * from table user limit 1</textarea>
+    </div><!-- .form-group -->
+    <div class="form-group">
+        <label>param</label>
+        <textarea name="param" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label>apiName</label>
+        <input type="text" name="apiName" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label>note</label>
+        <input type="text" name="note" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <button type="submit" id="run-sql-detail" class="btn btn-default">run</button>
+        <button type="submit" id="save-sql-detail-form" class="btn btn-margin-left btn-default">Save</button>
+        <button type="button" id="js-sdk-button" class="btn btn-margin-left btn-info"><i class="icon-cloud"></i> JS-SDK</button>
+    </div>
+</div>
+
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Table</th>
+        <th>Database</th>
+        <th>ApiName</th>
+        <th>Note</th>
+        <th>SqlDetail</th>
+        <th>Param</th>
+        <th>Operate</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{foreach from=$res item=c}}
+    <tr>
+        <td>{{$c.id}}</td>
+        <td>{{$c.tableName}}</td>
+        <td>{{$c.databaseName}}</td>
+        <td>{{$c.note}}</td>
+        <td>{{$c.apiName}}</td>
+        <td id="sql-detail-{{$c.id}}" data-detail="{{$c.sqlDetail}}">{{$c.sqlDetail}}</td>
+        <td id="sql-param-{{$c.id}}" data-detail={{$c.param}}>{{$c.param}}</td>
+        <td>
+            <button class="btn btn-primary btn-xs run-sql-test" data-id="{{$c.id}}" ><i class="icon-play-circle"></i></button>
+            <button class="btn btn-danger btn-xs remove-sql-api" data-id="{{$c.id}}"><i class="icon-trash"></i></button>
+        </td>
+    </tr>
+    {{/foreach}}
+    </tbody>
+</table>

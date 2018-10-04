@@ -113,4 +113,15 @@ public class CommonDao implements ICommonDao{
         Long count = (Long) item.get( "c" );
         return count;
     }
+
+    @Override
+    public Object execute(String sql) {
+        return null;
+    }
+
+    @Override
+    public Object delete(String sql) {
+        jdbcTemplate.execute(sql);
+        return true;
+    }
 }

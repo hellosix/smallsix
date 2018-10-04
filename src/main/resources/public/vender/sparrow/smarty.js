@@ -1368,6 +1368,52 @@ var smartyGrep = { //Smarty管道
 };
 window.smartyGrep = smartyGrep;
 
+/**
+ * 解析模板数据
+ */
+function parse_tpl_data( tpl_data_str )
+{
+	if ( !tpl_data_str || 'string' !== typeof tpl_data_str )
+	{
+		return {};
+	}
+	if ( 0 === tpl_data_str.indexOf( 'PACK::' ) )
+	{
+		if ( !sparrow_pack )
+		{
+			sparrow.error( '请加载 sparrow_pack 和 json' );
+		}
+		tpl_data_str = tpl_data_str.substring( 6 );
+		return sparrow_pack.decode( tpl_data_str );
+	}
+	else
+	{
+		return parse_json( tpl_data_str );
+	}
+}
+
+/**
+ * 数据parse
+ */
+function parse_json( json )
+{
+	if ( 'string' !== typeof json )
+	{
+		json = '';
+	}
+	json = json.replace( /'/g, '"' );
+	var re;
+	try
+	{
+		re = sparrow_json.decode( json );
+	}
+	catch ( e )
+	{
+		re = { };
+	}
+	return re;
+}
+
 
 //默认的插件
 function default_url( url, page_arg )
@@ -1840,3 +1886,7 @@ smarty.register_modifier( 'date', sparrow.date );
 smarty.register_modifier( 'json_string', function( val ) {
 	return JSON.stringify( val );
 } );
+
+smarty.register_modifier("encode", function (val) {
+	return sparrow_pack.encode( val );
+});

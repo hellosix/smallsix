@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -76,5 +77,24 @@ public class TableBase {
     public void selectTest(){
         List<Map<String, Object>> res = jdbcTemplate.queryForList("select * from test.user2");
         System.out.println( res );
+    }
+
+    @Test
+    public void test1(){
+        String sql = "select * from id={id}";
+        sql += " ";
+        Map<String, String> param = new HashMap<>();
+        param.put("id", String.valueOf(23));
+        param.put("name", "linzhouzhi");
+        for(Map.Entry<String, String> item : param.entrySet()){
+            String key = item.getKey();
+            String value = item.getValue();
+            String tempKey = "\\{" + key + "}";
+            String[] sqlArr = sql.split( tempKey );
+            if(sqlArr.length == 2){
+                sql = sqlArr[0] + value + sqlArr[1];
+            }
+        }
+        System.out.println( sql );
     }
 }

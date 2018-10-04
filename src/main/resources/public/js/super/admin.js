@@ -10,54 +10,70 @@ smarty.get("getMenu", "super/super_menu", "sidebar-menu",function () {
 $(document).on("click", ".table-detail", function(res){
     var table = $(this).data("table");
     window.table = table;
-    smarty.get("getApiList?database=a&table=b", "super/table_content", "main-container",function () {
+    smarty.get("getApiList?database="+ window.database +"&table=" + window.table, "super/table_content", "main-container",function () {
         $("#table-title").text( window.table );
         $("#setting-field-button").trigger("click");
     }, true);
 });
 
-$(document).on("click", "#api-list-button", function (res) {
-    $(document).on('input propertychange focus', '#sql-textarea', function() {
-        //$(this).highlightTextarea('setWords', ['select','table']);
-        sql_init();
-    });
-    smarty.html("super/api_list", {}, "table-content", function(){
-        sql_init();
-    });
-});
-
 $(document).on("click", "#js-sdk-button", function (res) {
-    smarty.html("super/js_sdk", {}, "table-content", function(){
+    var url = "createJsSDK?database="+ window.database +"&table=" + window.table;
+    smarty.fopen(url, "super/result_content", true, { title: "Run Result", width:700})
+});
 
+$(document).on("click", "#api-list-button", function (res) {
+
+    smarty.get("getSqlModelList?database="+ window.database +"&table=" + window.table, "super/api_list", "table-content",function () {
+        $("#run-sql-detail").click(function () {
+            var data = sparrow_form.encode( "edit-sql-detail-form",0 );
+            if(data){
+                if( !data.param ){
+                    data.param = "{}";
+                }
+                data.database = window.database;
+                data.table = window.table;
+                runSql(data, function (response) {
+                    smarty.open("super/result_content", response, { title: "Run Result", width:700}, function(){
+
+                    });
+                })
+            }
+        });
+
+        $("#save-sql-detail-form").click(function () {
+            var data = sparrow_form.encode( "edit-sql-detail-form",0 );
+            if(data){
+                data.databaseName = window.database;
+                data.tableName = window.table;
+                saveSql(data, function (response) {
+                    console.log(response);
+                })
+            }
+        });
+
+        $(".run-sql-test").click(function () {
+            var id = $(this).data("id");
+            var data = {};
+            data.database = window.database;
+            data.table = window.table;
+            data.param = JSON.stringify($("#sql-param-" + id).data("detail"));
+            data.sqlDetail = $("#sql-detail-" + id).data("detail");
+            runSql(data, function (response) {
+                smarty.open("super/result_content", response, { title: "Run Result", width:700}, function(){
+
+                });
+            })
+        });
+
+        $(".remove-sql-api").click(function () {
+            var id = $(this).data("id");
+            removeSql(id, function (response) {
+
+            });
+        });
     });
 });
 
-function sql_init() {
-    $("#sql-textarea").highlightTextarea({
-        words: [{
-            color: '#ADF0FF',
-            words: 'select'
-        }, {
-            color: '#ADF0FF',
-            words: 'where'
-        }, {
-            color: '#FFFF00',
-            words: '{'
-        }, {
-            color: '#FFFF00',
-            words: '$'
-        }, {
-            color: '#FFFF00',
-            words: '}'
-        }, {
-            words: 'limit'
-        }]
-    });
-
-    var content = $("#sql-textarea").val();
-    var count = content.length;
-    $("#sql_input_num").text(count);
-}
 
 $(document).on("click", "#search-form-button", function (res) {
     var url = "getSearchForm?database=" + window.database + "&table=" + window.table;
@@ -91,7 +107,7 @@ $(document).on("click", "#setting-field-button", function (res) {
 
 $(document).on("click", "#edit-table-name-button", function () {
     var url = "getTableExtendDetail?database=" + window.database + "&table=" + window.table;
-    smarty.fopen(url,"super/table_edit",true,{ title: "Alias",width:310}, function () {
+    smarty.fopen(url,"super/table_edit",true,{ title: "Alias",width:700}, function () {
 
     });
 });

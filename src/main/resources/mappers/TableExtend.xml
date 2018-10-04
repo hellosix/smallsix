@@ -14,14 +14,15 @@
 
 
     <insert id="addTableExtend" parameterType="cn.hellosix.model.TableExtend"  useGeneratedKeys="true" keyProperty="id">
-        insert into smallsix.table_extend(database_name,table_name,note) values(#{databaseName},#{tableName},#{note})
+        insert into smallsix.table_extend(database_name,table_name,note, style) values(#{databaseName},#{tableName},#{note},#{style})
     </insert>
 
     <update id="updateTableExtend"  parameterType="cn.hellosix.model.TableExtend" >
         UPDATE
         smallsix.table_extend
         SET
-        note = #{note}
+        note = #{note},
+        style = #{style}
         WHERE
         database_name = #{databaseName} AND table_name = #{tableName}
     </update>

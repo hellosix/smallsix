@@ -10,7 +10,7 @@
     </select>
 
     <insert id="addFieldExtend" parameterType="cn.hellosix.model.FieldExtend"  useGeneratedKeys="true" keyProperty="id">
-        insert into smallsix.field_extend(field_name,table_name,database_name, note, type,active, valitate) values(#{fieldName},#{tableName},#{databaseName},#{note},#{type},#{active},#{valitate})
+        insert into smallsix.field_extend(field_name,table_name,database_name, note, type,active, valitate,style) values(#{fieldName},#{tableName},#{databaseName},#{note},#{type},#{active},#{valitate},#{style})
     </insert>
 
     <update id="updateFieldExtend"  parameterType="cn.hellosix.model.FieldExtend" >
@@ -23,6 +23,7 @@
         note = #{note},
         type = #{type},
         active = #{active},
+        style = #{style},
         valitate = #{valitate}
         WHERE
         id = #{id}

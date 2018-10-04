@@ -3,30 +3,42 @@
         "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cn.hellosix.dao.ISearchFormDao">
-    <select id="getSearchForm"  resultType="cn.hellosix.model.SearchForm">
-        select * from smallsix.search_form
-        where database_name = #{database} AND table_name = #{table} limit 1
+<mapper namespace="cn.hellosix.dao.ISqlModelDao">
+    <select id="getSqlModelById"  resultType="cn.hellosix.model.SqlModel">
+        select * from smallsix.sql_model
+        where id = #{id} limit 1
     </select>
 
-    <insert id="addSearchForm" parameterType="cn.hellosix.model.SearchForm"  useGeneratedKeys="true" keyProperty="id">
-        insert into smallsix.search_form(database_name,table_name, html_content, active) values(#{databaseName},#{tableName},#{htmlContent},#{active})
+    <select id="getSqlModel"  resultType="cn.hellosix.model.SqlModel">
+        select * from smallsix.sql_model
+        where api_name = #{apiName} limit 1
+    </select>
+
+    <select id="getSqlModelList"  resultType="cn.hellosix.model.SqlModel">
+        select * from smallsix.sql_model
+        where database_name = #{database} AND table_name = #{table} limit 200
+    </select>
+
+    <insert id="addSqlModel" parameterType="cn.hellosix.model.SqlModel"  useGeneratedKeys="true" keyProperty="id">
+        insert into smallsix.sql_model(database_name,table_name, note, api_name,sql_detail,param) values(#{databaseName},#{tableName},#{note},#{apiName},#{sqlDetail},#{param})
     </insert>
 
-    <update id="updateSearchForm"  parameterType="cn.hellosix.model.SearchForm" >
+    <update id="updateSqlModel"  parameterType="cn.hellosix.model.SqlModel" >
         UPDATE
-        smallsix.search_form
+        smallsix.sql_model
         SET
         database_name = #{databaseName},
         table_name = #{tableName},
-        html_content = #{htmlContent},
-        active = #{active}
+        note = #{note},
+        param = #{param},
+        api_name = #{apiName},
+        sql_detail = ${sqlDetail}
         WHERE
         id = #{id}
     </update>
 
-    <delete id="removeSearchForm">
-        delete from smallsix.search_form
+    <delete id="removeSqlModel">
+        delete from smallsix.sql_model
         <where>
             id = #{id}
         </where>

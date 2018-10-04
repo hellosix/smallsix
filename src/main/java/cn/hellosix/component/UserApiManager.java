@@ -30,7 +30,7 @@ public class UserApiManager implements ApplicationListener<ContextRefreshedEvent
     public void initUserApi(){
         List<String> packages = new ArrayList<>();
         packages.add(scanPackage);
-        String file = userApiPath;
+        String file = userApiPath + "userApi.js";
         UserApiUtil.autoGeneriesAllApi( packages, file);
     }
 }
