@@ -7,6 +7,14 @@ smarty.get("getMenu?database=" + window.database, "admin/admin_menu", "sidebar-m
     initMenu();
 }, true);
 
+$(document).on("click", ".load-iframe", function () {
+    var data = {};
+    data.src = $(this).data("src");
+    smarty.html("admin/load_iframe", data, "main-container", function () {
+
+    });
+});
+
 $(document).on("click", ".table-content", function (res) {
     var detail = $(this).data("detail");
     window.table = detail.tableName;

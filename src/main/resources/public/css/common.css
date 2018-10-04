@@ -8,6 +8,15 @@
 .btn-xs{
     margin-left: 3px;
 }
+
+html,body{
+    margin: 0;
+    height: 100%;
+}
+#main-container,#main-content{
+    height: 100%;
+}
+
 .string { color: green; }
 .number { color: darkorange; }
 .boolean { color: blue; }

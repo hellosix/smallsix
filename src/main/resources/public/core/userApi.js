@@ -1,10 +1,10 @@
 /******************************** cn.hellosix.controller.JSApiController ********************************/
 /**
- * @type GET 
- * @param  int
+ * @type POST 
+ * @param  SqlModel{id=0, tableName='null', databaseName='null', note='null', apiName='null', sqlDetail='null', param='null'}
  */
-function  removeSql(id,callback){
-   ajax.async_get("/super/removeSql?id="+id+"",callback);
+function  runSql(sqlModel,callback){
+   ajax.async_post("/super/run-sql",sqlModel,callback);
 }
 /**
  * @type POST 
@@ -15,11 +15,18 @@ function  saveSql(sqlModel,callback){
 }
 /**
  * @type GET 
+ * @param  int
+ */
+function  removeSql(id,callback){
+   ajax.async_get("/super/removeSql?id="+id+"",callback);
+}
+/**
+ * @type GET 
  * @param  String 
  * @param  String
  */
-function  getSqlModelList(database,table,callback){
-   ajax.async_get("/super/getSqlModelList?database="+database+"&table="+table+"",callback);
+function  getApiList(database,table,callback){
+   ajax.async_get("/super/getApiList?database="+database+"&table="+table+"",callback);
 }
 /**
  * @type GET 
@@ -30,19 +37,12 @@ function  createJsSDK(database,table,callback){
    ajax.async_get("/super/createJsSDK?database="+database+"&table="+table+"",callback);
 }
 /**
- * @type POST 
- * @param  SqlModel{id=0, tableName='null', databaseName='null', note='null', apiName='null', sqlDetail='null', param='null'}
- */
-function  runSql(sqlModel,callback){
-   ajax.async_post("/super/run-sql",sqlModel,callback);
-}
-/**
  * @type GET 
  * @param  String 
  * @param  String
  */
-function  getApiList(database,table,callback){
-   ajax.async_get("/super/getApiList?database="+database+"&table="+table+"",callback);
+function  getSqlModelList(database,table,callback){
+   ajax.async_get("/super/getSqlModelList?database="+database+"&table="+table+"",callback);
 }
 /**
  * @type POST 
