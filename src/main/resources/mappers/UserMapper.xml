@@ -8,12 +8,35 @@
         select * from smallsix.user where id=#{id}
     </select>
     <select id="getUserByName"  resultType="cn.hellosix.model.User">
-        select id, username, password, head from smallsix.user where username=#{username}
+        select * from smallsix.user where username=#{username}
     </select>
     <delete id="removeUser" parameterType="int">
         delete from smallsix.user where id = #{id};
     </delete>
     <insert id="addUser"  parameterType="cn.hellosix.model.User">
-        insert into smallsix.user(username, password, head) values(#{username},#{password},#{head})
+        insert into smallsix.user(username, password, head,database_name, menu) values(#{username},#{password},#{head},#{databaseName},#{menu})
     </insert>
+    <update id="updateUser"  parameterType="cn.hellosix.model.User" >
+        UPDATE
+        smallsix.user
+        SET
+        <if test="username != null">
+            username = #{username},
+        </if>
+        <if test="password != null">
+            password = #{password},
+        </if>
+        <if test="head != null">
+            head = #{head},
+        </if>
+        <if test="databaseName != null">
+            database_name = #{databaseName},
+        </if>
+        <if test="menu != null">
+            menu = #{menu},
+        </if>
+        id = #{id}
+        WHERE
+        id = #{id}
+    </update>
 </mapper>

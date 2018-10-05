@@ -2,6 +2,14 @@
  * Created by lzz on 2018/10/1.
  */
 
+$(document).on("click", ".load-iframe", function () {
+    var data = {};
+    data.src = $(this).data("src");
+    smarty.html("super/load_iframe", data, "main-container", function () {
+
+    });
+});
+
 smarty.get("getMenu", "super/super_menu", "sidebar-menu",function () {
     initMenu();
 

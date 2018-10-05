@@ -44,4 +44,13 @@ public class UserService {
         return res;
     }
 
+    public boolean updateUser(User user) {
+        User userModel = userDao.getUser( user.getId() );
+        if( null == userModel ){
+            userDao.addUser( user );
+        }else{
+            userDao.updateUser( user );
+        }
+        return true;
+    }
 }

@@ -8,10 +8,7 @@ import cn.hellosix.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -27,6 +24,11 @@ import javax.servlet.http.HttpSession;
 public class UserController {
     @Autowired
     private UserService service;
+
+    @RequestMapping("/admin")
+    public String adminUser(Model model){
+        return "super/user";
+    }
 
     @RequestMapping("/login")
     public String login(Model model){
@@ -60,6 +62,13 @@ public class UserController {
     public Response getUser(@RequestParam int id){
         User user = service.getUser( id );
         return Response.Result(0, user);
+    }
+
+    @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
+    @ResponseBody
+    public Response updateUser(@RequestBody User user){
+        service.updateUser(user);
+        return Response.Info("success");
     }
 
     @RequestMapping(value = "/autoGetUser", method = RequestMethod.GET)

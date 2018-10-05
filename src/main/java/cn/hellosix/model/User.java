@@ -14,18 +14,24 @@ public class User {
     private String username;
     @MysqlField(field = "password", type = "varchar(64)", notNull = true)
     private String password;
+    @MysqlField(field = "database_name", type = "varchar(255)")
+    private String databaseName;
     @MysqlField(field = "head", type = "varchar(255)")
     private String head;
+    @MysqlField(field = "menu", type = "text")
+    private String menu;
 
     public User(){
 
     }
 
-    public User(Integer id, String username, String password, String head) {
+    public User(Integer id, String username, String password, String databaseName, String head, String menu) {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.databaseName = databaseName;
         this.head = head;
+        this.menu = menu;
     }
 
     public Integer getId() {
@@ -52,6 +58,14 @@ public class User {
         this.password = password;
     }
 
+    public String getDatabaseName() {
+        return databaseName;
+    }
+
+    public void setDatabaseName(String databaseName) {
+        this.databaseName = databaseName;
+    }
+
     public String getHead() {
         return head;
     }
@@ -60,13 +74,23 @@ public class User {
         this.head = head;
     }
 
+    public String getMenu() {
+        return menu;
+    }
+
+    public void setMenu(String menu) {
+        this.menu = menu;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", databaseName='" + databaseName + '\'' +
                 ", head='" + head + '\'' +
+                ", menu='" + menu + '\'' +
                 '}';
     }
 }
