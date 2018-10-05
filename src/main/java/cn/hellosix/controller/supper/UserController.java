@@ -1,10 +1,10 @@
-package cn.hellosix.controller;
+package cn.hellosix.controller.supper;
 
 import cn.hellosix.core.userapi.UserAccess;
 import cn.hellosix.model.Common;
 import cn.hellosix.model.Response;
 import cn.hellosix.model.User;
-import cn.hellosix.service.UserService;
+import cn.hellosix.service.supper.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

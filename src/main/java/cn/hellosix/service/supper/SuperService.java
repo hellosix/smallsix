@@ -1,4 +1,4 @@
-package cn.hellosix.service;
+package cn.hellosix.service.supper;
 
 import cn.hellosix.dao.ICommonDao;
 import cn.hellosix.dao.IFieldExtendDao;

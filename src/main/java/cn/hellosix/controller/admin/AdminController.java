@@ -1,9 +1,9 @@
-package cn.hellosix.controller;
+package cn.hellosix.controller.admin;
 
 import cn.hellosix.core.userapi.UserAccess;
 import cn.hellosix.model.*;
-import cn.hellosix.service.AdminService;
-import cn.hellosix.service.SearchFormService;
+import cn.hellosix.service.admin.AdminService;
+import cn.hellosix.service.supper.SearchFormService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

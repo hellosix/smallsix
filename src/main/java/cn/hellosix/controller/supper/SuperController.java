@@ -1,11 +1,11 @@
-package cn.hellosix.controller;
+package cn.hellosix.controller.supper;
 
 import cn.hellosix.core.userapi.UserAccess;
 import cn.hellosix.model.ColumnExtend;
 import cn.hellosix.model.FieldExtend;
 import cn.hellosix.model.Response;
 import cn.hellosix.model.TableExtend;
-import cn.hellosix.service.SuperService;
+import cn.hellosix.service.supper.SuperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -64,7 +64,12 @@ $(document).on("click", "#api-list-button", function (res) {
             var data = {};
             data.database = window.database;
             data.table = window.table;
-            data.param = JSON.stringify($("#sql-param-" + id).data("detail"));
+            var param_detail = $("#sql-param-" + id).data("detail");
+            if( !param_detail ){
+                data.param = "{}";
+            }else{
+                data.param = JSON.stringify(param_detail);
+            }
             data.sqlDetail = $("#sql-detail-" + id).data("detail");
             runSql(data, function (response) {
                 smarty.open("super/result_content", response, { title: "Run Result", width:700}, function(){

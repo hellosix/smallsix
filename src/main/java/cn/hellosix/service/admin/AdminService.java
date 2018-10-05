@@ -1,8 +1,8 @@
-package cn.hellosix.service;
+package cn.hellosix.service.admin;
 
 import cn.hellosix.dao.ICommonDao;
-import cn.hellosix.dao.IFieldExtendDao;
 import cn.hellosix.dao.ITableExtendDao;
+import cn.hellosix.dao.IFieldExtendDao;
 import cn.hellosix.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
