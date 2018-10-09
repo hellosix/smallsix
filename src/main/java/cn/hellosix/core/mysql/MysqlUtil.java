@@ -28,7 +28,7 @@ public class MysqlUtil {
         }
         return sqlList;
     }
-    private static String autoCreateMysqlTable(Class claz){
+    public static String autoCreateMysqlTable(Class claz){
         String createTable = null;
         try {
             Annotation[] annotations = claz.getAnnotations();

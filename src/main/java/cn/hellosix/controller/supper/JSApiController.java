@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -75,10 +76,10 @@ public class JSApiController {
 
     @RequestMapping(value = "/api/restful/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public Response apiRestful(@PathVariable Integer id, @RequestBody Map<String, Object> param){
+    public Response apiRestful(@PathVariable Integer id, @RequestBody Map<String, Object> param, HttpServletRequest httpServletRequest){
         Object res;
         try {
-            res = service.apiRestful(id, param);
+            res = service.apiRestful(id, param, httpServletRequest);
         }catch (Exception e){
             res = e;
         }

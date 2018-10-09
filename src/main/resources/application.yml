@@ -30,3 +30,7 @@ smallsix:
     # 自动生成前端 js
   user.api.path: ./src/main/resources/public/core/
   userapi.scan.package: cn.hellosix.controller
+
+logging:
+  level:
+     cn.hellosix.dao : debug

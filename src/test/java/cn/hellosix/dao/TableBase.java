@@ -1,6 +1,7 @@
 package cn.hellosix.dao;
 
 import cn.hellosix.Application;
+import cn.hellosix.core.mysql.MysqlUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -71,6 +73,13 @@ public class TableBase {
                 return null;
             }
         });
+    }
+
+    @Test
+    public void test(){
+        String sql = MysqlUtil.createTableSql( cn.hellosix.model.RestMonitorModel.class, "finebi.monitor");
+        System.out.println( sql );
+        jdbcTemplate.execute( sql );
     }
 
     @Test

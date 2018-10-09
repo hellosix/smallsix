@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.hellosix.dao.IRestMonitorDao">
+    <select id="getTotal"  resultType="Map">
+        select count(*) as c from ${tableName}
+        where
+        add_time &gt; ${startTime} and add_time &lt; ${endTime}
+    </select>
+
+    <select id="getRestMonitorDetail"  resultType="Map">
+        select * from ${tableName} order by id desc limit 300
+    </select>
+
+    <select id="getGroupByUserAgent"  resultType="Map">
+        select count(*) as c, user_agent from ${tableName}
+        where
+        add_time &gt; ${startTime} and add_time &lt; ${endTime}
+        group by user_agent
+    </select>
+
+    <select id="getGroupRestMonitor" resultType="hashmap" statementType="STATEMENT">
+        select
+        <if test="date == 'day'">
+            day as date,
+        </if>
+        <if test="date == 'hour'">
+            concat(CAST(day AS CHAR), ':', CAST(hour AS CHAR)) as date,
+        </if>
+        <if test="date == 'minute'">
+            concat(CAST(hour AS CHAR), ':', CAST(minute AS CHAR)) as date,
+        </if>
+        <if test="type ==''">
+            count(*) as c
+        </if>
+        <if test="type !=''">
+            count(DISTINCT ${type}) as c
+        </if>
+        from ${tableName}
+        where
+        add_time &gt; ${startTime} and add_time &lt; ${endTime}
+        group by
+        <if test="date == 'day'">
+            day order by day
+        </if>
+        <if test="date == 'hour'">
+            day,hour order by day,hour
+        </if>
+        <if test="date == 'minute'">
+            day,hour,minute order by day,hour,minute
+        </if>
+    </select>
+
+    <insert id="addRestMonitorModel" parameterType="cn.hellosix.model.RestMonitorModel" statementType="STATEMENT">
+        insert into
+        ${tableName}
+        (
+        ip,
+        uid,
+        msg_type,
+        url,
+        note,
+        params,
+        user_agent,
+        day,
+        hour,
+        minute,
+        add_time
+        )
+        values
+        (
+        '${q.ip}',
+        '${q.uid}',
+        '${q.msgType}',
+        '${q.url}',
+        '${q.note}',
+        '${q.params}',
+        '${q.userAgent}',
+        ${q.day},
+        ${q.hour},
+        ${q.minute},
+        ${q.addTime}
+        )
+    </insert>
+</mapper>

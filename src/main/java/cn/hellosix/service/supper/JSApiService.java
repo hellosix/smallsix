@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -82,7 +83,8 @@ public class JSApiService {
         return apiStr;
     }
 
-    public Object apiRestful(Integer id, Map<String, Object> param) throws IOException {
+    public Object apiRestful(Integer id, Map<String, Object> param, HttpServletRequest httpServletRequest) throws IOException {
+        // monitor
         ObjectMapper objectMapper = new ObjectMapper();
         String paramStr = objectMapper.writeValueAsString(param);
         String sql = sqlMap.get(id);
