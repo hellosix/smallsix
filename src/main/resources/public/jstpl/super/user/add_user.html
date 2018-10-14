@@ -1,27 +1,27 @@
 <div class="" role="form" id="menu-form" style="margin: 15px">
     <div class="form-group">
         <label class="control-label">id</label>
-        <input type="input" class="form-control disabled" name="id" />
+        <input type="input" class="form-control" disabled value="{{$res.id}}" name="id" />
     </div>
     <div class="form-group">
         <label class="control-label">head</label>
-        <input type="input" class="form-control" name="head" />
+        <input type="input" class="form-control" value="{{$res.head}}" name="head" />
     </div>
     <div class="form-group">
         <label class="control-label">username</label>
-        <input type="input" class="form-control" name="username" />
+        <input type="input" class="form-control" value="{{$res.username}}" name="username" />
     </div>
     <div class="form-group">
         <label class="control-label">password</label>
-        <input type="input" class="form-control" name="password" />
+        <input type="input" class="form-control" value="{{$res.password}}" name="password" />
     </div>
     <div class="form-group">
         <label class="control-label">database</label>
-        <input type="input" class="form-control" name="databaseName" />
+        <input type="input" class="form-control" value="{{$res.databaseName}}" name="databaseName" />
     </div>
     <div class="form-group">
         <label class="control-label">menu</label>
-        <textarea class="form-control" cols="60" name="menu"></textarea>
+        <textarea class="form-control" cols="60" name="menu">{{$res.menu}}</textarea>
     </div>
     <div class="form-group">
         <button type="submit" id="menu-form-preview" class="btn btn-default">preview</button>

@@ -4,6 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.hellosix.dao.IUserDao">
+    <select id="getUserList"  resultType="cn.hellosix.model.User">
+        select * from smallsix.user limit 1000
+    </select>
     <select id="getUser"  resultType="cn.hellosix.model.User">
         select * from smallsix.user where id=#{id}
     </select>
@@ -14,7 +17,9 @@
         delete from smallsix.user where id = #{id};
     </delete>
     <insert id="addUser"  parameterType="cn.hellosix.model.User">
-        insert into smallsix.user(username, password, head,database_name, menu) values(#{username},#{password},#{head},#{databaseName},#{menu})
+        insert into
+        smallsix.user(username, password, head,phone,wechat,email,service_time,database_name, menu,add_time)
+        values(#{username},#{password},#{head},#{phone},#{wechat},#{email},#{serviceTime},#{databaseName},#{menu},#{addTime})
     </insert>
     <update id="updateUser"  parameterType="cn.hellosix.model.User" >
         UPDATE
@@ -29,13 +34,25 @@
         <if test="head != null">
             head = #{head},
         </if>
+        <if test="phone != null">
+            phone = #{phone},
+        </if>
+        <if test="wechat != null">
+            wechat = #{wechat},
+        </if>
+        <if test="email != null">
+            email = #{email},
+        </if>
+        <if test="serviceTime != null">
+            service_time = #{serviceTime},
+        </if>
         <if test="databaseName != null">
             database_name = #{databaseName},
         </if>
         <if test="menu != null">
             menu = #{menu},
         </if>
-        id = #{id}
+        add_time = #{addTime}
         WHERE
         id = #{id}
     </update>

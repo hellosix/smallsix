@@ -1,10 +1,169 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
+
 <head>
-    <meta charset="UTF-8" />
-    <title>Title</title>
+    <meta charset="utf-8" />
+    <title>hellosix</title>
+    <link rel="icon" type="image/jpg" href="./home/images/hellosix-logo.png" />
+    <link rel="stylesheet" href="./vender/fullpage/jquery.fullPage.min.css" />
+
+    <style>
+        * { margin: 0; padding: 0;}
+        ul { list-style-type: none;}
+        .top { position: fixed; left: 0; right: 0; top: 0; z-index: 999; height: 50px; background-color: rgba(0, 0, 0, 0.6);}
+        .menu { width: 1000px; margin: 0 auto; overflow: hidden;}
+        .logo { float: left; margin-top: 9px;}
+        .logo a { display: inline-block; width: 32px; height: 32px; background-image: url(./home/images/hellosix-logo.png); background-size: 32px 32px;}
+        .nav { float: right; margin-top: 10px; font-size: 0;}
+        .nav li { display: inline-block; margin-left: 40px;}
+        .nav a { display: inline-block; height: 30px; line-height: 30px; font-size: 12px; color: #fff; text-decoration: none;}
+        .nav a:hover { color: #83c3f3;}
+        .section { text-align: center; background-repeat: no-repeat; background-position: 50% 50%; background-size: cover; overflow: hidden;}
+        #section0 { background-image: url(./home/images/1bg.jpg);}
+        #section1 { background-image: url(./home/images/2bg.jpg);}
+        #section2 { background-image: url(./home/images/3bg.jpg);}
+        #section3 { background-image: url(./home/images/4bg.jpg);}
+        .title1 { opacity: 0.8; font-size: 60px; line-height: 93px; background: url(./home/images/titleline1.png) no-repeat center bottom;}
+        .title2 { opacity: 0.8; font-size: 40px; line-height: 75px;}
+        .title3 { font-size: 24px; font-family: 'PingFang-SC-UltraLight', '微软雅黑', '宋体'; line-height: 48px; margin-top: 20px; opacity: 0.7;}
+        #section1 .title1, #section1 .title2, #section2 .title1, #section2 .title2 { color: #fff; opacity: 1;}
+        #section1 .title3, #section2 .title3 { color: #fff;}
+        #section3 .title3 { color: #000;}
+        #section1 .title1 { background: url(./home/images/titleline2.png) no-repeat center bottom;}
+        #section2 .title1 { background: url(./home/images/titleline3.png) no-repeat center bottom;}
+        #section3 .title1 { background: url(./home/images/titleline4.png) no-repeat center bottom;}
+        .mTxt1 { width: 526px; height: 195px; margin: 0 auto; position: relative; top: 25%; background: url(./home/images/oneTxt.png) no-repeat 0 0;}
+        .DownloadBtn { cursor: pointer; margin: 85px auto 0; width: 220px; height: 50px; position: relative; background: #5396FF; color: #fff; line-height: 50px; font-size: 24px; border-radius: 25px;}
+        .DownloadBtn a { display: inline-block; width: 100%; height: 100%; color: #fff; font-family: 'PingFang-SC-UltraLight', '微软雅黑', '宋体';}
+        .mTxt1 { width: 526px; height: 195px; margin: 0 auto; position: relative; top: 25%; background: url(./home/images/oneTxt.png) no-repeat 0 0;}
+        .DownloadBtn { cursor: pointer; margin: 85px auto 0; width: 220px; height: 50px; position: relative; background: #5396FF; color: #fff; line-height: 50px; font-size: 24px; border-radius: 25px;}
+        .DownloadBtn a { display: inline-block; width: 100%; height: 100%; color: #fff; font-family: 'PingFang-SC-UltraLight', '微软雅黑', '宋体'; text-decoration: none;}
+        #fp-nav ul li a span, .fp-slidesNav ul li a span { background-color: #fff;}
+        .image-content{
+            width: 880px;
+            margin: 0 auto;
+        }
+        .image-content-div{
+            width: 200px;
+            margin-left: 10px;
+            margin-right: 10px;
+            float: left;
+        }
+        .image-content-item{
+            width: 200px;
+            height: 150px;
+        }
+
+        .redis-manager-content{
+            width: 880px;
+            margin: 0 auto;
+        }
+        .redis-manager-content-info{
+            float: left;
+            width: 440px;
+            color: #fff; opacity: 1;
+            font-size: 30px;
+        }
+        .redis-manager-content-img{
+            float: right;
+            width: 400px;
+        }
+
+        @keyframes fadein{
+            0%{opacity: 0;
+            }
+            100%{
+                opacity: 1;
+
+            }
+        }
+        @-webkit-keyframes fadein{
+            0%{opacity: 0;
+            }
+            100%{
+                opacity: 1;
+
+            }
+        }
+        @-moz-keyframes fadein{
+            0%{opacity: 0;
+            }
+            100%{
+                opacity: 1;
+
+            }
+        }
+        @-o-keyframes fadein{
+            0%{opacity: 0;
+            }
+            100%{
+                opacity: 1;
+
+            }
+        }
+        @-ms-keyframes fadein{
+            0%{opacity: 0;
+            }
+            100%{
+                opacity: 1;
+
+            }
+        }
+        .fade-img{
+            animation:fadein 3s linear 1;
+            -webkit-animation:fadein 3s linear 1;
+            -moz-animation:fadein 3s linear 1;
+            -o-animation:fadein 3s linear 1;
+            -ms-animation:fadein 3s linear 1;
+        }
+
+    </style>
+    <script src="./vender/jquery/jquery-1.10.2.js"></script>
+    <script src="./vender/fullpage/jquery.fullPage.min.js"></script>
+    <script>
+        $(function() {
+            $('#fullpage').fullpage({
+                navigation: true
+            });
+        });
+    </script>
 </head>
+
 <body>
-    <h1>hello world</h1>
+    <div class="top">
+        <div class="menu">
+            <h1 class="logo"><a href="../images/hellosix-logo.png"></a></h1>
+            <ul class="nav">
+                <li><a target="_black" href="https://github.com/hellosix">Github</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="fullpage">
+        <div class="section" id="section0">
+            <div class="title1">hellosix</div>
+            <div class="title2">这是一个专注于提供开源产品的组织</div>
+            <div class="title3">
+                涉及的产品领域有 大数据、机器学习、区块链、公用类库、业务平台<br />
+                相信我们 hellosix 真的很六<br />
+            </div>
+            <div class="DownloadBtn"><a href="https://github.com/hellosix" target="_blank">我们的github</a></div>
+        </div>
+
+        <div class="section" id="section3">
+            <div class="title1">情感解码</div>
+            <div class="title3">
+                与你相遇<br />
+                我就走进了一个循环<br />
+                我把青春放进你的堆栈<br />
+                取出的明天总是残缺不全<br />
+                总想发现一个指针<br />
+                指向明天的将要溢出的幸福<br />
+                总想设置一个数组<br />
+                数组里装满了美女和别墅<br />
+                有时候却轻轻的对自己说，蓝瘦，香菇
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>

@@ -29,9 +29,19 @@ public class AdminController {
     @Autowired
     private SearchFormService searchFormService;
 
-    @RequestMapping( value = "/index" )
+    @RequestMapping( value = {"", "/","/index","/monitor"} )
     public String index(Model model){
         return "admin/index";
+    }
+
+    @RequestMapping("/about")
+    public String about(Model model){
+        return "admin/about";
+    }
+
+    @RequestMapping("/user")
+    public String user(Model model){
+        return "admin/user";
     }
 
     @RequestMapping(value = "/getMenu", method = RequestMethod.GET)

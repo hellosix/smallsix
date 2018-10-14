@@ -16,5 +16,5 @@ public interface IRestMonitorDao {
     List getRestMonitorDetail(@Param("tableName") String table);
     Map getTotal(@Param("tableName") String table, @Param("startTime") int startTime, @Param("endTime") int endTime);
     List getGroupRestMonitor(@Param("tableName") String table, @Param("startTime") int startTime, @Param("endTime") int endTime, @Param("type") String type, @Param("date") String date);
-    Map getGroupByUserAgent(@Param("tableName") String table, @Param("startTime") int startTime, @Param("endTime") int endTime);
+    List getGroupByUserAgent(@Param("tableName") String table, @Param("startTime") int startTime, @Param("endTime") int endTime);
 }

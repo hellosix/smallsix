@@ -30,7 +30,7 @@
     <script src="../vender/flatlab/js/bootstrap.min.js"></script>
     <script src="../vender/flatlab/js/jquery.scrollTo.min.js"></script>
     <script src="../vender/flatlab/js/jquery.nicescroll.js"></script>
-    <script src="../vender/flatlab/assets/chart-master/Chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <script src="../vender/datatables/jquery.dataTables.js"></script>
     <script src="../vender/datatables/dataTables.bootstrap.js"></script>
 
@@ -68,12 +68,68 @@
         <!--logo start-->
         <a href="#" class="logo">A<span>dmin</span></a>
         <!--logo end-->
+
+        <div class="nav notify-row" id="top_menu">
+            <!--  notification start -->
+            <ul class="nav top-menu">
+                <!-- notification dropdown start-->
+                <li id="header_notification_bar" class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <i class="icon-bell-alt"></i>
+                        <span class="badge bg-important">7</span>
+                    </a>
+                    <ul class="dropdown-menu extended notification">
+                        <div class="notify-arrow notify-arrow-red"></div>
+                        <li>
+                            <p class="red">You have 7 new notifications</p>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="label label-red"><i class="icon-bolt"></i></span>
+                                Server #3 overloaded.
+                                <span class="small italic">34 mins</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="label label-warning"><i class="icon-bell"></i></span>
+                                Server #10 not respoding.
+                                <span class="small italic">1 Hours</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="label label-danger"><i class="icon-bolt"></i></span>
+                                Database overloaded 24%.
+                                <span class="small italic">4 hrs</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="label label-success"><i class="icon-plus"></i></span>
+                                New user registered.
+                                <span class="small italic">Just now</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="label label-info"><i class="icon-bullhorn"></i></span>
+                                Application error.
+                                <span class="small italic">10 mins</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">See all notifications</a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- notification dropdown end -->
+            </ul>
+            <!--  notification end -->
+        </div>
         <div class="top-nav ">
             <!--search & user info start-->
             <ul class="nav pull-right top-menu">
-                <li>
-                    <input type="text" class="form-control search" placeholder="Search" />
-                </li>
                 <!-- user login dropdown start-->
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -83,9 +139,9 @@
                     </a>
                     <ul class="dropdown-menu extended logout">
                         <div class="log-arrow-up"></div>
-                        <li><a href="#"><i class=" icon-suitcase"></i>Profile</a></li>
-                        <li><a href="#"><i class="icon-cog"></i> Settings</a></li>
-                        <li><a href="#"><i class="icon-bell-alt"></i> Notification</a></li>
+                        <li><a href="#"><i class=" icon-suitcase"></i>用户信息</a></li>
+                        <li><a href="#"><i class="icon-comment-alt"></i>联系我们</a></li>
+                        <li><a href="#"><i class="icon-bell-alt"></i>系统通知</a></li>
                         <li><a href="javascript:void(0)" id="user-logout"><i class="icon-key"></i> Log Out</a></li>
                     </ul>
                 </li>
@@ -114,7 +170,7 @@
                 <div class="col-lg-3 col-sm-6">
                     <section class="panel">
                         <div class="symbol terques">
-                            <i class="icon-user"></i>
+                            <i class="icon-anchor"></i>
                         </div>
                         <div class="value">
                             <h1 id="monitor-total">0</h1>
@@ -125,7 +181,7 @@
                 <div class="col-lg-3 col-sm-6">
                     <section class="panel">
                         <div class="symbol red">
-                            <i class="icon-tags"></i>
+                            <i class="icon-moon"></i>
                         </div>
                         <div class="value">
                             <h1 id="monitor-month">0</h1>
@@ -136,7 +192,7 @@
                 <div class="col-lg-3 col-sm-6">
                     <section class="panel">
                         <div class="symbol yellow">
-                            <i class="icon-shopping-cart"></i>
+                            <i class=" icon-star-empty"></i>
                         </div>
                         <div class="value">
                             <h1 id="monitor-week">Week</h1>
@@ -147,7 +203,7 @@
                 <div class="col-lg-3 col-sm-6">
                     <section class="panel">
                         <div class="symbol blue">
-                            <i class="icon-bar-chart"></i>
+                            <i class="icon-sun"></i>
                         </div>
                         <div class="value">
                             <h1 id="monitor-today">0</h1>
@@ -164,8 +220,8 @@
                         <header class="panel-heading">
                             Bar
                         </header>
-                        <div class="panel-body text-center">
-                            <canvas id="bar" height="310" width="700" ></canvas>
+                        <div class="panel-body text-center" style="height: 350px">
+                            <canvas id="bar"></canvas>
                         </div>
                     </section>
                 </div>
@@ -174,8 +230,8 @@
                         <header class="panel-heading">
                             Pie
                         </header>
-                        <div class="panel-body text-center" style="padding: 30px">
-                            <canvas id="pie" height="280" width="250"></canvas>
+                        <div class="panel-body text-center" style="height: 350px">
+                            <canvas id="pie"></canvas>
                         </div>
                     </section>
                 </div>
@@ -190,31 +246,15 @@
                         <table class="table" id="detail-table">
                             <thead>
                             <tr>
-                                <th>#</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Username</th>
+                                <th>Id</th>
+                                <th>Note</th>
+                                <th>UserAgent</th>
+                                <th>IP</th>
+                                <th>AddTime</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@twitter</td>
-                            </tr>
+                            <tbody id="monitor-detail-table">
+
                             </tbody>
                         </table>
                     </section>

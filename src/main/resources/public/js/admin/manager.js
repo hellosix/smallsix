@@ -36,7 +36,7 @@ $(document).on("click", ".edit-field-button", function () {
 
 
 function field_form(data) {
-    smarty.open("admin/field_form", data, { title: "Edit",width:700}, function(){
+    smarty.open("/admin/field_form", data, { title: "Edit",width:700}, function(){
         $("[data-plugin='image']").upload(
             function(_this,data){
                 alert(data)

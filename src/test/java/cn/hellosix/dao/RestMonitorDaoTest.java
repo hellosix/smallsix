@@ -26,7 +26,7 @@ public class RestMonitorDaoTest {
         restMonitorModel.setDay(7);
         restMonitorModel.setHour(5);
         restMonitorModel.setMinute(4);
-        restMonitorModel.setUid("fdsafd4");
+        restMonitorModel.setUid("fdsafd42222");
         restMonitorModel.setMsgType("INFO");
         restMonitorModel.setUserAgent("web");
         restMonitorDao.addRestMonitorModel("finebi.monitor", restMonitorModel);
@@ -40,7 +40,7 @@ public class RestMonitorDaoTest {
 
     @Test
     public void testGroupByUserAgentl(){
-        Map res = restMonitorDao.getGroupByUserAgent("test.monitor",-1,122212121);
+        List res = restMonitorDao.getGroupByUserAgent("test.monitor",-1,122212121);
         System.out.println( res );
     }
 

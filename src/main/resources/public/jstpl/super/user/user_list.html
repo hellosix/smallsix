@@ -1,0 +1,41 @@
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Username</th>
+        <th>Password</th>
+        <th>Head</th>
+        <th>Phone</th>
+        <th>Wechat</th>
+        <th>Email</th>
+        <th>DatabaseName</th>
+        <th>ServiceTime</th>
+        <th>Menu</th>
+        <th>Email</th>
+        <th>AddTime</th>
+        <th>Operate</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{foreach from=$res item=row}}
+    <tr>
+        <td>{{$row.id}}</td>
+        <td>{{$row.username}}</td>
+        <td>{{$row.password}}</td>
+        <td>{{$row.head}}</td>
+        <td>{{$row.phone}}</td>
+        <td>{{$row.wechat}}</td>
+        <td>{{$row.email}}</td>
+        <td>{{$row.databaseName}}</td>
+        <td>{{$row.serviceTime}}</td>
+        <td>{{$row.menu}}</td>
+        <td>{{$row.email}}</td>
+        <td>{{$row.addTime}}</td>
+        <td>
+            <button class="btn btn-primary btn-xs edit-user" data-id="{{$row.id}}"><i class="icon-pencil"></i></button>
+            <button class="btn btn-danger btn-xs remove-user" data-id="{{$row.id}}"><i class="icon-trash"></i></button>
+        </td>
+    </tr>
+    {{/foreach}}
+    </tbody>
+</table>

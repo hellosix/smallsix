@@ -24,8 +24,8 @@ public class MonitorController {
 
     @RequestMapping(value = "/getGroupByUserAgent", method = RequestMethod.GET)
     @ResponseBody
-    public Response getGroupByUserAgent(@RequestParam String database,@RequestParam int startTime, @RequestParam int endTime){
-        Map res = monitorService.getGroupByUserAgent(database, startTime, endTime);
+    public Response getGroupByUserAgent(@RequestParam String database){
+        List res = monitorService.getGroupByUserAgent(database);
         return Response.Result(0, res);
     }
 
@@ -38,15 +38,15 @@ public class MonitorController {
 
     @RequestMapping(value = "/getGroupByCountTotal", method = RequestMethod.GET)
     @ResponseBody
-    public Response getGroupByCountTotal(@RequestParam String database,@RequestParam int startTime, @RequestParam int endTime, @RequestParam String date){
-        List res = monitorService.getGroupByCountTotal(database, startTime, endTime, date);
+    public Response getGroupByCountTotal(@RequestParam String database){
+        Map<String, List> res = monitorService.getGroupByCountTotal(database);
         return Response.Result(0, res);
     }
 
     @RequestMapping(value = "/getTotalCount", method = RequestMethod.GET)
     @ResponseBody
-    public Response getTotalCount(@RequestParam String database,@RequestParam int startTime, @RequestParam int endTime){
-        Map res = monitorService.getTotalCount(database, startTime, endTime);
+    public Response getTotalCount(@RequestParam String database,@RequestParam int beforeDay){
+        Map res = monitorService.getTotalCount(database, beforeDay);
         return Response.Result(0, res);
     }
 

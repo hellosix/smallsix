@@ -57,10 +57,10 @@
         insert into
         ${tableName}
         (
+        api_id,
         ip,
         uid,
         msg_type,
-        url,
         note,
         params,
         user_agent,
@@ -71,10 +71,10 @@
         )
         values
         (
+        ${q.apiId},
         '${q.ip}',
         '${q.uid}',
         '${q.msgType}',
-        '${q.url}',
         '${q.note}',
         '${q.params}',
         '${q.userAgent}',

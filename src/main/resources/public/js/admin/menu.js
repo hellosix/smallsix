@@ -2,12 +2,26 @@
  * Created by lzz on 2018/10/1.
  */
 
+$(document).on("click", ".load-iframe", function () {
+    var data = {};
+    data.src = $(this).data("src");
+    smarty.html("admin/load_iframe", data, "main-container", function () {
+
+    });
+});
+
 function initMenu() {
     // custom scrollbar
     $("#sidebar").niceScroll({styler:"fb",cursorcolor:"#e8403f", cursorwidth: '3', cursorborderradius: '10px', background: '#404040', cursorborder: ''});
 
+    jQuery('#sidebar .sub-menu').click(function () {
+        jQuery('#sidebar .sub-menu').removeClass("active");
+        $(this).addClass("active");
+    });
+
     //    sidebar dropdown menu
     jQuery('#sidebar .sub-menu > a').click(function () {
+
         var last = jQuery('.sub-menu.open', $('#sidebar'));
         last.removeClass("open");
         jQuery('.arrow', last).removeClass("open");

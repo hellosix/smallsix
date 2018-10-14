@@ -1,6 +1,5 @@
 package cn.hellosix.controller.advice;
 
-import cn.hellosix.util.TimeUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -35,7 +34,6 @@ public class MonitorAdvice {
     private Object accessInit(ProceedingJoinPoint proceedingJoinPoint) {
         Object value = null;
         try {
-            Long currentDate  = TimeUtil.timeStamp();
             /* 客户端ip */
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
             String clientIp = request.getHeader("x-forwarded-for");

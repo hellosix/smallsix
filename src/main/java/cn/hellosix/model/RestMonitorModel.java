@@ -10,14 +10,14 @@ import cn.hellosix.core.mysql.MysqlTable;
 public class RestMonitorModel {
     @MysqlField(isPrimaryKey = true, field = "id", type = "int")
     private int id;
+    @MysqlField(field = "api_id", type = "int")
+    private int apiId;
     @MysqlField(field = "ip", type = "varchar(25)")
     private String ip;
     @MysqlField(field = "uid", type = "varchar(255)")
     private String uid;
     @MysqlField(field = "msg_type", type = "varchar(255)")
     private String msgType;
-    @MysqlField(field = "url", type = "varchar(255)")
-    private String url;
     @MysqlField(field = "note", type = "varchar(255)")
     private String note;
     @MysqlField(field = "params", type = "varchar(255)")
@@ -32,6 +32,7 @@ public class RestMonitorModel {
     private int minute;
     @MysqlField(field = "add_time", type = "int")
     private int addTime;
+    private String table;
 
 
     public RestMonitorModel(){
@@ -44,6 +45,14 @@ public class RestMonitorModel {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getApiId() {
+        return apiId;
+    }
+
+    public void setApiId(int apiId) {
+        this.apiId = apiId;
     }
 
     public String getIp() {
@@ -68,14 +77,6 @@ public class RestMonitorModel {
 
     public void setMsgType(String msgType) {
         this.msgType = msgType;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public String getNote() {
@@ -134,14 +135,22 @@ public class RestMonitorModel {
         this.addTime = addTime;
     }
 
+    public String getTable() {
+        return table;
+    }
+
+    public void setTable(String table) {
+        this.table = table;
+    }
+
     @Override
     public String toString() {
         return "RestMonitorModel{" +
                 "id=" + id +
+                ", apiId=" + apiId +
                 ", ip='" + ip + '\'' +
                 ", uid='" + uid + '\'' +
                 ", msgType='" + msgType + '\'' +
-                ", url='" + url + '\'' +
                 ", note='" + note + '\'' +
                 ", params='" + params + '\'' +
                 ", userAgent='" + userAgent + '\'' +

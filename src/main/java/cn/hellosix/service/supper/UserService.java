@@ -5,6 +5,8 @@ import cn.hellosix.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by gl49 on 2018/4/20.
  */
@@ -12,6 +14,10 @@ import org.springframework.stereotype.Service;
 public class UserService {
     @Autowired
     private IUserDao userDao;
+
+    public List<User> getUserList(){
+        return userDao.getUserList();
+    }
 
     public User getUser(int id){
         return userDao.getUser( id );
@@ -45,6 +51,10 @@ public class UserService {
     }
 
     public boolean updateUser(User user) {
+        if( null == user.getId() ){
+            userDao.addUser( user );
+            return true;
+        }
         User userModel = userDao.getUser( user.getId() );
         if( null == userModel ){
             userDao.addUser( user );

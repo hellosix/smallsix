@@ -3660,6 +3660,15 @@ table.sliders tr td {
     background: #aec785;
 }
 
+.alt.blue-bg {
+    background: #58C9F3;
+}
+
+
+.alt.default-bg {
+    background: #c4c4c4;
+}
+
 .profile-nav.alt.green-border ul > li > a:hover, .profile-nav.alt.green-border ul > li > a:focus, .profile-nav.alt.green-border ul li.active a {
     border-left: 5px solid #aec785;
 }

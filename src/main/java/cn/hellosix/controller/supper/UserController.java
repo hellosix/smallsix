@@ -11,9 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * Created by lzz on 2018/10/4.
@@ -25,9 +25,14 @@ public class UserController {
     @Autowired
     private UserService service;
 
+    @RequestMapping("/super")
+    public String superUser(Model model){
+        return "super/user";
+    }
+
     @RequestMapping("/admin")
     public String adminUser(Model model){
-        return "super/user";
+        return "admin/user";
     }
 
     @RequestMapping("/login")
@@ -43,7 +48,7 @@ public class UserController {
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
             HttpSession session = request.getSession();
             session.setAttribute(Common.SESSION_USER_KEY, user);
-            return Response.Success();
+            return Response.Result(0, user);
         }
         return Response.Error("用户名或密码填写有误");
     }
@@ -57,12 +62,35 @@ public class UserController {
         return Response.Info("logout");
     }
 
+    @RequestMapping(value = "/getUserList", method = RequestMethod.GET)
+    @ResponseBody
+    public Response getUserList(){
+        List<User> userList = service.getUserList();
+        return Response.Result(0, userList);
+    }
+
     @RequestMapping(value = "/getUser", method = RequestMethod.GET)
     @ResponseBody
     public Response getUser(@RequestParam int id){
         User user = service.getUser( id );
+        if( null == user ){
+            user = new User();
+        }
         return Response.Result(0, user);
     }
+
+    @RequestMapping(value = "/removeUser", method = RequestMethod.GET)
+    @ResponseBody
+    public Response removeUser(@RequestParam int id){
+        Boolean res = service.removeUser( id );
+        if(res){
+            return Response.Info("success");
+        }else{
+            return Response.Error("fail");
+        }
+    }
+
+
 
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
     @ResponseBody
