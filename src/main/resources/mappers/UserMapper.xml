@@ -18,8 +18,8 @@
     </delete>
     <insert id="addUser"  parameterType="cn.hellosix.model.User">
         insert into
-        smallsix.user(username, password, head,phone,wechat,email,service_time,database_name, menu,add_time)
-        values(#{username},#{password},#{head},#{phone},#{wechat},#{email},#{serviceTime},#{databaseName},#{menu},#{addTime})
+        smallsix.user(username, password, head,phone,wechat,email,address,birthday,service_time,database_name, menu,title,add_time)
+        values(#{username},#{password},#{head},#{phone},#{wechat},#{email},#{address},#{birthday},#{serviceTime},#{databaseName},#{menu},#{title},#{addTime})
     </insert>
     <update id="updateUser"  parameterType="cn.hellosix.model.User" >
         UPDATE
@@ -43,6 +43,12 @@
         <if test="email != null">
             email = #{email},
         </if>
+        <if test="address != null">
+            address = #{address},
+        </if>
+        <if test="birthday != null">
+            birthday = #{birthday},
+        </if>
         <if test="serviceTime != null">
             service_time = #{serviceTime},
         </if>
@@ -51,6 +57,9 @@
         </if>
         <if test="menu != null">
             menu = #{menu},
+        </if>
+        <if test="title != null">
+            title = #{title},
         </if>
         add_time = #{addTime}
         WHERE

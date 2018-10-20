@@ -6,12 +6,25 @@ div.search-form{
 
 .search-form > .search-li{
     width: 100%;
+    padding-top: 10px;
+    border-bottom: 1px dashed #d8f1ef;
     float: left;
-    height: 30px;
+    height: 40px;
 }
 .search-li > .search-title{
     float: left;
-    color: #888585;
+    color: #ffffff;
+    display: inline;
+    padding: 0.4em 0.7em;
+    margin-right: 10px;
+    font-size: 75%;
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+    background-color: #2cc8c0;
 }
 
 .search-li > .search-item{
@@ -37,10 +50,10 @@ div.search-form{
     width: 65px;
 }
 .search-item-submit{
-    background-color: #f37365;
+    background-color: #38c9bf;
     float: left;
     margin-left: 10px;
-    border: 1px solid #de6d6d;
+    border: 1px solid #38c9bf;
     width: 40px;
     color:#ffffff;
     border-radius: 2px;
@@ -49,7 +62,7 @@ div.search-form{
 }
 
 .search-li > .search-item.active,.search-item-query.active{
-    color:#ff0000;
+    color:#38c9bf;
 }
 
 .search-query{
@@ -67,9 +80,9 @@ div.search-form{
     float: left;
     margin-left: 10px;
     margin-top: -1px;
-    background-color: #f37365;
+    background-color: #38c9bf;
     float: left;
-    border: 1px solid #de6d6d;
+    border: 1px solid #38c9bf;
     width: 40px;
     color:#ffffff;
     border-radius: 2px;
@@ -79,6 +92,6 @@ div.search-form{
 
 .table-sort-button{
     cursor: pointer;
-    color:#ff0000;
+    color:#38c9bf;
     margin-left: 5px;
 }

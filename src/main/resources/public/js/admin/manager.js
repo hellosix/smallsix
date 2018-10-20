@@ -26,14 +26,24 @@ $(document).on("click", ".table-content", function (res) {
 
 $(document).on("click", ".edit-field-button", function () {
     var fieldExtends = $("#field-extends-detail").data("detail");
-    var fieldDetail = $(this).data("detail");
+    var id = $(this).data("id");
     var data = {};
-    data.extends = fieldExtends;
-    data.fields = fieldDetail;
-    data.columns = $(this).data("columns");
-    field_form(data);
+    data.columns = $("#field-extends-detail").data("columns");
+    ajax.get( "getTableRowDetail?database=" + window.database + "&table=" + window.table + "&id=" + id, function (obj) {
+        data.extends = fieldExtends;
+        data.fields = obj.res;
+        field_form(data);
+    });
 });
 
+$(document).on("click", ".delete-row-button", function () {
+    var id = $(this).data("id");
+    sparrow_win.confirm("确定删除？", function(){
+        ajax.get( "deleteRow?database=" + window.database + "&table=" + window.table + "&id=" + id, function (obj) {
+            layer.msg("删除成功");
+        });
+    });
+});
 
 function field_form(data) {
     smarty.open("/admin/field_form", data, { title: "Edit",width:700}, function(){

@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +40,11 @@ public class AdminController {
     @RequestMapping("/about")
     public String about(Model model){
         return "admin/about";
+    }
+
+    @RequestMapping("/notify")
+    public String notify(Model model){
+        return "admin/notify";
     }
 
     @RequestMapping("/user")
@@ -87,6 +95,22 @@ public class AdminController {
         return Response.Result(0, resMap);
     }
 
+    @RequestMapping(value = "/getTableRowDetail", method = RequestMethod.GET)
+    @ResponseBody
+    public Response getTableRowDetail(@RequestParam String database,@RequestParam String table, @RequestParam int id){
+        Map<String, Object> res = service.getTableRowDetail(database, table, id);
+        return Response.Result(0, res);
+    }
+
+    @RequestMapping(value = "/deleteRow", method = RequestMethod.GET)
+    @ResponseBody
+    public Response deleteRow(@RequestParam String database,@RequestParam String table, @RequestParam int id){
+        boolean res = service.deleteRow(database, table, id);
+        return Response.Result(0, res);
+    }
+
+
+
     @RequestMapping(value = "/getInitFieldForm", method = RequestMethod.GET)
     @ResponseBody
     public Response getInitFieldForm(@RequestParam String database,@RequestParam String table){
@@ -106,22 +130,23 @@ public class AdminController {
     @RequestMapping(value = "/updateFieldForm", method = RequestMethod.POST)
     @ResponseBody
     public Response updateFieldForm(@RequestBody FieldForm fieldForm){
-        Boolean res = service.updateFieldForm(fieldForm);
-        return Response.Info("success");
+        Response res = Response.Error("update fail");
+        try {
+            service.updateFieldForm(fieldForm);
+            res = Response.Info("success");
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        return res;
     }
 
     @PostMapping("/multiUpload")
     @ResponseBody
     public Response multiUpload(@RequestParam("file") MultipartFile file) {
-        String filePath = "/Users/lzz/work/smallsix/src/main/resources/public/package/tmp/";
-        String fileName = file.getOriginalFilename();
-
-        File dest = new File(filePath + fileName);
-        try {
-            file.transferTo(dest);
-        } catch (IOException e) {
-            return null;
-        }
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute(Common.SESSION_USER_KEY);
+        String fileName = service.multiUpload(user, file);
         return new Response(0, null, fileName);
 
     }

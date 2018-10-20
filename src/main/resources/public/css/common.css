@@ -31,6 +31,10 @@ html,body{
     margin-right: 7px;
 }
 
+.blue-title{
+    color:#65cece;
+}
+
 .string { color: green; }
 .number { color: darkorange; }
 .boolean { color: blue; }

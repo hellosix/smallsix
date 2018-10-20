@@ -1,0 +1,29 @@
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Publish</th>
+        <th>UpdateTime</th>
+        <th>AddTime</th>
+        <th>Opreate</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{foreach from=$res item=row}}
+    <tr>
+        <td>{{$row.id}}</td>
+        <td>{{$row.title}}</td>
+        <td>{{$row.content}}</td>
+        <td>{{$row.publish}}</td>
+        <td>{{$row.updateTime}}</td>
+        <td>{{$row.addTime}}</td>
+        <td>
+            <button class="btn btn-primary btn-xs edit-system-advise" data-id="{{$row.id}}"><i class="icon-pencil"></i></button>
+            <button class="btn btn-danger btn-xs remove-system-advise" data-id="{{$row.id}}"><i class="icon-trash"></i></button>
+        </td>
+    </tr>
+    {{/foreach}}
+    </tbody>
+</table>

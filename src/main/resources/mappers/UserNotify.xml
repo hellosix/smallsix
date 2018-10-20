@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.hellosix.dao.IUserNotifyDao">
+    <select id="getUserNotifyList"  resultType="cn.hellosix.model.UserNotify">
+        select * from smallsix.user_notify limit 500
+    </select>
+
+    <select id="getUserNotify"  resultType="cn.hellosix.model.UserNotify">
+        select * from smallsix.user_notify where id = #{id}
+    </select>
+
+
+    <insert id="addUserNotify" parameterType="cn.hellosix.model.UserNotify"  useGeneratedKeys="true" keyProperty="id">
+        insert into smallsix.user_notify(message, publish, read_over, add_time) values(#{message},#{publish},#{readOver},#{addTime})
+    </insert>
+
+    <update id="updateUserNotify"  parameterType="cn.hellosix.model.UserNotify" >
+        UPDATE
+        smallsix.user_notify
+        SET
+        <if test="message != null">
+            message = #{message},
+        </if>
+        <if test="publish != null">
+            publish = #{publish},
+        </if>
+        <if test="readOver != null">
+            read_over = #{readOver},
+        </if>
+        <if test="addTime != null">
+            add_time = #{addTime},
+        </if>
+        id = #{id}
+        WHERE
+        id = #{id}
+    </update>
+    <delete id="removeUserNotify">
+        delete from smallsix.user_notify
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+</mapper>

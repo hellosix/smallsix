@@ -2,9 +2,16 @@ package cn.hellosix.service.supper;
 
 import cn.hellosix.dao.IUserDao;
 import cn.hellosix.model.User;
+import cn.hellosix.util.FileUtil;
+import cn.hellosix.util.TimeUtil;
+import com.google.common.io.Files;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -12,6 +19,11 @@ import java.util.List;
  */
 @Service
 public class UserService {
+    @Value("${smallsix.package.path.tmp}")
+    private String resourceTmpPath;
+    @Value("${smallsix.package.path.pack}")
+    private String resourcePackPath;
+
     @Autowired
     private IUserDao userDao;
 
@@ -50,7 +62,10 @@ public class UserService {
         return res;
     }
 
-    public boolean updateUser(User user) {
+    public boolean updateUser(User user) throws IOException {
+        //移动用户资源到package目录下
+        movePackage(user);
+
         if( null == user.getId() ){
             userDao.addUser( user );
             return true;
@@ -62,5 +77,22 @@ public class UserService {
             userDao.updateUser( user );
         }
         return true;
+    }
+
+    private void movePackage(User user) throws IOException {
+        String head = user.getHead();
+        if(StringUtils.isBlank(head)){
+            return;
+        }
+        String database = user.getDatabaseName();
+        String tmpPath = resourceTmpPath + database + "/";
+        String packPath = resourcePackPath + database + "/";
+        FileUtil.checkOrMkdirDir(tmpPath);
+        FileUtil.checkOrMkdirDir(packPath);
+        File fileFrom = new File(tmpPath + head);
+        String rename = "user-head-" + TimeUtil.timeStamp() + "-" + head;
+        user.setHead(rename);
+        File fileTo = new File(packPath + rename);
+        Files.move(fileFrom, fileTo);
     }
 }

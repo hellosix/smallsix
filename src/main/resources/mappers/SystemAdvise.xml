@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.hellosix.dao.ISystemAdviseDao">
+    <select id="getSystemAdviseList"  resultType="cn.hellosix.model.SystemAdvise">
+        select * from smallsix.system_advise limit 500
+    </select>
+
+    <select id="getSystemAdvise"  resultType="cn.hellosix.model.SystemAdvise">
+        select * from smallsix.system_advise where id = #{id}
+    </select>
+
+
+    <insert id="addSystemAdvise" parameterType="cn.hellosix.model.SystemAdvise"  useGeneratedKeys="true" keyProperty="id">
+        insert into smallsix.system_advise(title, content, publish, update_time, add_time) values(#{title},#{content},#{publish},#{updateTime},#{addTime})
+    </insert>
+
+    <update id="updateSystemAdvise"  parameterType="cn.hellosix.model.SystemAdvise" >
+        UPDATE
+        smallsix.system_advise
+        SET
+        <if test="title != null">
+            title = #{title},
+        </if>
+        <if test="content != null">
+            content = #{content},
+        </if>
+        <if test="publish != null">
+            publish = #{publish},
+        </if>
+        <if test="updateTime != null">
+            update_time = #{updateTime},
+        </if>
+        <if test="addTime != null">
+            add_time = #{addTime},
+        </if>
+        id = #{id}
+        WHERE
+        id = #{id}
+    </update>
+    <delete id="removeSystemAdvise">
+        delete from smallsix.system_advise
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+</mapper>

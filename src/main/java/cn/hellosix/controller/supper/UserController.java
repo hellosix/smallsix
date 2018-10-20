@@ -91,12 +91,18 @@ public class UserController {
     }
 
 
-
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
     @ResponseBody
     public Response updateUser(@RequestBody User user){
-        service.updateUser(user);
-        return Response.Info("success");
+        Response response = Response.Error("fail update user");
+        try {
+            service.updateUser(user);
+            response = Response.Info("success");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return response;
     }
 
     @RequestMapping(value = "/autoGetUser", method = RequestMethod.GET)

@@ -77,12 +77,16 @@
             for (var item in value) {
                 if(i < config.num && value[i])
                 {
+                    var basepath = "";
+                    if(window.imageurl){
+                        basepath = window.imageurl;
+                    }
                     html = $("<li class='item success'></li>")
                             .append(del)
                             .append(typeof look_call_back == 'function' ? look : "")
                             .data('url',value[i])
                             .attr("data-filename",hash(value[i]))
-                            .css("background-image","url('"+ window.imageurl + value[i]+"')")
+                            .css("background-image","url('"+ basepath + value[i]+"')")
                             .insertBefore($add);
                     _this.data('num',++count).removeClass("empty");
                     setfilelist();

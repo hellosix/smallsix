@@ -5,6 +5,7 @@
 autoGetUser(function(obj){
     window.user = obj.res;
     window.database=obj.res["databaseName"];
+    $("#admin-title").text( window.user.title );
 
     getTotalCount(window.database, 1, function (obj) {
         $("#monitor-today").text( obj.res["c"] );
@@ -61,14 +62,14 @@ autoGetUser(function(obj){
             data: {
                 labels: labelArr,
                 datasets: [{
-                    label: "My1",
+                    label: "总访问量",
                     backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
                     borderWidth: 1,
                     data : totalArr
                 },
                 {
-                    label: "My2",
+                    label: "访客量",
                     backgroundColor: 'rgb(209, 209, 209)',
                     borderColor: 'rgb(209, 209, 209)',
                     borderWidth: 1,
@@ -82,7 +83,7 @@ autoGetUser(function(obj){
                     position: 'top',
                 },
                 title: {
-                    display: true,
+                    display: false,
                     text: 'Chart.js Bar Chart'
                 }
             }
@@ -108,7 +109,13 @@ autoGetUser(function(obj){
         $("#detail-table").dataTable({
             pageLength:15,
             lengthMenu: [15, 30, 50, 100, 200, 300 ],
-            order: [[ 1, 'asc' ]]
+            order: [[ 1, 'asc' ]],
+            language: {//自定义语言提示
+                "paginate": {
+                    "previous": "上一页",
+                    "next": "下一页"
+                }
+            }
         });
     })
 });

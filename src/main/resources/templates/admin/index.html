@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>super admin</title>
+    <title>用户后台</title>
 
     <link href="../vender/sparrow/sparrow.css" rel="stylesheet" charset="utf-8" />
     <!-- Bootstrap core CSS -->
@@ -55,6 +55,29 @@
 </head>
 <style>
     .case{margin-top: 15px;}
+    .dataTables_length, .dataTables_filter {
+        display: none;
+        padding: 15px;
+    }
+    .pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+        z-index: 2;
+        color: #fff;
+        cursor: default;
+        background-color: #41cac0;
+        border-color: #41cac0;
+    }
+    div.dataTables_info {
+        padding-top: 8px;
+        white-space: nowrap;
+        display: none;
+    }
+    table.dataTable thead > tr > th{
+        color: #41cac0;
+    }
+    table.dataTable > tbody > tr > th{
+        font-weight: normal;
+        color: #96b3b3;
+    }
 </style>
 
 <body>
@@ -66,7 +89,7 @@
             <div data-original-title="Toggle Navigation" data-placement="right" class="icon-reorder tooltips"></div>
         </div>
         <!--logo start-->
-        <a href="#" class="logo">A<span>dmin</span></a>
+        <a href="javascript:;" class="logo"><span id="admin-title">Admin</span></a>
         <!--logo end-->
 
         <div class="nav notify-row" id="top_menu">
@@ -119,7 +142,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#">See all notifications</a>
+                            <a href="javascript:;" class="system-notify" >See all notifications</a>
                         </li>
                     </ul>
                 </li>
@@ -139,10 +162,10 @@
                     </a>
                     <ul class="dropdown-menu extended logout">
                         <div class="log-arrow-up"></div>
-                        <li><a href="#"><i class=" icon-suitcase"></i>用户信息</a></li>
-                        <li><a href="#"><i class="icon-comment-alt"></i>联系我们</a></li>
-                        <li><a href="#"><i class="icon-bell-alt"></i>系统通知</a></li>
-                        <li><a href="javascript:void(0)" id="user-logout"><i class="icon-key"></i> Log Out</a></li>
+                        <li><a href="javascript:;" class="top-link" data-target="user"><i class="icon-user"></i>用户信息</a></li>
+                        <li><a href="javascript:;" class="top-link" data-target="about"><i class="icon-comment-alt"></i>联系我们</a></li>
+                        <li><a href="javascript:;" class="top-link" data-target="notify"><i class="icon-volume-down"></i>系统通知</a></li>
+                        <li><a href="javascript:void(0)" id="user-logout"><i class="icon-key"></i> 退出</a></li>
                     </ul>
                 </li>
                 <!-- user login dropdown end -->
@@ -174,7 +197,7 @@
                         </div>
                         <div class="value">
                             <h1 id="monitor-total">0</h1>
-                            <p>Total</p>
+                            <p>总访问量</p>
                         </div>
                     </section>
                 </div>
@@ -185,7 +208,7 @@
                         </div>
                         <div class="value">
                             <h1 id="monitor-month">0</h1>
-                            <p>Month</p>
+                            <p>最近一个月</p>
                         </div>
                     </section>
                 </div>
@@ -196,7 +219,7 @@
                         </div>
                         <div class="value">
                             <h1 id="monitor-week">Week</h1>
-                            <p>Week</p>
+                            <p>最近一周</p>
                         </div>
                     </section>
                 </div>
@@ -207,7 +230,7 @@
                         </div>
                         <div class="value">
                             <h1 id="monitor-today">0</h1>
-                            <p>Today</p>
+                            <p>今天访问</p>
                         </div>
                     </section>
                 </div>
@@ -217,8 +240,8 @@
             <div class="row">
                 <div class="col-lg-8">
                     <section class="panel">
-                        <header class="panel-heading">
-                            Bar
+                        <header class="panel-heading blue-title">
+                            <span class="icon-hand-right"></span> 最近十天访问量和访客量
                         </header>
                         <div class="panel-body text-center" style="height: 350px">
                             <canvas id="bar"></canvas>
@@ -227,8 +250,8 @@
                 </div>
                 <div class="col-lg-4">
                     <section class="panel">
-                        <header class="panel-heading">
-                            Pie
+                        <header class="panel-heading blue-title">
+                            <span class="icon-tablet"></span> 最近十天设备访问比例
                         </header>
                         <div class="panel-body text-center" style="height: 350px">
                             <canvas id="pie"></canvas>
@@ -239,18 +262,18 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <section class="panel">
-                        <header class="panel-heading">
-                            Basic Table
+                    <section class="panel" style="padding: 15px">
+                        <header class="panel-heading blue-title">
+                            <span class="icon-stackexchange"></span> 前两百次访问详情
                         </header>
                         <table class="table" id="detail-table">
                             <thead>
                             <tr>
-                                <th>Id</th>
-                                <th>Note</th>
-                                <th>UserAgent</th>
-                                <th>IP</th>
-                                <th>AddTime</th>
+                                <th>ID</th>
+                                <th>访问位置</th>
+                                <th>访客设备</th>
+                                <th>访客IP</th>
+                                <th>访问时间</th>
                             </tr>
                             </thead>
                             <tbody id="monitor-detail-table">
@@ -268,6 +291,7 @@
 <script src="../js/admin/menu.js"></script>
 <script src="../js/admin/login.js"></script>
 <script src="../js/admin/monitor.js"></script>
+<script src="../js/admin/index.js"></script>
 <script src="../js/admin/manager.js"></script>
 </body>
 </html>

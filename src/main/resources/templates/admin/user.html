@@ -14,6 +14,7 @@
     <!-- Custom styles for this template -->
     <link href="../vender/flatlab/css/style.css" rel="stylesheet" />
     <link href="../vender/flatlab/css/style-responsive.css" rel="stylesheet" />
+    <link href="../vender/upload/upload.css" rel="stylesheet" charset="utf-8" />
 
     <script src="../vender/jquery/jquery-1.10.2.js"></script>
     <!--common script for all pages-->
@@ -26,10 +27,13 @@
     <script src="../vender/sparrow/smarty.js"></script>
     <script src="../vender/sparrow/validate.js"></script>
     <script src="../core/userApi.js"></script>
+    <script src="../vender/upload/upload.js"></script>
 
 </head>
 <style>
-
+    .form-horizontal .control-label{
+        text-align: right;
+    }
 </style>
 
 <body>
@@ -40,25 +44,28 @@
         <aside class="profile-nav col-sm-3">
             <section class="panel">
                 <div class="user-heading round">
-                    <a href="#">
-                        <img src="../image/head.jpg" alt="" />
+                    <a href="javascript:;">
+                        <img id="user-head" src="../image/head.jpg" alt="" />
                     </a>
-                    <h1>Jonathan Smith</h1>
-                    <p>jsmith@flatlab.com</p>
+                    <h1 id="user-name">small six</h1>
                 </div>
 
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="active user-link" data-target="show-user"><a href="javascript:;" id="show-user"> <i class="icon-user"></i> Profile</a></li>
-                    <li class="user-link" data-target="edit-user"><a href="javascript:;" id="edit-user"> <i class="icon-edit"></i> Edit profile</a></li>
+                    <li class="active user-link" data-target="show-user"><a href="javascript:;" id="show-user"> <i class="icon-user"></i> 我的信息</a></li>
+                    <li class="user-link" data-target="edit-user"><a href="javascript:;" id="edit-user"> <i class="icon-edit"></i> 编辑个人信息</a></li>
                 </ul>
 
             </section>
         </aside>
         <aside class="profile-info col-sm-9">
 
-            <section class="panel" id="main-container">
+            <section class="panel">
+                <div class="bio-graph-heading">
+                    hi 尊敬的客户感谢您一直对smallsix的信任和支持，为了提高服务质量请确保以下个人信息正确完整
+                </div>
+                <div id="main-container">
 
-
+                </div>
             </section>
         </aside>
     </div>

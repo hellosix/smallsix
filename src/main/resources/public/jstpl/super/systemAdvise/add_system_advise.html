@@ -1,0 +1,30 @@
+<div class="" role="form" id="system-advise-form" style="margin: 15px">
+    <div class="form-group">
+        <label class="control-label">id</label>
+        <input type="input" class="form-control" disabled value="{{$res.id}}" name="id" />
+    </div>
+    <div class="form-group">
+        <label class="control-label">title</label>
+        <input type="input" class="form-control" value="{{$res.title}}" name="title" />
+    </div>
+    <div class="form-group">
+        <label class="control-label">content</label>
+        <textarea class="form-control" cols="60" name="content">{{$res.content}}</textarea>
+    </div>
+    <div class="form-group">
+        <label class="control-label">publish</label>
+        <input type="input" class="form-control" value="{{$res.publish}}" name="publish" />
+    </div>
+    <div class="form-group">
+        <label class="control-label">updateTime</label>
+        <input type="input" class="form-control" value="{{$res.updateTime}}" name="updateTime" />
+    </div>
+    <div class="form-group">
+        <label class="control-label">addTime</label>
+        <input type="input" class="form-control" value="{{$res.addTime}}" name="addTime" />
+    </div>
+    <div class="form-group">
+        <button type="submit" id="save-form" class="btn btn-margin-left btn-default">Save</button>
+    </div>
+</div>
+

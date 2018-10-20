@@ -1,0 +1,27 @@
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Message</th>
+        <th>Publish</th>
+        <th>ReadOver</th>
+        <th>AddTime</th>
+        <th>Operarte</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{foreach from=$res item=row}}
+    <tr>
+        <td>{{$row.id}}</td>
+        <td>{{$row.message}}</td>
+        <td>{{$row.publish}}</td>
+        <td>{{$row.readOver}}</td>
+        <td>{{$row.addTime}}</td>
+        <td>
+            <button class="btn btn-primary btn-xs edit-user-notify" data-id="{{$row.id}}"><i class="icon-pencil"></i></button>
+            <button class="btn btn-danger btn-xs remove-user-notify" data-id="{{$row.id}}"><i class="icon-trash"></i></button>
+        </td>
+    </tr>
+    {{/foreach}}
+    </tbody>
+</table>

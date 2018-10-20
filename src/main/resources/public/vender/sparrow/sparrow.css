@@ -666,14 +666,14 @@ a:hover {
     color: #999;
 }
 .sparrow_page_list .active {
-    background: #ea5520;
-    border-color: #ea5520;
+    background: #38c9bf;
+    border-color: #38c9bf;
     color: #fff;
     cursor: text;
 }
 .sparrow_page_list a:hover {
-    border-color: #ea5520;
-    color: #ea5520;
+    border-color: #38c9bf;
+    color: #38c9bf;
     z-index: 2;
 }
 .sparrow_page_list .active:hover {

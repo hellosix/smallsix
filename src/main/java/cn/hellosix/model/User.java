@@ -23,12 +23,18 @@ public class User {
     private String wechat;
     @MysqlField(field = "email", type = "varchar(60)")
     private String email;
+    @MysqlField(field = "address", type = "varchar(255)")
+    private String address;
+    @MysqlField(field = "birthday", type = "int")
+    private Integer birthday;
     @MysqlField(field = "service_time", type = "int")
     private Integer serviceTime;
     @MysqlField(field = "database_name", type = "varchar(255)")
     private String databaseName;
     @MysqlField(field = "menu", type = "text")
     private String menu;
+    @MysqlField(field = "title", type = "varchar(20)")
+    private String title;
     @MysqlField(field = "add_time", type = "int")
     private Integer addTime = TimeUtil.timeStamp();
 
@@ -122,6 +128,30 @@ public class User {
 
     public void setAddTime(Integer addTime) {
         this.addTime = addTime;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Integer getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Integer birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @Override
