@@ -11,10 +11,14 @@ import cn.hellosix.util.TimeUtil;
 public class UserNotify {
     @MysqlField(isPrimaryKey = true, field = "id", type = "int")
     private Integer id;
+    @MysqlField(field = "uid",  type = "varchar(50)")
+    private String uid;
     @MysqlField(field = "message", type = "text")
     private String message;
     @MysqlField(field = "publish", type = "int")
     private Integer publish;
+    @MysqlField(field = "priority", type = "int")
+    private Integer priority;
     @MysqlField(field = "read_over", type = "int")
     private Integer readOver;
     @MysqlField(field = "add_time", type = "int")
@@ -32,6 +36,14 @@ public class UserNotify {
         this.id = id;
     }
 
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
     public String getMessage() {
         return message;
     }
@@ -46,6 +58,14 @@ public class UserNotify {
 
     public void setPublish(Integer publish) {
         this.publish = publish;
+    }
+
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Integer priority) {
+        this.priority = priority;
     }
 
     public Integer getReadOver() {

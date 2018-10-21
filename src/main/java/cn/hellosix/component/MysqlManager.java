@@ -34,7 +34,7 @@ public class MysqlManager implements ApplicationListener<ContextRefreshedEvent> 
         List<String> packages = new ArrayList();
         packages.add( mysqlScanTable );
         List<String> sqlList = MysqlUtil.initMysqlTable( packages );
-        jdbcTemplate.execute("CREATE DATABASE IF NOT EXISTS " + database + " default character set utf8 COLLATE utf8_general_ci");
+        jdbcTemplate.execute("CREATE DATABASE IF NOT EXISTS " + database + " default character set utf8mb4 COLLATE utf8mb4_unicode_ci");
         jdbcTemplate.execute("use " + database);
         for( String createSql : sqlList ){
             jdbcTemplate.execute( createSql );

@@ -16,6 +16,8 @@ public class TableExtend {
     private String tableName;
     @MysqlField(field = "note", type = "varchar(15)")
     private String note;
+    @MysqlField(field = "options", type = "varchar(250)")
+    private String options;
     @MysqlField(field = "style", type = "varchar(255)")
     private String style;
 
@@ -55,6 +57,14 @@ public class TableExtend {
         this.note = note;
     }
 
+    public String getOptions() {
+        return options;
+    }
+
+    public void setOptions(String options) {
+        this.options = options;
+    }
+
     public String getStyle() {
         return style;
     }
@@ -70,6 +80,7 @@ public class TableExtend {
                 ", databaseName='" + databaseName + '\'' +
                 ", tableName='" + tableName + '\'' +
                 ", note='" + note + '\'' +
+                ", options='" + options + '\'' +
                 ", style='" + style + '\'' +
                 '}';
     }

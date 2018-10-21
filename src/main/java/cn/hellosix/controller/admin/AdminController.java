@@ -52,6 +52,13 @@ public class AdminController {
         return "admin/user";
     }
 
+    @RequestMapping(value = "/getTableExtend", method = RequestMethod.GET)
+    @ResponseBody
+    public Response getTableExtend(@RequestParam String database, @RequestParam String table){
+        TableExtend tableExtend = service.getTableExtend(database, table);
+        return Response.Result(0, tableExtend);
+    }
+
     @RequestMapping(value = "/getMenu", method = RequestMethod.GET)
     @ResponseBody
     public Response getMenu(@RequestParam String database){
@@ -115,7 +122,25 @@ public class AdminController {
     @ResponseBody
     public Response getInitFieldForm(@RequestParam String database,@RequestParam String table){
         Map<String, Object> fieldMap = new HashMap<>();
-        List<Column> columns = service.getTableColumns(database, table);
+
+        Map<String, Object> item = service.getTableRowDetail(database, table);
+        List<Column> columns = new ArrayList<>();
+        List<Column> tmpColumns = service.getTableColumns(database, table);
+        if( null != item && !item.isEmpty()){
+            for(Map.Entry<String, Object> rowItem : item.entrySet()){
+                String key = rowItem.getKey();
+                for(Column column : tmpColumns){
+                    if( key.equals( column.getName() ) ){
+                        columns.add( column );
+                        break;
+                    }
+                }
+            }
+        }
+
+        if( columns.isEmpty() ){
+            columns = tmpColumns;
+        }
         for(Column column : columns){
             fieldMap.put( column.getName(), "");
         }

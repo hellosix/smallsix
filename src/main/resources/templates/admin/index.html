@@ -19,6 +19,7 @@
     <link href="../vender/datatables/dataTables.bootstrap.css" rel="stylesheet" charset="utf-8" />
     <link href="../css/common.css" rel="stylesheet" charset="utf-8" />
     <link href="../css/search-form.css" rel="stylesheet" charset="utf-8" />
+    <link href="../css/plugin.css" rel="stylesheet" charset="utf-8" />
 
     <script src="../vender/jquery/jquery-1.10.2.js"></script>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
@@ -33,6 +34,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <script src="../vender/datatables/jquery.dataTables.js"></script>
     <script src="../vender/datatables/dataTables.bootstrap.js"></script>
+    <script src="../vender/wangeditor/wangEditor.js"></script>
 
     <!--common script for all pages-->
     <script src="../vender/sparrow/i18n/lang.js"></script>
@@ -46,11 +48,13 @@
     <script src="../core/userApi.js"></script>
     <script src="../js/common/common.js"></script>
     <script src="../js/common/search-form.js"></script>
+    <script src="../js/common/jstpl.js"></script>
 
     <script src="../js/admin/config.js"></script>
     <script src="../js/admin/common.js"></script>
-    <script src="../js/admin/file_plugin.js"></script>
+    <script src="../js/admin/plugin.js"></script>
     <script src="../vender/upload/upload.js"></script>
+    <script src="../vender/laydate/laydate.js"></script>
 
 </head>
 <style>
@@ -92,7 +96,7 @@
         <a href="javascript:;" class="logo"><span id="admin-title">Admin</span></a>
         <!--logo end-->
 
-        <div class="nav notify-row" id="top_menu">
+        <div class="nav notify-row hidden" id="top_menu">
             <!--  notification start -->
             <ul class="nav top-menu">
                 <!-- notification dropdown start-->
@@ -163,8 +167,8 @@
                     <ul class="dropdown-menu extended logout">
                         <div class="log-arrow-up"></div>
                         <li><a href="javascript:;" class="top-link" data-target="user"><i class="icon-user"></i>用户信息</a></li>
-                        <li><a href="javascript:;" class="top-link" data-target="about"><i class="icon-comment-alt"></i>联系我们</a></li>
-                        <li><a href="javascript:;" class="top-link" data-target="notify"><i class="icon-volume-down"></i>系统通知</a></li>
+                        <li><a href="javascript:;" class="top-link hidden" data-target="about"><i class="icon-comment-alt"></i>联系我们</a></li>
+                        <li><a href="javascript:;" class="top-link hidden" data-target="notify"><i class="icon-volume-down"></i>系统通知</a></li>
                         <li><a href="javascript:void(0)" id="user-logout"><i class="icon-key"></i> 退出</a></li>
                     </ul>
                 </li>

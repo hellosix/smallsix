@@ -428,6 +428,9 @@ function smarty_exception( err )
 	throw err + '错误位置: 第' + line + '行';
 }
 
+function smarty_do_parse(tpl_code, fun_name) {
+
+}
 
 /**
  * 模板解析

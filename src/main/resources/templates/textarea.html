@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="keywords" contect="富文本,富文本编辑器,富文本框,在线编辑器,html,web,javascript">
+    <meta name="Description" contect="wangEditor - 轻量级web富文本编辑器">
+    <title>wangEditor - 轻量级web富文本编辑器</title>
+
+    <link rel="stylesheet" type="text/css" href="http://www.wangeditor.com/bootstrap-3.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://www.wangeditor.com/fontawesome-4.2.0/css/font-awesome.min.css">
+    <!--[if IE]>
+    <link rel="stylesheet" type="text/css" href="http://www.wangeditor.com/fontawesome-4.2.0/css/font-awesome-ie7.min.css">
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="http://www.wangeditor.com/css/common.css">
+    <link rel="stylesheet" type="text/css" href="http://www.wangeditor.com/css/index.css">
+    <link rel="shortcut icon" href="http://www.wangeditor.com/favicon.ico" />
+</head>
+<body>
+
+<!-- body container -->
+<div class="container">
+    <center>
+        <div style="max-width:1100px;">
+
+            <!--demo-->
+            <div style="text-align:left;">
+                <div class="editor" data-type="text"><p>欢迎使用<b>wangEditor 富文本编辑器</b>，请输入内容...</p></div>
+            </div><!--demo end-->
+
+        </div>
+    </center>
+</div><!-- body container end -->
+
+<h2>获取 html jQuery.parseHTML(editor.txt.text())[0]</h2>
+<!--footer-->
+<footer>
+    <center>
+        <p>&copy;2017 wangEditor.github.io</p>
+    </center>
+</footer><!--footer end-->
+
+<script type="text/javascript" src='http://www.wangeditor.com/js/jquery-1.10.2.min.js'></script>
+<script type="text/javascript" src='http://www.wangeditor.com/bootstrap-3.3.0/js/bootstrap.min.js'></script>
+<script type="text/javascript" src='//unpkg.com/wangeditor/release/wangEditor.min.js'></script>
+
+</body>
+<script>
+    $(function (){
+        var E = window.wangEditor
+        window.editor = new E('.editor')
+        editor.customConfig.uploadImgShowBase64 = true
+        editor.create()
+    });
+</script>
+</html>

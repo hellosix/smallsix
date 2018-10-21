@@ -27,7 +27,19 @@ function syntaxHighlight(json) {
     });
 }
 
-
+function timestampToDateTime(timestamp){
+    if( timestamp < 10000000000 ){
+        timestamp = timestamp * 1000;
+    }
+    var date = new Date(timestamp);
+    Y = date.getFullYear() ;
+    M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) ;
+    D = date.getDate() ;
+    if(D<10){
+        D = '0'+ D;
+    }
+    return Y + '-' + M + '-' + D;
+}
 
 function timestampToDate(timestamp) {
     if( timestamp < 10000000000 ){

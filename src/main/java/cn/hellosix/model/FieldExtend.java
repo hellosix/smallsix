@@ -26,23 +26,14 @@ public class FieldExtend extends Column{
     private String valitate;
     @MysqlField(field = "style", type = "varchar(255)")
     private String style;
+    @MysqlField(field = "value_style", type = "varchar(255)")
+    private String valueStyle;
+    @MysqlField(field = "value_init", type = "varchar(255)")
+    private String valueInit;
 
 
     public FieldExtend(){
 
-    }
-
-    public FieldExtend(String name, String type, int size, int id, String fieldName, String tableName, String databaseName, String note, String type1, int active, String valitate, String style) {
-        super(name, type, size);
-        this.id = id;
-        this.fieldName = fieldName;
-        this.tableName = tableName;
-        this.databaseName = databaseName;
-        this.note = note;
-        this.type = type1;
-        this.active = active;
-        this.valitate = valitate;
-        this.style = style;
     }
 
     public int getId() {
@@ -119,6 +110,22 @@ public class FieldExtend extends Column{
         this.style = style;
     }
 
+    public String getValueStyle() {
+        return valueStyle;
+    }
+
+    public void setValueStyle(String valueStyle) {
+        this.valueStyle = valueStyle;
+    }
+
+    public String getValueInit() {
+        return valueInit;
+    }
+
+    public void setValueInit(String valueInit) {
+        this.valueInit = valueInit;
+    }
+
     @Override
     public String toString() {
         return "FieldExtend{" +
@@ -131,6 +138,8 @@ public class FieldExtend extends Column{
                 ", active=" + active +
                 ", valitate='" + valitate + '\'' +
                 ", style='" + style + '\'' +
+                ", valueStyle='" + valueStyle + '\'' +
+                ", valueInit='" + valueInit + '\'' +
                 '}';
     }
 }

@@ -1360,6 +1360,19 @@ sparrow_form.encode = function( form_id, mod, result_arg ){
 		});
 		result[ fieldName ] = imgs.join(",");
 	});
+	// 编辑器
+	$(".editor").each(function (i) {
+		var fieldName = $(this).attr("name");
+		var type = $(this).data("type");
+		var editor = window.editor[fieldName];
+		var value = "";
+		if( type && type == "html" ){
+			value = editor.txt.html();
+		}else{
+			value = editor.txt.text();
+		}
+		result[ fieldName ] = value;
+	});
 	return result;
 };
 

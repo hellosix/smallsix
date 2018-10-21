@@ -36,6 +36,10 @@ public class AdminService {
     @Autowired
     private IFieldExtendDao fieldExtendDao;
 
+    public TableExtend getTableExtend(String database, String table) {
+        return tableExtendDao.getTableExtendDetail(database, table);
+    }
+
     public List<TableExtend> getMenu(String database) {
         List<TableExtend> tableExtendList = new ArrayList<>();
         List<TableExtend> tableExtends = tableExtendDao.getTableExtendList();
@@ -62,6 +66,14 @@ public class AdminService {
 
     public Map<String, Object> getTableRowDetail(String database, String table, int id){
         List<Map<String, Object>> list = commonDao.select( "select * from " + database + "." + table + " where id=" + id);
+        if( null == list || list.isEmpty() ){
+            return null;
+        }
+        return list.get(0);
+    }
+
+    public Map<String, Object> getTableRowDetail(String database, String table){
+        List<Map<String, Object>> list = commonDao.select( "select * from " + database + "." + table + " limit 1");
         if( null == list || list.isEmpty() ){
             return null;
         }

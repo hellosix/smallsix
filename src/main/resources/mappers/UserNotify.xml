@@ -14,13 +14,16 @@
 
 
     <insert id="addUserNotify" parameterType="cn.hellosix.model.UserNotify"  useGeneratedKeys="true" keyProperty="id">
-        insert into smallsix.user_notify(message, publish, read_over, add_time) values(#{message},#{publish},#{readOver},#{addTime})
+        insert into smallsix.user_notify(uid, message, publish, read_over,priority, add_time) values(#{uid},#{message},#{publish},#{readOver},#{priority},#{addTime})
     </insert>
 
     <update id="updateUserNotify"  parameterType="cn.hellosix.model.UserNotify" >
         UPDATE
         smallsix.user_notify
         SET
+        <if test="uid != null">
+            uid = #{uid},
+        </if>
         <if test="message != null">
             message = #{message},
         </if>
@@ -29,6 +32,9 @@
         </if>
         <if test="readOver != null">
             read_over = #{readOver},
+        </if>
+        <if test="priority != null">
+            priority = #{priority},
         </if>
         <if test="addTime != null">
             add_time = #{addTime},

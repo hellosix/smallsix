@@ -2,6 +2,7 @@
     <thead>
     <tr>
         <th>Id</th>
+        <th>Username</th>
         <th>Message</th>
         <th>Publish</th>
         <th>ReadOver</th>
@@ -13,6 +14,7 @@
     {{foreach from=$res item=row}}
     <tr>
         <td>{{$row.id}}</td>
+        <td>{{$row.uid}}</td>
         <td>{{$row.message}}</td>
         <td>{{$row.publish}}</td>
         <td>{{$row.readOver}}</td>

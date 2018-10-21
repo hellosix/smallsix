@@ -7,6 +7,11 @@ function initMenu() {
     // custom scrollbar
     $("#sidebar").niceScroll({styler:"fb",cursorcolor:"#e8403f", cursorwidth: '3', cursorborderradius: '10px', background: '#404040', cursorborder: ''});
 
+    jQuery('#sidebar .sub-menu').click(function () {
+        jQuery('#sidebar .sub-menu').removeClass("active");
+        $(this).addClass("active");
+    });
+
     //    sidebar dropdown menu
     jQuery('#sidebar .sub-menu > a').click(function () {
         var target = $(this).data("target");

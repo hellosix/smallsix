@@ -1,0 +1,12 @@
+.button-editor-toolbar {
+    border: 1px solid #d7d7d7;
+    border-top: 0px;
+}
+.button-editor-toolbar-top{
+    border: 1px solid #d7d7d7;
+    border-bottom: 0px;
+}
+.editor {
+    border: 1px solid #d7d7d7;
+    height: 100px;
+}

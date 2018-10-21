@@ -4,13 +4,13 @@
         <th>Field</th>
         <th>FType</th>
         <th>Size</th>
-        <th>Table</th>
-        <th>Database</th>
         <th>Note</th>
         <th>FormType</th>
         <th>Active</th>
         <th>Valitate</th>
         <th>Style</th>
+        <th>valueStyle</th>
+        <th>valueInit</th>
         <th>Edit</th>
     </tr>
     </thead>
@@ -20,13 +20,13 @@
         <td>{{$c.column.name}}</td>
         <td>{{$c.column.type}}</td>
         <td>{{$c.column.size}}</td>
-        <td>{{$c.fieldExtend.tableName}}</td>
-        <td>{{$c.fieldExtend.databaseName}}</td>
         <td>{{$c.fieldExtend.note}}</td>
         <td>{{$c.fieldExtend.type}}</td>
         <td>{{$c.fieldExtend.active}}</td>
         <td>{{$c.fieldExtend.valitate}}</td>
         <td>{{$c.fieldExtend.style}}</td>
+        <td>{{$c.fieldExtend.valueStyle}}</td>
+        <td>{{$c.fieldExtend.valueInit}}</td>
         <td><button class="btn btn-primary btn-xs edit-field-button" data-detail={{$c|json_string}}><i class="icon-pencil"></i></button></td>
     </tr>
     {{/foreach}}

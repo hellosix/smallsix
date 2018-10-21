@@ -45,23 +45,14 @@ $(document).on("click", ".delete-row-button", function () {
     });
 });
 
-function field_form(data) {
-    smarty.open("/admin/field_form", data, { title: "Edit",width:700}, function(){
-        $("[data-plugin='image']").upload(
-            function(_this,data){
-                alert(data)
-            }
-        );
-        $("[data-plugin='music']").upload(
-            function(_this,data){
-                alert(data)
-            }
-        );
-        $("[data-plugin='video']").upload(
-            function(_this,data){
-                alert(data)
-            }
-        );
+function field_form(data, tableExtend) {
+    var options = { "title": "Edit","width":700};
+    if( tableExtend && tableExtend.options){
+        options = tableExtend.options;
+    }
+    smarty.open("/admin/field_form", data, options, function(){
+        plugin_init();
+
         $("#submit-field-form").click(function () {
             var formdata = sparrow_form.encode( "field-form", 2 );
             if( formdata ){
