@@ -17,8 +17,8 @@
     <tbody>
     {{foreach from=$res item=c}}
     <tr>
-        <td>{{$c.column.name}}</td>
-        <td>{{$c.column.type}}</td>
+        <td>{{$c.column.cname}}</td>
+        <td>{{$c.column.ctype}}</td>
         <td>{{$c.column.size}}</td>
         <td>{{$c.fieldExtend.note}}</td>
         <td>{{$c.fieldExtend.type}}</td>
@@ -27,8 +27,16 @@
         <td>{{$c.fieldExtend.style}}</td>
         <td>{{$c.fieldExtend.valueStyle}}</td>
         <td>{{$c.fieldExtend.valueInit}}</td>
-        <td><button class="btn btn-primary btn-xs edit-field-button" data-detail={{$c|json_string}}><i class="icon-pencil"></i></button></td>
+        <td>
+            <button class="btn btn-primary btn-xs edit-field-button"  data-field="{{$c.column.cname}}"><i class="icon-pencil"></i></button>
+            <button class="btn btn-danger btn-xs remove-field-button" data-field="{{$c.column.cname}}" data-id="{{$c.fieldExtend.id}}"><i class="icon-trash"></i></button>
+        </td>
     </tr>
     {{/foreach}}
     </tbody>
 </table>
+<div class="row">
+    <div class="col-md-12" style="text-align: center;background: #38c9bf;">
+        <span class="glyphicon glyphicon-plus" style="cursor: pointer;text-align: center;color: #ffffff;padding:15px;font-size: 36px;" id="add-field"></span>
+    </div>
+</div>

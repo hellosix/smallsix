@@ -11,8 +11,10 @@ import java.util.List;
 @Repository
 public interface IFieldExtendDao {
     List<FieldExtend> getFieldExtendList(@Param("database")String database, @Param("table")String table);
+    FieldExtend getFieldExtendDetail(@Param("database")String database, @Param("table")String table, @Param("field")String field);
     void addFieldExtend(FieldExtend fieldExtend);
-    void removeFieldExtend(int id);
+    void removeFieldExtend(@Param("database")String database, @Param("table")String table, @Param("field")String field);
     void updateFieldExtend(FieldExtend fieldExtend);
+    void removeFieldExtendByid(int id);
 }
 

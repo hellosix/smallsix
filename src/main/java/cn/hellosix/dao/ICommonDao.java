@@ -18,6 +18,6 @@ public interface ICommonDao {
     int update(String sql);
     int insert(String sql);
     Long getCount(String sql);
-    Object execute(String sql);
+    void execute(String sql);
     Object delete(String sql);
 }

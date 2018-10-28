@@ -53,4 +53,24 @@ public class ICommonDaoTest {
     public void testUpdate(){
         commonDao.update("update test.user set _c1='cccc' where id=1");
     }
+
+    @Test
+    public void deleteFieldTest(){
+        commonDao.execute("ALTER TABLE test.user DROP age");
+    }
+
+    @Test
+    public void addFieldTest(){
+        commonDao.execute("alter table test.user add age int");
+    }
+
+    @Test
+    public void alterFieldTest(){
+        commonDao.execute("alter table test.user change aa3a aa3a int(10) after id");
+    }
+
+    @Test
+    public void sortFieldTest(){
+        commonDao.execute("ALTER TABLE test.user MODIFY age int AFTER id");
+    }
 }

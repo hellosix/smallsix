@@ -7,7 +7,7 @@ import cn.hellosix.core.mysql.MysqlTable;
  * Created by lzz on 2018/10/1.
  */
 @MysqlTable( name = "field_extend", autoCreate = true)
-public class FieldExtend extends Column{
+public class FieldExtend{
     @MysqlField(isPrimaryKey = true, field = "id", type = "int")
     private int id;
     @MysqlField(field = "field_name", type = "varchar(15)")
@@ -30,6 +30,7 @@ public class FieldExtend extends Column{
     private String valueStyle;
     @MysqlField(field = "value_init", type = "varchar(255)")
     private String valueInit;
+    private String reName;
 
 
     public FieldExtend(){
@@ -76,12 +77,10 @@ public class FieldExtend extends Column{
         this.note = note;
     }
 
-    @Override
     public String getType() {
         return type;
     }
 
-    @Override
     public void setType(String type) {
         this.type = type;
     }
@@ -126,6 +125,14 @@ public class FieldExtend extends Column{
         this.valueInit = valueInit;
     }
 
+    public String getReName() {
+        return reName;
+    }
+
+    public void setReName(String reName) {
+        this.reName = reName;
+    }
+
     @Override
     public String toString() {
         return "FieldExtend{" +
@@ -140,6 +147,7 @@ public class FieldExtend extends Column{
                 ", style='" + style + '\'' +
                 ", valueStyle='" + valueStyle + '\'' +
                 ", valueInit='" + valueInit + '\'' +
+                ", reName='" + reName + '\'' +
                 '}';
     }
 }

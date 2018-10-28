@@ -2,6 +2,19 @@
  * Created by lzz on 2018/10/1.
  */
 
+smarty.register_modifier( 'format_database', function( val ) {
+    var arr = val.split("_");
+    return arr[1];
+} );
+
+
+$(document).on("click", ".load-iframe", function () {
+    var data = {};
+    data.src = $(this).data("src");
+    smarty.html("admin/load_iframe", data, "main-container", function () {
+
+    });
+});
 
 function initMenu() {
     // custom scrollbar
@@ -10,6 +23,16 @@ function initMenu() {
     jQuery('#sidebar .sub-menu').click(function () {
         jQuery('#sidebar .sub-menu').removeClass("active");
         $(this).addClass("active");
+    });
+
+    jQuery('#sidebar .sub-menu > a > i.icon-tasks').click(function (event) {
+        event.stopPropagation();
+        var target = $(this).closest('a').data("target");
+        var data = {};
+        data.src = "adminTable?database=" + target;
+        smarty.html("admin/load_iframe", data, "main-container", function () {
+
+        });
     });
 
     //    sidebar dropdown menu

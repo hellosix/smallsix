@@ -30,7 +30,6 @@ public class IFieldExtendDaoTest {
         FieldExtend fieldExtend = new FieldExtend();
         fieldExtend.setActive(1);
         fieldExtend.setTableName("test");
-        fieldExtend.setType("ttt");
         fieldExtend.setFieldName("f1");
         fieldExtendDao.addFieldExtend(fieldExtend);
     }
@@ -45,6 +44,6 @@ public class IFieldExtendDaoTest {
 
     @Test
     public void removeTest(){
-        fieldExtendDao.removeFieldExtend(1);
+
     }
 }

@@ -3,7 +3,11 @@
  */
 
 // 预加载模版
-smarty.parse("/plugin/image", {}, function (obj) {
+smarty.parse("/plugin/multi_image", {}, function (obj) {
+    layer.closeAll();
+});
+
+smarty.parse("/plugin/single_image", {}, function (obj) {
     layer.closeAll();
 });
 
@@ -85,12 +89,15 @@ function field_plugin(field, value, fieldArr) {
                 var data = {"field":field, "value":value, "note":note, "type": type, "valueInit":valueInit};
                 console.log(data);
                 console.log( data.valueInit );
-                if( type == "image" || type == "music" || type == "video"){
-                    smarty.parse("/plugin/image", data, function (obj) {
+                if( type == "multi-image" ){
+                    smarty.parse("/plugin/multi_image", data, function (obj) {
                         res = obj;
                     });
-                    console.log(res);
-                }else if( type == "timestamp" ){
+                }else if( type == "single-image" ){
+                    smarty.parse("/plugin/single_image", data, function (obj) {
+                        res = obj;
+                    });
+                }else if( type == "time" ){
                     smarty.parse("/plugin/time", data, function (obj) {
                         res = obj;
                     });
@@ -144,7 +151,7 @@ function field_format(field, value, fieldArr) {
         for(var i in fieldArr){
             if(fieldArr[i].fieldName == field){
                 var type = fieldArr[i].type;
-                if( type == "image" ){
+                if( type == "single-image" || type == "multi-image" ){
                     var imgs = value.split(",");
                     for(var j in imgs){
                         if( imgs[j] ){
@@ -165,7 +172,7 @@ function field_format(field, value, fieldArr) {
                             res += '<audio class="music-item" ' + fieldArr[i].style + ' controls="controls" src="' + window.musicurl + musics[j] + '"></audio>';
                         }
                     }
-                }else if( type == "timestamp" ){
+                }else if( type == "time" ){
                     res += "<div " + fieldArr[i].style + ">" + timestampToDateTime(value) + "</div>";
                 }else if( type == "date" ){
                     res += "<div " + fieldArr[i].style + ">" + timestampToDate(value) + "</div>";
@@ -181,7 +188,12 @@ function field_format(field, value, fieldArr) {
 
 
 function plugin_init() {
-    $("[data-plugin='image']").upload(
+    $("[data-plugin='multi-image']").upload(
+        function(_this,data){
+            alert(data)
+        }
+    );
+    $("[data-plugin='single-image']").upload(
         function(_this,data){
             alert(data)
         }
@@ -207,14 +219,14 @@ function plugin_init() {
 }
 
 function time_init() {
-    $("[data-plugin='timestamp']").each(function (i) {
+    $("[data-plugin='time']").each(function (i) {
         var value = $(this).val();
         var format_value = timestampToDate( parseInt(value) );
         $(this).val(format_value);
     });
 
     laydate.render({
-        elem: "[data-plugin='timestamp']",
+        elem: "[data-plugin='time']",
         type: 'datetime'
     });
 }
@@ -234,14 +246,17 @@ function editor_init(type) {
     $( '[data-plugin="' + type + '"]').each(function (i) {
         var E = window.wangEditor;
         var field = $('[data-plugin="' +  type + '"]').attr("name");
-        var editor = new E('.button-editor-toolbar', '[data-plugin="' + type + '"]');
+        var editor = null;
         if( type == "editor-small" ){
+            editor = new E('.button-editor-toolbar', '[data-plugin="' + type + '"]');
             // 自定义菜单配置
             editor.customConfig.menus = [
                 'emoticon',
                 'link',
                 'foreColor'
             ];
+        }else{
+            editor = new E('.button-editor-toolbar', '[data-plugin="' + type + '"]');
         }
         editor.customConfig.uploadImgShowBase64 = true;
         editor.create();

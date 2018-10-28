@@ -115,8 +115,8 @@ public class CommonDao implements ICommonDao{
     }
 
     @Override
-    public Object execute(String sql) {
-        return null;
+    public void execute(String sql) {
+        jdbcTemplate.execute(sql);
     }
 
     @Override

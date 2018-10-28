@@ -1,6 +1,11 @@
 /**
  * Created by lzz on 2018/10/3.
  */
+function getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]); return null;
+}
 
 
 function syntaxHighlight(json) {
@@ -28,6 +33,9 @@ function syntaxHighlight(json) {
 }
 
 function timestampToDateTime(timestamp){
+    if( !timestamp ){
+        timestamp = (new Date()).getTime();
+    }
     if( timestamp < 10000000000 ){
         timestamp = timestamp * 1000;
     }
@@ -42,6 +50,9 @@ function timestampToDateTime(timestamp){
 }
 
 function timestampToDate(timestamp) {
+    if( !timestamp ){
+        timestamp = (new Date()).getTime();
+    }
     if( timestamp < 10000000000 ){
         timestamp = timestamp * 1000;
     }

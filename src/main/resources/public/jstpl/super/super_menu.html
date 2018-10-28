@@ -11,6 +11,12 @@
     </a>
 </li>
 <li class="sub-menu">
+    <a class="load-iframe" href="javascript:;" data-src="createApp">
+        <i class="icon-wrench"></i>
+        <span>创建应用</span>
+    </a>
+</li>
+<li class="sub-menu">
     <a href="javascript:;" class="">
         <i class="icon-gears"></i>
         <span>用户管理</span>
@@ -26,7 +32,7 @@
 <li class="sub-menu">
     <a href="javascript:;" class="" data-target="{{$database}}">
         <i class="icon-tasks"></i>
-        <span>{{$database}}</span>
+        <span>{{$database|format_database}}</span>
         <span class="arrow"></span>
     </a>
     <ul class="sub" id="{{$database}}-sub-menu">

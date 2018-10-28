@@ -32,11 +32,13 @@ smallsix:
     scan.package: cn.hellosix
     # 配置成跟 jdbc 连接的信息一样
     database.name: smallsix
+    database.prex: smallsix_
     # 自动生成前端 js
   user.api.path: ./src/main/resources/public/core/
   userapi.scan.package: cn.hellosix.controller
   package.path.tmp: /Users/lzz/work/smallsix/src/main/resources/public/package/tmp/
   package.path.pack: /Users/lzz/work/smallsix/src/main/resources/public/package/pack/
+
 
 logging:
   level:

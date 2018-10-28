@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <head th:replace="super/common/header"/>
+</head>
+<body>
+<section class="panel">
+    <header class="panel-heading">
+        创建应用后台
+    </header>
+    <div id="menu-content">
+        <!-- page start-->
+        <div class="row">
+            <div class="col-sm-12">
+                <section class="panel">
+                    <div class="panel-body">
+                        <form class="form-horizontal" id="create-app-form">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">用户名</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="username" class="form-control" placeholder="username" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">密码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="password" class="form-control" placeholder="password" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">数据库</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="database" class="form-control" placeholder="database" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">数据表</label>
+                                <div class="col-sm-10">
+                                    <textarea type="text" name="tableObjStr" class="form-control" rows="5">
+{
+    "table1":"旅游模块",
+    "table2":"音乐模块"
+}
+                                    </textarea>
+                                </div>
+                            </div>
+                            <input type="submit" id="create-app-button" class="btn btn-success" value="create"/>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <!-- page end-->
+    </div>
+</section>
+</body>
+<script src="../js/super/createApp.js"></script>
+</html>

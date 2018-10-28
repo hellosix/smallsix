@@ -3,7 +3,7 @@ package cn.hellosix.model;
 /**
  * Created by lzz on 2018/10/2.
  */
-public class ColumnExtend extends Column {
+public class ColumnExtend{
     private Column column;
     private FieldExtend fieldExtend = new FieldExtend();
 
@@ -35,7 +35,8 @@ public class ColumnExtend extends Column {
     @Override
     public String toString() {
         return "ColumnExtend{" +
-                "fieldExtend=" + fieldExtend +
+                "column=" + column +
+                ", fieldExtend=" + fieldExtend +
                 '}';
     }
 }

@@ -81,6 +81,7 @@
                     if(window.imageurl){
                         basepath = window.imageurl;
                     }
+
                     html = $("<li class='item success'></li>")
                             .append(del)
                             .append(typeof look_call_back == 'function' ? look : "")

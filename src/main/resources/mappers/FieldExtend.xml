@@ -9,6 +9,10 @@
         where database_name = #{database} AND table_name = #{table} limit 500
     </select>
 
+    <select id="getFieldExtendDetail"  resultType="cn.hellosix.model.FieldExtend">
+        select * from smallsix.field_extend where database_name = #{database} AND table_name = #{table} AND field_name = #{field} limit 1
+    </select>
+
     <insert id="addFieldExtend" parameterType="cn.hellosix.model.FieldExtend"  useGeneratedKeys="true" keyProperty="id">
         insert into smallsix.field_extend(field_name,table_name,database_name, note, type,active, valitate,style,value_style,value_init)
         values(#{fieldName},#{tableName},#{databaseName},#{note},#{type},#{active},#{valitate},#{style},#{valueStyle},#{valueInit})
@@ -18,9 +22,7 @@
         UPDATE
         smallsix.field_extend
         SET
-        field_name = #{fieldName},
-        table_name = #{tableName},
-        database_name = #{databaseName},
+        field_name = #{reName},
         note = #{note},
         type = #{type},
         active = #{active},
@@ -28,11 +30,14 @@
         valitate = #{valitate},
         value_style = #{valueStyle},
         value_init = #{valueInit}
-        WHERE
-        id = #{id}
+        where database_name = #{databaseName} AND table_name = #{tableName} AND field_name = #{fieldName}
     </update>
 
     <delete id="removeFieldExtend">
+        delete from smallsix.field_extend where database_name = #{database} AND table_name = #{table} AND field_name = #{field}
+    </delete>
+
+    <delete id="removeFieldExtendByid">
         delete from smallsix.field_extend
         <where>
             id = #{id}

@@ -113,46 +113,72 @@ $(document).on("click", "#search-form-button", function (res) {
 
 $(document).on("click", "#setting-field-button", function (res) {
     var url = "getColumnExtendList?database=" + window.database + "&table=" + window.table;
-    smarty.get(url, "super/field_set", "table-content", function(){
+    smarty.get(url, "super/field_list", "table-content", function(){
+        $(".edit-field-button").click(function (res) {
+            var field = $(this).data("field");
+            getColumnExtendDetail(window.database, window.table, field, function (obj) {
+                smarty.open("super/field_edit", {res: obj.res}, { title: "Edit",width:700}, function () {
+                    $("#update-edit-field").click(function (res) {
+                        var data = sparrow_form.encode( "edit-field-form",0 ); //0 表示所有字段都提交， 2 表示有改变的才提交
+                        data.databaseName = window.database;
+                        data.tableName = window.table;
+                        updateFieldExtend(data, function (obj) {
+                            setTimeout(function(){
+                                layer.closeAll();
+                            }, 3000);
+                        });
+                        data.table = window.table;
+                        data.database = window.database;
+                        data.cname  = data.fieldName;
+                        data.comment = data.note;
+                        updateColumn(data, function (obj) {
+                            setTimeout(function(){
+                                layer.closeAll();
+                            }, 3000);
+                        });
+                    });
+                });
+            });
+        });
 
-    });
-});
+        $("#add-field").click(function (res) {
+            getColumnExtendInit(window.database, window.table, function (obj) {
+                smarty.open("super/field_add", obj ,{ title: "Edit",width:700}, function () {
+                    $("#add-edit-field").click(function (res) {
+                        var data = sparrow_form.encode( "edit-field-form",0 ); //0 表示所有字段都提交， 2 表示有改变的才提交
+                        data.table = window.table;
+                        data.database = window.database;
+                        data.cname  = data.fieldName;
+                        data.comment = data.note;
+                        data.field = data.fieldName;
+                        addColumn(data, function (obj) {
+                            data.databaseName = window.database;
+                            data.tableName = window.table;
+                            addFieldExtend(data, function (obj) {
+                                setTimeout(function(){
+                                    layer.closeAll();
+                                }, 3000);
+                            });
+                        });
+                    });
+                });
+            });
+        });
 
-$(document).on("click", "#edit-table-name-button", function () {
-    var url = "getTableExtendDetail?database=" + window.database + "&table=" + window.table;
-    smarty.fopen(url,"super/table_edit",true,{ title: "Alias",width:700}, function () {
+        $(".remove-field-button").click(function () {
+            var name = $(this).data("field");
+            var id = $(this).data("id");
+            sparrow_win.confirm("确定删除？", function(){
+                deleteFiedldExtendById(id, function(){
+                    var data = {};
+                    data.table = window.table;
+                    data.database = window.database;
+                    data.cname  = name;
+                    removeColumn(data, function () {
 
-    });
-});
-
-$(document).on("click", "#edit-table-name-submit", function () {
-    var data = sparrow_form.encode( "table-alias-form",0 );
-    if( data.note ){
-        data.databaseName = window.database;
-        data.tableName = window.table;
-        updateTableExtend(data, function (data) {
-            setTimeout(function(){
-                layer.closeAll();
-            }, 3000);
-        })
-    }
-});
-
-$(document).on("click", ".edit-field-button", function (res) {
-    var detail = $(this).data("detail");
-    console.log(detail);
-    smarty.open("super/field_edit", detail, { title: "Edit",width:700}, function () {
-
-    });
-});
-
-$(document).on("click", "#save-edit-field", function (res) {
-    var data = sparrow_form.encode( "edit-field-form",0 ); //0 表示所有字段都提交， 2 表示有改变的才提交
-    data.databaseName = window.database;
-    data.tableName = window.table;
-    updateFieldExtend(data, function (data) {
-        setTimeout(function(){
-            layer.closeAll();
-        }, 3000);
+                    });
+                });
+            });
+        });
     });
 });

@@ -1,0 +1,37 @@
+<div class="col-md-12">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Database</th>
+            <th>Table</th>
+            <th>Note</th>
+            <th>Options</th>
+            <th>Style</th>
+            <th>Operate</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{foreach from=$res item=c}}
+        <tr>
+            <td>{{$c.id}}</td>
+            <td>{{$c.databaseName}}</td>
+            <td>{{$c.tableName}}</td>
+            <td>{{$c.note}}</td>
+            <td>{{$c.options}}</td>
+            <td>{{$c.style}}</td>
+            <td>
+                <button class="btn btn-primary btn-xs edit-table-extend" data-table="{{$c.tableName}}" ><i class="icon-pencil"></i></button>
+                <button class="btn btn-danger btn-xs remove-table-extend" data-table="{{$c.tableName}}"><i class="icon-trash"></i></button>
+            </td>
+        </tr>
+        {{/foreach}}
+        </tbody>
+    </table>
+</div>
+
+<div class="row">
+    <div class="col-md-12" style="text-align: center;background: #38c9bf;">
+        <span class="glyphicon glyphicon-plus" style="cursor: pointer;text-align: center;color: #ffffff;padding:15px;font-size: 36px;" id="add-table"></span>
+    </div>
+</div>

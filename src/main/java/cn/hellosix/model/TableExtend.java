@@ -25,6 +25,12 @@ public class TableExtend {
 
     }
 
+    public TableExtend(String databaseName, String tableName, String note){
+        this.databaseName = databaseName;
+        this.tableName = tableName;
+        this.note = note;
+    }
+
     public int getId() {
         return id;
     }

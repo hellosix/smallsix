@@ -1,73 +1,99 @@
 <div class="form-horizontal" id="edit-field-form" style="margin: 15px">
     <div class="form-group">
-        <label class="col-sm-2 control-label">ID</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control disabled" name="id" value="{{$fieldExtend.id}}" />
-        </div>
-    </div>
-    <div class="form-group">
         <label class="col-sm-2 control-label">Field</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control disabled" name="fieldName" value="{{$column.name}}" />
+        <div class="col-sm-5">
+            <input type="text" class="form-control" disabled name="fieldName" value="{{$res.detail.column.cname}}" />
+        </div>
+        <div class="col-sm-5">
+            <input type="text" class="form-control" name="reName" value="{{$res.detail.column.cname}}" />
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-2 control-label">FType</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control disabled" value="{{$column.type}}" />
+            <select class="form-control" name="ctype">
+                <option value="VARCHAR" {{if $res.detail.column.ctype == "VARCHAR" }} selected = "selected" {{/if}} >VARCHAR</option>
+                <option value="INT" {{if $res.detail.column.ctype == "INT" }} selected = "selected" {{/if}} >INT</option>
+                <option value="TINYINT" {{if $res.detail.column.ctype == "TINYINT" }} selected = "selected" {{/if}} >TINYINT</option>
+                <option value="DATETIME" {{if $res.detail.column.ctype == "DATETIME" }} selected = "selected" {{/if}} >DATETIME</option>
+                <option value="LONGTEXT" {{if $res.detail.column.size == 536870911 }} selected = "selected" {{/if}} >LONGTEXT</option>
+                <option value="TEXT" {{if $res.detail.column.size == 16383 }} selected = "selected" {{/if}} >TEXT</option>
+            </select>
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-2 control-label">Size</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control disabled" value="{{$column.size}}" />
+            <input type="text" name="size" class="form-control" value="{{$res.detail.column.size}}" />
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-2 control-label">Note</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" name="note" value="{{$fieldExtend.note}}" />
+            <input type="text" class="form-control" name="note" value="{{$res.detail.fieldExtend.note}}" />
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-2 control-label">FormType</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" name="type" value="{{$fieldExtend.type}}" />
+            <select class="form-control" name="type">
+                <option value="input">input</option>
+                <option value="date" {{if $res.detail.fieldExtend.type == "date" }} selected = "selected" {{/if}} >date</option>
+                <option value="time" {{if $res.detail.fieldExtend.type == "time" }} selected = "selected" {{/if}} >time</option>
+                <option value="textarea" {{if $res.detail.fieldExtend.type == "textarea" }} selected = "selected" {{/if}} >textarea</option>
+                <option value="editor-big" {{if $res.detail.fieldExtend.type == "editor-big" }} selected = "selected" {{/if}} >editor-big</option>
+                <option value="editor-small" {{if $res.detail.fieldExtend.type == "editor-small" }} selected = "selected" {{/if}} >editor-small</option>
+                <option value="multi-image" {{if $res.detail.fieldExtend.type == "multi-image" }} selected = "selected" {{/if}} >multi-image</option>
+                <option value="single-image" {{if $res.detail.fieldExtend.type == "single-image" }} selected = "selected" {{/if}} >single-image</option>
+                <option value="radio" {{if $res.detail.fieldExtend.type == "radio" }} selected = "selected" {{/if}} >radio</option>
+                <option value="select" {{if $res.detail.fieldExtend.type == "select" }} selected = "selected" {{/if}} >select</option>
+                <option value="checkbox" {{if $res.detail.fieldExtend.type == "checkbox" }} selected = "selected" {{/if}} >checkbox</option>
+            </select>
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-2 control-label">Active</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" name="active" value="{{$fieldExtend.active}}" />
+            <input type="text" class="form-control" name="active" value="{{$res.detail.fieldExtend.active}}" />
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-2 control-label">valueStyle</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" name="valueStyle" value="{{$fieldExtend.valueStyle}}" />
+            <input type="text" class="form-control" name="valueStyle" value="{{$res.detail.fieldExtend.valueStyle}}" />
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-2 control-label">valueInit</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" name="valueInit" value='{{$fieldExtend.valueInit}}' />
+            <input type="text" class="form-control" name="valueInit" value='{{$res.detail.fieldExtend.valueInit}}' />
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-2 control-label">Valitate</label>
         <div class="col-sm-10">
-            <textarea type="text" class="form-control" name="valitate" value="{{$fieldExtend.valitate}}" />
+            <input type="text" class="form-control" name="valitate" value="{{$res.detail.fieldExtend.valitate}}" />
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-2 control-label">Style</label>
         <div class="col-sm-10">
-            <textarea type="text" class="form-control" name="style" value="{{$fieldExtend.style}}" />
+            <input type="text" class="form-control" name="style" value="{{$res.detail.fieldExtend.style}}" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">afterField</label>
+        <div class="col-sm-10">
+            <select class="form-control" name="afterField">
+                {{foreach from=$res.columns item=c}}
+                    <option value="{{$c}}" {{if $res.detail.column.cname == $c }} selected = "selected" {{/if}}>{{$c}}</option>
+                {{/foreach}}
+            </select>
         </div>
     </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" id="save-edit-field" class="btn btn-primary">Save</button>
+            <button type="submit" id="update-edit-field" class="btn btn-primary">Update</button>
         </div>
     </div>
 </div>

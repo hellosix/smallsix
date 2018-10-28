@@ -8,10 +8,21 @@
         select * from smallsix.table_extend limit 500
     </select>
 
+    <select id="getTableExtendByDatabase"  resultType="cn.hellosix.model.TableExtend">
+        select * from smallsix.table_extend WHERE database_name = #{databaseName} limit 500
+    </select>
+
+
     <select id="getTableExtendDetail"  resultType="cn.hellosix.model.TableExtend">
         select * from smallsix.table_extend where database_name = #{database} AND table_name = #{table} limit 1
     </select>
 
+    <delete id="deleteTableExtend">
+        delete from smallsix.table_extend
+        <where>
+            database_name = #{databaseName} AND table_name = #{tableName}
+        </where>
+    </delete>
 
     <insert id="addTableExtend" parameterType="cn.hellosix.model.TableExtend"  useGeneratedKeys="true" keyProperty="id">
         insert into smallsix.table_extend(database_name,table_name,note,options, style) values(#{databaseName},#{tableName},#{note},#{options},#{style})

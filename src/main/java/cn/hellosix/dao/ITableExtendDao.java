@@ -12,7 +12,9 @@ import java.util.List;
 @Repository
 public interface ITableExtendDao {
     List<TableExtend> getTableExtendList();
+    List<TableExtend> getTableExtendByDatabase(String database);
     void addTableExtend(TableExtend tableExtend);
     void updateTableExtend(TableExtend tableExtend);
+    void deleteTableExtend(@Param("databaseName")String databaseName, @Param("tableName")String tableName);
     TableExtend getTableExtendDetail(@Param("database")String database, @Param("table")String table);
 }

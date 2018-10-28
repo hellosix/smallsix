@@ -1,0 +1,97 @@
+<div class="form-horizontal" id="edit-field-form" style="margin: 15px">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Field</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="fieldName" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">FType</label>
+        <div class="col-sm-10">
+            <select class="form-control" name="ctype">
+                <option value="VARCHAR">VARCHAR</option>
+                <option value="INT">INT</option>
+                <option value="TINYINT">TINYINT</option>
+                <option value="DATETIME">DATETIME</option>
+                <option value="LONGTEXT">text</option>
+                <option value="text">text</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Size</label>
+        <div class="col-sm-10">
+            <input type="text" name="size" class="form-control"  />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Note</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="note" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">FormType</label>
+        <div class="col-sm-10">
+            <select class="form-control" name="type">
+                <option value="input">input</option>
+                <option value="date" >date</option>
+                <option value="time">time</option>
+                <option value="textarea" >textarea</option>
+                <option value="editor-big">editor-big</option>
+                <option value="editor-small">editor-small</option>
+                <option value="multi-image">multi-image</option>
+                <option value="single-image">single-image</option>
+                <option value="radio" >radio</option>
+                <option value="select" >select</option>
+                <option value="checkbox">checkbox</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Active</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="active" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">valueStyle</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="valueStyle" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">valueInit</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" placeholder='[{"key":"是","value":1},{"key":"否","value":2}]' name="valueInit" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Valitate</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="valitate" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Style</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="style" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">afterField</label>
+        <div class="col-sm-10">
+            <select class="form-control" name="afterField">
+                {{foreach from=$res.columns item=c}}
+                <option value="{{$c}}">{{$c}}</option>
+                {{/foreach}}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" id="add-edit-field" class="btn btn-primary">Add</button>
+        </div>
+    </div>
+</div>
+

@@ -80,7 +80,7 @@ public class AdminController {
             for(Map.Entry<String, Object> rowItem : list.get(0).entrySet()){
                 String key = rowItem.getKey();
                 for(Column column : tmpColumns){
-                    if( key.equals( column.getName() ) ){
+                    if( key.equals( column.getCname() ) ){
                         columns.add( column );
                         break;
                     }
@@ -130,7 +130,7 @@ public class AdminController {
             for(Map.Entry<String, Object> rowItem : item.entrySet()){
                 String key = rowItem.getKey();
                 for(Column column : tmpColumns){
-                    if( key.equals( column.getName() ) ){
+                    if( key.equals( column.getCname() ) ){
                         columns.add( column );
                         break;
                     }
@@ -142,7 +142,7 @@ public class AdminController {
             columns = tmpColumns;
         }
         for(Column column : columns){
-            fieldMap.put( column.getName(), "");
+            fieldMap.put( column.getCname(), "");
         }
         List<FieldExtend> fieldExtends = service.getFieldExtendList(database, table);
         Map<String, Object> res = new HashMap<>();

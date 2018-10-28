@@ -95,10 +95,10 @@ public class FieldForm {
         String res = "";
         for(Column column : this.columns){
             String value = String.valueOf(object);
-            if( column.getName().equals(key) ){
-                if( column.getType().contains("CHAR") ){
+            if( column.getCname().equals(key) ){
+                if( column.getCtype().contains("CHAR") ){
                     res = "'" + value + "'";
-                }else if( column.getType().contains("DATETIME") ){
+                }else if( column.getCtype().contains("DATETIME") ){
                     String time = TimeUtil.timeStamp2Date(value, "yyyy-MM-dd HH:mm:ss");
                     res = "'" + time + "'";
                 }else{
