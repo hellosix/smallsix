@@ -9,6 +9,10 @@ html #layuicss-layer {
     width: 1989px
 }
 
+.hide{
+    display: none;
+}
+
 .layui-layer, .layui-layer-shade {
     position: fixed;
     _position: absolute;

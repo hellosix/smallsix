@@ -103,7 +103,7 @@ public class SqlModel {
                 sql = sqlArr[0] + value + sqlArr[1];
             }
         }
-        return sql;
+        return sql.trim();
     }
 
     @Override

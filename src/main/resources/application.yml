@@ -34,6 +34,7 @@ smallsix:
     database.name: smallsix
     database.prex: smallsix_
     # 自动生成前端 js
+  user.api: http://127.0.0.1:8182/super/api/restful/
   user.api.path: ./src/main/resources/public/core/
   userapi.scan.package: cn.hellosix.controller
   package.path.tmp: /Users/lzz/work/smallsix/src/main/resources/public/package/tmp/

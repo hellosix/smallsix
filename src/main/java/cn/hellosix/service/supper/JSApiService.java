@@ -27,6 +27,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class JSApiService {
     @Value("${smallsix.user.api.path}")
     private String userApiPath;
+    @Value("${smallsix.user.api}")
+    private String userApi;
 
     private static Map<Integer, SqlModel> sqlMap = new ConcurrentHashMap<>();
 
@@ -78,14 +80,18 @@ public class JSApiService {
 
     public String createJsSDK(String database, String table) {
         List<SqlModel> list = getSqlModelList(database, table);
-        String apiStr = "var apiurl=''; \nvar " + table + "= {\n";
+        String apiStr = "var apiurl=\"" + userApi + "\"; \nvar " + table + "= {\n";
         for(SqlModel sqlModel : list){
-            apiStr += sqlModel.getApiName() + ": function(data){\n";
-            apiStr += "    ajax.post(data, apiurl + '/" +  + sqlModel.getId() + "' callback);";
-            apiStr += "\n},\n";
+            apiStr += "  /**\n";
+            apiStr += "   * " + sqlModel.getNote() + "\n";
+            apiStr += "   * " + sqlModel.getParam() + "\n";
+            apiStr += "   */\n";
+            apiStr += "  " + sqlModel.getApiName() + ": function(data, callback){\n";
+            apiStr += "    ajax.async_post(apiurl + \"" +  + sqlModel.getId() + "\" ,data ,callback);";
+            apiStr += "\n  },\n";
         }
         apiStr += "\n}";
-        UserApiUtil.writeStringToFile(userApiPath + table + ".js", apiStr);
+        UserApiUtil.writeStringToFile(userApiPath + database + "_" +  table + ".js", apiStr);
         return apiStr;
     }
 

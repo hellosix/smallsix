@@ -77,7 +77,7 @@ public class TableBase {
 
     @Test
     public void testCreateTable(){
-        String sql = MysqlUtil.createTableSql( cn.hellosix.model.RestMonitorModel.class, "smurf7.monitor");
+        String sql = MysqlUtil.createTableSql( cn.hellosix.model.RestMonitorModel.class, "smallsix_smurf7.monitor");
         System.out.println( sql );
         jdbcTemplate.execute( sql );
     }

@@ -1,5 +1,6 @@
 package cn.hellosix.service.supper;
 
+import cn.hellosix.core.mysql.MysqlUtil;
 import cn.hellosix.dao.ICommonDao;
 import cn.hellosix.dao.ITableExtendDao;
 import cn.hellosix.dao.IUserDao;
@@ -35,6 +36,8 @@ public class CreateAppService {
         userDao.addUser(new User(appMetaModel.getUsername().trim(), appMetaModel.getPassword().trim(), database));
         // create database
         commonDao.execute("CREATE DATABASE IF NOT EXISTS " + database + " DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci");
+        String createMonitorTableSql = MysqlUtil.createTableSql( cn.hellosix.model.RestMonitorModel.class, database + ".monitor");
+        commonDao.execute( createMonitorTableSql );
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String,String> tableMap = objectMapper.readValue(appMetaModel.getTableObjStr().trim(), Map.class);
         for(Map.Entry<String, String> tableObj : tableMap.entrySet()){

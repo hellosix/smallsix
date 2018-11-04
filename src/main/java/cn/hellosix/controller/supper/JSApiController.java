@@ -15,6 +15,7 @@ import java.util.Map;
 /**
  * Created by lzz on 2018/10/3.
  */
+@CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
 @RequestMapping("/super")
 @UserAccess
@@ -74,6 +75,8 @@ public class JSApiController {
         return Response.Result(0, sqlModels);
     }
 
+
+    @CrossOrigin(origins = "*", maxAge = 3600)
     @RequestMapping(value = "/api/restful/{id}", method = RequestMethod.POST)
     @ResponseBody
     public Response apiRestful(@PathVariable Integer id, @RequestBody Map<String, Object> param, HttpServletRequest httpServletRequest){

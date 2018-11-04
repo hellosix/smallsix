@@ -2,7 +2,7 @@
 <table class="table table-hover">
     <thead id="field-extends-detail" data-detail={{$res.fieldExtends|json_string}} data-columns={{$res.columns|json_string}} >
     {{foreach from=$res.columns item=column}}
-    <th>{{field_note field=$column.name field_extend=$res.fieldExtends}}<span data-field="{{$column.name}}" class="table-sort-button icon-sort-by-attributes"></span></th>
+    <th>{{field_note field=$column.cname field_extend=$res.fieldExtends}}<span data-field="{{$column.name}}" class="table-sort-button icon-sort-by-attributes"></span></th>
     {{/foreach}}
     <th style="width: 50px">Operate</th>
     </thead>

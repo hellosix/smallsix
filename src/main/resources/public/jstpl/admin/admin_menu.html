@@ -21,7 +21,9 @@
             {{if !empty($table.note)}}
                 <li {{$table.style}} ><a class="table-content" href="javascript:void(0)" data-detail={{$table|json_string}}>{{$table.note}}</a></li>
             {{else}}
+                {{if $table.tableName !="monitor"}}
                 <li><a class="table-content" href="javascript:void(0)" data-detail={{$table|json_string}}>{{$table.tableName}}</a></li>
+                {{/if}}
             {{/if}}
 
         {{/foreach}}
