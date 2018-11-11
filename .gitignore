@@ -1,6 +1,6 @@
+docs/*.sql
 .idea/*
 target/*
-src/main/resources/public/package/*
 src/main/resources/public/package/tmp/*
 src/main/resources/public/vender/.DS_Store
 src/main/resources/public/vender/upload/.DS_Store
