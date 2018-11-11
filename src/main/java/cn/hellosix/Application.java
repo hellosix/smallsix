@@ -6,6 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import javax.servlet.MultipartConfigElement;
 
@@ -22,6 +25,24 @@ public class Application {
         factory.setMaxFileSize("50MB"); //KB,MB          /// 设置总上传数据总大小
         factory.setMaxRequestSize("50MB");
         return factory.createMultipartConfig();
+    }
+
+    private CorsConfiguration buildConfig() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.addAllowedMethod("*");
+        return corsConfiguration;
+    }
+    /**
+     * 跨域过滤器
+     * @return
+     */
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", buildConfig());
+        return new CorsFilter(source);
     }
 
     public static void main(String[] args) {
