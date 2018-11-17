@@ -109,6 +109,7 @@ public class JSApiService {
                 sqlModel = sqlModelDao.getSqlModelById(id);
                 sqlMap.put(id, sqlModel);
             }
+            sqlModel.setParam(paramStr);
             table = sqlModel.getDatabaseName() + ".monitor";
             restMonitorModel.setNote(sqlModel.getNote());
             String runSql = sqlModel.getSqlRunSql();
