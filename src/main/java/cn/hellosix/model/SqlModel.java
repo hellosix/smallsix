@@ -3,8 +3,11 @@ package cn.hellosix.model;
 import cn.hellosix.core.mysql.MysqlField;
 import cn.hellosix.core.mysql.MysqlTable;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Joiner;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -99,9 +102,14 @@ public class SqlModel {
             String value = String.valueOf(item.getValue());
             String tempKey = "\\{" + key + "}";
             String[] sqlArr = sql.split( tempKey );
-            if(sqlArr.length == 2){
-                sql = sqlArr[0] + value + sqlArr[1];
+            if( sqlArr.length < 2 ) continue;
+            List<String> tmpList = new ArrayList();
+            for(int i = 0; i < sqlArr.length - 1; i++){
+                tmpList.add(sqlArr[i]);
+                tmpList.add(value);
             }
+            tmpList.add(sqlArr[sqlArr.length -1]);
+            sql = Joiner.on("").join(tmpList);
         }
         return sql.trim();
     }

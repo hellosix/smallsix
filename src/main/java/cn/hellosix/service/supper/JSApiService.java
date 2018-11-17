@@ -80,14 +80,14 @@ public class JSApiService {
 
     public String createJsSDK(String database, String table) {
         List<SqlModel> list = getSqlModelList(database, table);
-        String apiStr = "var apiurl=\"" + userApi + "\"; \nvar " + table + "= {\n";
+        String apiStr = "window." + table + "= {\n";
         for(SqlModel sqlModel : list){
             apiStr += "  /**\n";
             apiStr += "   * " + sqlModel.getNote() + "\n";
             apiStr += "   * " + sqlModel.getParam() + "\n";
             apiStr += "   */\n";
             apiStr += "  " + sqlModel.getApiName() + ": function(data, callback){\n";
-            apiStr += "    ajax.async_post(apiurl + \"" +  + sqlModel.getId() + "\" ,data ,callback);";
+            apiStr += "    ajax.async_post(window.apiurl + \"" +  + sqlModel.getId() + "\" ,data ,callback);";
             apiStr += "\n  },\n";
         }
         apiStr += "\n}";

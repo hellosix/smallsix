@@ -152,10 +152,12 @@ function field_format(field, value, fieldArr) {
             if(fieldArr[i].fieldName == field){
                 var type = fieldArr[i].type;
                 if( type == "single-image" || type == "multi-image" ){
-                    var imgs = value.split(",");
-                    for(var j in imgs){
-                        if( imgs[j] ){
-                            res += '<img class="img-item" ' + fieldArr[i].style + ' src="' + window.videourl + imgs[j] + '" width="30" height="30">';
+                    if(value){
+                        var imgs = value.split(",");
+                        for(var j in imgs){
+                            if( imgs[j] ){
+                                res += '<img class="img-item" ' + fieldArr[i].style + ' src="' + window.videourl + imgs[j] + '" width="30" height="30">';
+                            }
                         }
                     }
                 }else if( type == "video" ){

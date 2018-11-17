@@ -140,9 +140,9 @@ public class AdminService {
             String key = field.getKey();
             //有可能多个上传
             String[] values = valueStr.split(",");
+            List<String> renameList = new ArrayList<>();
+            boolean isFile = false;
             for(String file : files) {
-                List<String> renameList = new ArrayList<>();
-                boolean isFile = false;
                 for(String value : values){
                     String tmpValue = value;
                     if( file.equals( value) ){
@@ -154,13 +154,13 @@ public class AdminService {
                         File fileTo = new File(packPath + rename);
                         Files.move(fileFrom, fileTo);
                         FileUtil.deleteFile( packPath + value ); //删除原有到图片
+                        renameList.add( tmpValue );
                     }
-                    renameList.add( tmpValue );
                 }
-                //命名后重改原来到值
-                if( !renameList.isEmpty() && isFile ){
-                    field.setValue(Joiner.on(",").join(renameList) );
-                }
+            }
+            //命名后重改原来到值
+            if( !renameList.isEmpty() && isFile ){
+                field.setValue(Joiner.on(",").join(renameList) );
             }
         }
     }
