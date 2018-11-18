@@ -2,15 +2,15 @@
 <table class="table table-hover">
     <thead id="field-extends-detail" data-detail={{$res.fieldExtends|json_string}} data-columns={{$res.columns|json_string}} >
     {{foreach from=$res.columns item=column}}
-    <th>{{field_note field=$column.cname field_extend=$res.fieldExtends}}<span data-field="{{$column.name}}" class="table-sort-button icon-sort-by-attributes"></span></th>
+    <th>{{field_note field=$column.cname field_extend=$res.fieldExtends}}<span data-field="{{$column.cname}}" class="table-sort-button icon-sort-by-attributes"></span></th>
     {{/foreach}}
-    <th style="width: 50px">Operate</th>
+    <th style="width: 75px">操作</th>
     </thead>
-    <tbody>
+    <tbody class="tbody-row">
     {{foreach from=$res.list item=row}}
     <tr>
         {{foreach from=$row item=v key=k}}
-        <td>{{field_format value=$v field=$k field_extend=$res.fieldExtends}}</td>
+        <td {{if $k == "id" }}style="width:50px"{{/if}} >{{field_format value=$v field=$k field_extend=$res.fieldExtends}}</td>
         {{/foreach}}
         <td>
             <button class="btn btn-primary btn-xs edit-field-button" data-id="{{$row.id}}" ><i class="icon-pencil"></i></button>

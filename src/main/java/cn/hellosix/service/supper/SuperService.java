@@ -131,6 +131,9 @@ public class SuperService {
         if( StringUtils.isBlank(rename) ){
             rename = column.getCname();
         }
+        if( column.getCname().equals("id") ){
+            return true;
+        }
         String sql = "alter table " + column.getDatabase() + "." + column.getTable() + " change " + column.getCname() + " " + rename + " " + column.getCtype();
         if( !column.getCtype().toLowerCase().contains("text") && !column.getCtype().toLowerCase().contains("time") ){
             sql +=  "(" + column.getSize() + ")";

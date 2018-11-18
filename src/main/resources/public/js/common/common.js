@@ -83,3 +83,23 @@ function timestampToDate(timestamp) {
 smarty.register_modifier( 'json_format', function( val ) {
     return syntaxHighlight( val );
 } );
+
+
+function getFileData(url){
+    var tpl_con = "";
+    $.ajax({
+        url: url,
+        type:'GET',
+        async:false,
+        timeout:5000,
+        dataType:'text',
+        success:function( result ){
+            tpl_con = result;
+        }
+    });
+    return tpl_con;
+}
+
+function closeAll() {
+    layer.closeAll();
+}

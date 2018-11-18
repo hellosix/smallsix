@@ -10,3 +10,18 @@
     border: 1px solid #d7d7d7;
     height: 100px;
 }
+
+.field-ellipsis{
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    width: 80px;
+}
+.field-ellipsis:hover{
+    text-overflow: inherit;
+    overflow: visible;
+}
+.text-file-link{
+    color:#41cac0;
+    cursor: pointer;
+}

@@ -41,6 +41,21 @@ smarty.parse("/plugin/checkbox", {}, function (obj) {
 smarty.parse("/plugin/select", {}, function (obj) {
     layer.closeAll();
 });
+smarty.parse("/plugin/input", {}, function (obj) {
+    layer.closeAll();
+});
+
+smarty.register_function('checkbox_show_value', function (params) {
+    var target = params['target'];
+    var value = params['value'];
+    var field = params['field'];
+    var res = '<input type="checkbox" name="' + field + '" value="' + target.value + '"';
+    if( value.indexOf(target.value) > -1 ){
+      res += " checked ";
+    }
+    res += 'value="' + value + '"/>' + target.key;
+    return res;
+});
 
 smarty.register_function( 'field_plugin', function( params ){
     var field = params['field'];
@@ -93,7 +108,7 @@ function field_plugin(field, value, fieldArr) {
                     smarty.parse("/plugin/multi_image", data, function (obj) {
                         res = obj;
                     });
-                }else if( type == "single-image" ){
+                }else if( type == "single-image" || type == "music" || type == "video"){
                     smarty.parse("/plugin/single_image", data, function (obj) {
                         res = obj;
                     });
@@ -129,6 +144,10 @@ function field_plugin(field, value, fieldArr) {
                     smarty.parse("/plugin/select", data, function (obj) {
                         res = obj;
                     });
+                }else{
+                    smarty.parse("/plugin/input", data, function (obj) {
+                        res = obj;
+                    });
                 }
             }
         }
@@ -147,69 +166,99 @@ smarty.register_function( 'field_format', function( params ){
 
 function field_format(field, value, fieldArr) {
     var res = '';
-    if( fieldArr ){
+    if( !sparrow.empty(value) && fieldArr ){
         for(var i in fieldArr){
-            if(fieldArr[i].fieldName == field){
+            var fieldItem = fieldArr[i];
+            if(fieldItem.fieldName == field){
                 var type = fieldArr[i].type;
                 if( type == "single-image" || type == "multi-image" ){
-                    if(value){
+                    if(!sparrow.empty(value)){
                         var imgs = value.split(",");
                         for(var j in imgs){
                             if( imgs[j] ){
-                                res += '<img class="img-item" ' + fieldArr[i].style + ' src="' + window.videourl + imgs[j] + '" width="30" height="30">';
+                                res += '<img class="img-item" ' + fieldItem.style + ' src="' + window.imageurl + imgs[j] + '" width="30" height="30">';
                             }
                         }
+                        res = "<div class='img-div' data-detail='" + value +"'>" + res + "</div>"
                     }
+                }else if( type == "text-file"){
+                    res += "<div class='text-file-link' data-src='" + value + "' " + fieldItem.style + ">查看详情</div>";
                 }else if( type == "video" ){
                     var videos = value.split(",");
                     for(var j in videos){
                         if( videos[j] ){
-                            res += '<video class="video-item" ' + fieldArr[i].style+ ' controls="controls" src="' + window.imageurl + videos[j] + '" width="100" height="100"></video>';
+                            res += '<video class="video-item" ' + fieldItem.style+ ' controls="controls" src="' + window.videourl + videos[j] + '" width="100" height="100"></video>';
                         }
                     }
                 }else if( type == "music" ){
                     var musics = value.split(",");
                     for(var j in musics){
                         if( musics[j] ){
-                            res += '<audio class="music-item" ' + fieldArr[i].style + ' controls="controls" src="' + window.musicurl + musics[j] + '"></audio>';
+                            res += '<audio class="music-item" ' + fieldItem.style + ' controls="controls" src="' + window.musicurl + musics[j] + '"></audio>';
                         }
                     }
                 }else if( type == "time" ){
-                    res += "<div " + fieldArr[i].style + ">" + timestampToDateTime(value) + "</div>";
+                    res += "<div " + fieldItem.style + ">" + timestampToDateTime(value) + "</div>";
                 }else if( type == "date" ){
-                    res += "<div " + fieldArr[i].style + ">" + timestampToDate(value) + "</div>";
+                    res += "<div " + fieldItem.style + ">" + timestampToDate(value) + "</div>";
+                }else if( type == "checkbox" ){
+                    res += "<div " + fieldItem.style + ">";
+                    if( !sparrow.empty(fieldItem.valueInit) ){
+                        var tmpArr = [];
+                        var arr = JSON.parse(fieldItem.valueInit);
+                        var items = value.split(",");
+                        for(var j in items){
+                            var itemValue = items[j];
+                            for(var n in arr){
+                                if( arr[n].value == itemValue ){
+                                    tmpArr.push(arr[n].key);
+                                    break;
+                                }
+                            }
+
+                        }
+                        res += tmpArr.join(",") + "</div>";
+                    }else{
+                        res += value + "</div>";
+                    }
+                }else if( type == "radio" ){
+                    res += "<div " + fieldItem.style + ">";
+                    if( !sparrow.empty(fieldItem.valueInit) ){
+                        var arr = JSON.parse(fieldItem.valueInit);
+                        for(var n in arr){
+                            if( arr[n].value == value ){
+                                res += arr[n].key;
+                                break;
+                            }
+                        }
+                        res += "</div>";
+                    }else{
+                        res += value + "</div>";
+                    }
                 }
             }
         }
     }
     if( !res ){
-        res = value;
+        res = "<div class='field-ellipsis'>" + value + "</div>";
     }
     return res;
 }
 
 
-function plugin_init() {
-    $("[data-plugin='multi-image']").upload(
-        function(_this,data){
-            alert(data)
+function plugin_init(data) {
+    var fieldObj = data.extends;
+    for(var i = 0; i < fieldObj.length; i++){
+        var type = fieldObj[i].type;
+        var name = fieldObj[i].fieldName;
+        if( type == 'single-image' || type == 'multi-image' || type == 'text-file' || type == 'music' || type == 'video' ){
+            $("[data-name='" + name + "']").upload(
+                function(_this,data){
+                    alert(data)
+                }
+            );
         }
-    );
-    $("[data-plugin='single-image']").upload(
-        function(_this,data){
-            alert(data)
-        }
-    );
-    $("[data-plugin='music']").upload(
-        function(_this,data){
-            alert(data)
-        }
-    );
-    $("[data-plugin='video']").upload(
-        function(_this,data){
-            alert(data)
-        }
-    );
+    }
 
     time_init();
     date_init();
@@ -265,3 +314,41 @@ function editor_init(type) {
         window.editor[ field ] = editor;
     });
 }
+
+$(document).on("click", ".text-file-link", function () {
+    var src = $(this).data("src");
+    var content = getFileData( window.musicurl + src );
+    var options = { "title": "查看详情","width":500,"height":500};
+    smarty.open("/plugin/show_text_file", {"content":content}, options, function(){
+
+    })
+});
+
+$(document).on("click", ".img-div", function () {
+    var data = {};
+    var detail = $(this).data("detail");
+    var param = {
+        "title": "", //相册标题
+        "id": 123, //相册id
+        "start": 0, //初始显示的图片序号，默认0
+        "data": [   //相册包含的图片，数组格式
+
+        ]
+    };
+    var arr = detail.split(",");
+    for(var i in arr){
+        var item = {
+            "alt": arr[i],
+            "pid": arr[i],
+            "src": window.imageurl + arr[i],
+            "thumb": window.imageurl + arr[i]
+        }
+        param.data.push(item);
+    }
+
+    //调用示例
+    layer.photos({
+        photos: param
+        ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+    });
+});

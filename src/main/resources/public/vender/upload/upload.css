@@ -311,3 +311,22 @@
     margin-top: -12px;
     color: #999
 }
+
+.upload-file-name{
+    margin-left: 5px;
+    padding-top: 5px;
+    color: #37c9c0;
+}
+.upload-video-item{
+    width: 150px;
+    height:120px;
+}
+.upload-music-item{
+    width: 150px;
+    margin-top: 25px;
+}
+.upload-file-content{
+    height: 150px;
+    width: 150px;
+    color: #e2baba;
+}

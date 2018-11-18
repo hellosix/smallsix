@@ -146,15 +146,19 @@ public class AdminService {
                 for(String value : values){
                     String tmpValue = value;
                     if( file.equals( value) ){
-                        isFile = true;
-                        File fileFrom = new File(tmpPath + file);
-                        // 重命名避免文件被覆盖
-                        String rename = table + "-" + key + "-" + TimeUtil.timeStamp() + "-" + value;
-                        tmpValue = rename;
-                        File fileTo = new File(packPath + rename);
-                        Files.move(fileFrom, fileTo);
-                        FileUtil.deleteFile( packPath + value ); //删除原有到图片
-                        renameList.add( tmpValue );
+                        try {
+                            isFile = true;
+                            File fileFrom = new File(tmpPath + file);
+                            // 重命名避免文件被覆盖
+                            String rename = table + "-" + key + "-" + TimeUtil.timeStamp() + "-" + value;
+                            tmpValue = rename;
+                            File fileTo = new File(packPath + rename);
+                            Files.move(fileFrom, fileTo);
+                            FileUtil.deleteFile( packPath + value ); //删除原有到图片
+                            renameList.add( tmpValue );
+                        }catch (Exception ignore){
+
+                        }
                     }
                 }
             }

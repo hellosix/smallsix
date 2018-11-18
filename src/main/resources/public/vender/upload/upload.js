@@ -13,7 +13,7 @@
         config = {
             height:_this.attr("data-height") ? _this.attr("data-height") : 0,
             width:_this.attr("data-width") ? _this.attr("data-width") : 1920,
-            type : _this.attr('data-type') ? _this.attr('data-type') : 'png,jpg,jpeg,gif',
+            type : _this.attr('data-type') ? _this.attr('data-type') : 'png,jpg,jpeg,gif,lrc',
             upname : _this.attr("data-file") ? _this.attr("data-file") : 'file',
             inputname : _this.attr("data-name") ? _this.attr("data-name") : 'upload',
             num : _this.attr('data-num') ? _this.attr('data-num') : 10,
@@ -82,14 +82,29 @@
                         basepath = window.imageurl;
                     }
 
-                    html = $("<li class='item success'></li>")
+                    if( value[i].indexOf(".mp3") > -1 ){
+                        html = $("<li class='item success'></li>")
+                            .append("<p class='upload-file-name'>" + format_filename(value[i]) + "</p>")
+                            .append("<audio class='upload-music-item' controls='controls' src='" + basepath + value[i] + "'></audio>").insertBefore($add);
+                    }else if(value[i].indexOf(".mp4") > -1){
+                        html = $("<li class='item success'></li>")
+                            .append("<p class='upload-file-name'>" + format_filename(value[i]) + "</p>")
+                            .append("<video class='upload-video-item' controls='controls' src='" + basepath + value[i] + "'></video>").insertBefore($add);
+                    }else if( value[i].indexOf(".lrc") > -1 ){
+                        var content = get_file_data( basepath + value[i], 100 );
+                        html = $("<li class='item success'></li>")
+                            .append("<p class='upload-file-name'>" + format_filename(value[i]) + "</p>")
+                            .append("<div class='upload-file-content'>" + content + "</div>").insertBefore($add);
+                    }else{
+                        html = $("<li class='item success'></li>")
                             .append(del)
                             .append(typeof look_call_back == 'function' ? look : "")
                             .data('url',value[i])
                             .attr("data-filename",hash(value[i]))
                             .css("background-image","url('"+ basepath + value[i]+"')")
                             .insertBefore($add);
-                    _this.data('num',++count).removeClass("empty");
+                        _this.data('num',++count).removeClass("empty");
+                    }
                     setfilelist();
                 }
                 i++;
@@ -364,7 +379,7 @@
 
         function getfileicon(type)
         {
-            if(["asp","php","js","java","html","css",'sql'].indexOf(type) >= 0) return  '<svg xmlns="http://www.w3.org/2000/svg" class="icon" version="1" viewBox="0 0 1024 1024"><defs/><path fill="#FF8976" d="M160 32a49 49 0 0 0-48 48v864c0 12 5 25 14 34 10 9 22 14 34 14h704c12 0 25-5 34-14 9-10 14-22 14-34V304L640 32H160z"/><path fill="#FFD0C8" d="M912 304H688c-12 0-25-5-34-14s-14-22-14-34V32l272 272z"/><path fill="#FFF" d="M422 564l-118 46 118 47v37l-163-65v-37l163-65v37zm116-106h37l-89 240h-37l89-240zm64 200l118-47-118-46v-37l163 64v38l-163 64v-36z"/></svg>';
+            if(["asp","php","js","java","html","css",'sql','lrc'].indexOf(type) >= 0) return  '<svg xmlns="http://www.w3.org/2000/svg" class="icon" version="1" viewBox="0 0 1024 1024"><defs/><path fill="#FF8976" d="M160 32a49 49 0 0 0-48 48v864c0 12 5 25 14 34 10 9 22 14 34 14h704c12 0 25-5 34-14 9-10 14-22 14-34V304L640 32H160z"/><path fill="#FFD0C8" d="M912 304H688c-12 0-25-5-34-14s-14-22-14-34V32l272 272z"/><path fill="#FFF" d="M422 564l-118 46 118 47v37l-163-65v-37l163-65v37zm116-106h37l-89 240h-37l89-240zm64 200l118-47-118-46v-37l163 64v38l-163 64v-36z"/></svg>';
             if(['psb','psd'].indexOf(type) >= 0) return '<svg xmlns="http://www.w3.org/2000/svg" class="icon" version="1" viewBox="0 0 1024 1024"><path fill="#8095FF" d="M168 32c-12 0-25 5-34 14s-14 22-14 34v864c0 12 5 25 14 34 10 9 22 14 34 14h704c12 0 25-5 34-14 9-10 14-22 14-34V304L648 32H168z"/><path fill="#CCD5FF" d="M920 304H696c-12 0-25-5-34-14s-14-22-14-34V32l272 272z"/><path fill="#C0CAFF" d="M504 550c5-2 10-4 16-4s11 2 16 4l185 108c5 2 8 8 8 13s-3 11-8 14L534 793c-4 2-10 4-16 4s-11-2-16-4L318 686c-5-3-8-8-8-14s3-11 8-14l186-108z"/><path fill="#FFF" d="M504 390c5-2 10-4 16-4s11 2 16 4l185 108c5 2 8 8 8 13s-3 11-8 14L534 633c-4 2-10 4-16 4s-11-2-16-4L318 526c-5-3-8-8-8-14s3-11 8-14l186-108z"/></svg>';
             if(['xls','xlsx','number','et','ett'].indexOf(type) >= 0) return '<svg xmlns="http://www.w3.org/2000/svg" class="icon" version="1" viewBox="0 0 1024 1024"><path fill="#5ACC9B" d="M160 32a49 49 0 0 0-48 48v864c0 12 5 25 14 34 10 9 22 14 34 14h704c12 0 25-5 34-14 9-10 14-22 14-34V304L640 32H160z"/><path fill="#BDEBD7" d="M912 304H688c-12 0-25-5-34-14s-14-22-14-34V32l272 272z"/><path fill="#FFF" d="M475 538L366 386h76l71 108 74-108h73L549 538l117 161h-76l-79-115-78 116h-75l117-162z"/></svg>';
             if(['wps','wpt','page','doc','docx'].indexOf(type) >= 0) return '<svg xmlns="http://www.w3.org/2000/svg" class="icon" version="1" viewBox="0 0 1024 1024"><path fill="#6CCBFF" d="M160 32a49 49 0 0 0-48 48v864c0 12 5 25 14 34 10 9 22 14 34 14h704c12 0 25-5 34-14 9-10 14-22 14-34V304L640 32H160z"/><path fill="#C4EAFF" d="M912 304H688c-12 0-25-5-34-14s-14-22-14-34V32l272 272z"/><path fill="#FFF" d="M280 386h65l65 244 72-244h62l72 244 66-244h62l-96 314h-65l-71-242h-1l-72 241h-65l-94-313z"/></svg>';
@@ -398,6 +413,33 @@
 
         }
 
+        function format_filename(filename) {
+            if(!filename){
+                return "";
+            }else{
+                var arr = filename.split("-");
+                return arr[arr.length - 1];
+            }
+        }
+
+
+        function get_file_data(url, length){
+            var tpl_con = "";
+            $.ajax({
+                url: url,
+                type:'GET',
+                async:false,
+                timeout:5000,
+                dataType:'text',
+                success:function( result ){
+                    tpl_con = result;
+                }
+            });
+            if( tpl_con.length > length ){
+                tpl_con = tpl_con.substring(0, length);
+            }
+            return tpl_con;
+        }
     
     }
 })(jQuery);

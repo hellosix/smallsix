@@ -202,6 +202,9 @@ var sparrow ={
         }
         return dom;
     },
+    contain: function (str, key) {
+        return str.indexOf(key) > -1;
+    },
     /**
      * 模仿的empty函数
      */

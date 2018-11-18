@@ -35,6 +35,9 @@ html,body{
     color:#65cece;
 }
 
+.tbody-row > tr > td{
+    max-width: 150px;
+}
 .string { color: green; }
 .number { color: darkorange; }
 .boolean { color: blue; }
