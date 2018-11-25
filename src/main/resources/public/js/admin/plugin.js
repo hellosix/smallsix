@@ -44,16 +44,31 @@ smarty.parse("/plugin/select", {}, function (obj) {
 smarty.parse("/plugin/input", {}, function (obj) {
     layer.closeAll();
 });
-
+smarty.parse("/plugin/number", {}, function (obj) {
+    layer.closeAll();
+});
+smarty.parse("/plugin/range", {}, function (obj) {
+    layer.closeAll();
+});
 smarty.register_function('checkbox_show_value', function (params) {
-    var target = params['target'];
+    var valueInit = params['valueInit'];
     var value = params['value'];
     var field = params['field'];
-    var res = '<input type="checkbox" name="' + field + '" value="' + target.value + '"';
-    if( value.indexOf(target.value) > -1 ){
-      res += " checked ";
+    var valitate = params['valitate'];
+    var res = "";
+    if( sparrow.empty(valueInit) ){
+        return res;
     }
-    res += 'value="' + value + '"/>' + target.key;
+    for(var i = 0; i < valueInit.length; i++){
+        var target = valueInit[i];
+        res += '<label class="checkbox-inline">';
+        res += '<input type="checkbox" name="' + field + '" value="' + target.value + '"';
+        if( i == 0 ){
+            res += " data-min-check='1' data-select-default='" + value + "' " + valitate + " ";
+        }
+        res += 'value="' + value + '"/>' + target.key;
+        res += '</label>';
+    }
     return res;
 });
 
@@ -101,14 +116,14 @@ function field_plugin(field, value, fieldArr) {
                 if(fieldArr[i].valueInit && fieldArr[i].valueInit != ""){
                     valueInit = JSON.parse(fieldArr[i].valueInit);
                 }
-                var data = {"field":field, "value":value, "note":note, "type": type, "valueInit":valueInit};
+                var data = {"field":field, "value":value, "note":note, "type": type,"valitate":fieldArr[i].valitate, "valueInit":valueInit};
                 console.log(data);
                 console.log( data.valueInit );
                 if( type == "multi-image" ){
                     smarty.parse("/plugin/multi_image", data, function (obj) {
                         res = obj;
                     });
-                }else if( type == "single-image" || type == "music" || type == "video"){
+                }else if( type == "single-image" || type == "text-file" || type == "music" || type == "video"){
                     smarty.parse("/plugin/single_image", data, function (obj) {
                         res = obj;
                     });
@@ -144,6 +159,14 @@ function field_plugin(field, value, fieldArr) {
                     smarty.parse("/plugin/select", data, function (obj) {
                         res = obj;
                     });
+                }else if( type == "number" ){
+                    smarty.parse("/plugin/number", data, function (obj) {
+                        res = obj;
+                    });
+                }else if( type == "range" ){
+                    smarty.parse("/plugin/range", data, function (obj) {
+                        res = obj;
+                    });
                 }else{
                     smarty.parse("/plugin/input", data, function (obj) {
                         res = obj;
@@ -156,21 +179,29 @@ function field_plugin(field, value, fieldArr) {
 }
 
 
-
 smarty.register_function( 'field_format', function( params ){
     var field = params['field'];
     var value = params['value'];
     var fieldArr = params['field_extend'];
-    return field_format(field, value, fieldArr);
+    var id = params['id'];
+    var res = field_format(field, value, fieldArr, id);
+    if( sparrow.empty(res) ){
+        return "";
+    }
+    return "<td>" + res + "</td>";
 });
 
-function field_format(field, value, fieldArr) {
+function field_format(field, value, fieldArr, id) {
     var res = '';
-    if( !sparrow.empty(value) && fieldArr ){
+    if( fieldArr ){
         for(var i in fieldArr){
             var fieldItem = fieldArr[i];
             if(fieldItem.fieldName == field){
                 var type = fieldArr[i].type;
+                var active = fieldArr[i].active;
+                if( active == 0 ){
+                    return res;
+                }
                 if( type == "single-image" || type == "multi-image" ){
                     if(!sparrow.empty(value)){
                         var imgs = value.split(",");
@@ -179,31 +210,37 @@ function field_format(field, value, fieldArr) {
                                 res += '<img class="img-item" ' + fieldItem.style + ' src="' + window.imageurl + imgs[j] + '" width="30" height="30">';
                             }
                         }
-                        res = "<div class='img-div' data-detail='" + value +"'>" + res + "</div>"
+                        res = "<div class='img-div' data-detail='" + value +"'>" + res + "</div>";
+                        res += "<div class='add-image-icon'  data-target='" + field + "' data-id='" + id + "'><span class='glyphicon glyphicon-pencil'></span></div>";
                     }
                 }else if( type == "text-file"){
-                    res += "<div class='text-file-link' data-src='" + value + "' " + fieldItem.style + ">查看详情</div>";
+                    res += "<div class='text-file-link' data-src='" + value + "' " + fieldItem.style + ">查看</div>";
+                    res += "<div class='text-file-edit-icon'  data-target='" + field + "' data-id='" + id + "'>编辑</div>";
                 }else if( type == "video" ){
-                    var videos = value.split(",");
-                    for(var j in videos){
-                        if( videos[j] ){
-                            res += '<video class="video-item" ' + fieldItem.style+ ' controls="controls" src="' + window.videourl + videos[j] + '" width="100" height="100"></video>';
+                    if(!sparrow.empty(value)){
+                        var videos = value.split(",");
+                        for(var j in videos){
+                            if( videos[j] ){
+                                res += '<video class="video-item" ' + fieldItem.style+ ' controls="controls" src="' + window.videourl + videos[j] + '" width="100" height="100"></video>';
+                            }
                         }
                     }
                 }else if( type == "music" ){
-                    var musics = value.split(",");
-                    for(var j in musics){
-                        if( musics[j] ){
-                            res += '<audio class="music-item" ' + fieldItem.style + ' controls="controls" src="' + window.musicurl + musics[j] + '"></audio>';
+                    if(!sparrow.empty(value)){
+                        var musics = value.split(",");
+                        for(var j in musics){
+                            if( musics[j] ){
+                                res += '<audio class="music-item" ' + fieldItem.style + ' controls="controls" src="' + window.musicurl + musics[j] + '"></audio>';
+                            }
                         }
                     }
                 }else if( type == "time" ){
-                    res += "<div " + fieldItem.style + ">" + timestampToDateTime(value) + "</div>";
+                    res += "<div  " +fieldItem.style+ " class='date-edit-icon'  data-target='" + field + "' data-id='" + id + "'>"+ timestampToDateTime(value) + "</div>";
                 }else if( type == "date" ){
-                    res += "<div " + fieldItem.style + ">" + timestampToDate(value) + "</div>";
+                    res += "<div " +fieldItem.style+ " class='date-edit-icon'  data-target='" + field + "' data-id='" + id + "'>"+ timestampToDate(value) +"</div>";
                 }else if( type == "checkbox" ){
-                    res += "<div " + fieldItem.style + ">";
-                    if( !sparrow.empty(fieldItem.valueInit) ){
+                    res += "<div " + fieldItem.style + " class='checkbox-edit-icon'  data-target='" + field + "' data-id='" + id + "'>";
+                    if( !sparrow.empty(value) && !sparrow.empty(fieldItem.valueInit) ){
                         var tmpArr = [];
                         var arr = JSON.parse(fieldItem.valueInit);
                         var items = value.split(",");
@@ -221,19 +258,35 @@ function field_format(field, value, fieldArr) {
                     }else{
                         res += value + "</div>";
                     }
+
+                }else if( type == "number"){
+                    res += "<input type='number' " + fieldItem.style + " value='" + value + "' class='no-border-input edit-input'   data-field='" + field + "' data-id='" + id + "' />";
+                }else if( type == "range"){
+                    res += "<div  " +fieldItem.style+ " class='range-edit-icon'  data-target='" + field + "' data-id='" + id + "'>"+ value + "</div>";
                 }else if( type == "radio" ){
-                    res += "<div " + fieldItem.style + ">";
                     if( !sparrow.empty(fieldItem.valueInit) ){
                         var arr = JSON.parse(fieldItem.valueInit);
-                        for(var n in arr){
-                            if( arr[n].value == value ){
-                                res += arr[n].key;
-                                break;
-                            }
+                        var is_checked = false;
+                        var on = arr[0]["key"];
+                        var on_value = arr[0]["value"];
+                        if( on_value == value ){
+                            is_checked = true
                         }
-                        res += "</div>";
+                        var off = arr[1]["key"];
+                        var off_value = arr[1]["value"];
+                        res += "<div class='switch'>";
+                        res += '<input type="checkbox" data-id="' + id + '" data-checked="' + is_checked+ '" data-on-value="' + on_value + '" data-off-value="' + off_value + '" data-field="' + field + '" data-off-text="' + off + '" data-on-text="' + on + '" >';
+                        res += '</div>';
+                    }
+
+                }else if( type == "textarea" || type == "editor-small" || type == "editor-big"){
+                    res += "<div " + fieldItem.style +" class='field-ellipsis pull-left'>" + value + "</div>";
+                    res += "<div class='textarea-edit-icon'  data-target='" + field + "' data-id='" + id + "'><span class='glyphicon glyphicon-pencil'></span></div>";
+                }else{
+                    if( field != "id" ){
+                        res += "<input type='text' " + fieldItem.style + " value='" + value + "'  class='no-border-input edit-input'   data-field='" + field + "' data-id='" + id + "' />";
                     }else{
-                        res += value + "</div>";
+                        res = "<div class='id-field'>" + value + "</div>";
                     }
                 }
             }
@@ -315,6 +368,47 @@ function editor_init(type) {
     });
 }
 
+function plugin_show_list_init() {
+    var init = true;
+    $('.switch > input').each(function () {
+        $(this).not("[data-switch-no-init]").bootstrapSwitch({
+            size: "mini",
+            onSwitchChange: function(event, state) {
+                if( init == false ){
+                    var target = $(event.target);
+                    var field = target.data("field");
+                    var id = target.data("id");
+                    var off = target.data("off-value");
+                    var on = target.data("on-value");
+                    var value = off;
+                    if( state == true ){
+                        value = on;
+                    }
+                    var req = {};
+                    req.database = window.database;
+                    req.table = window.table;
+                    req.fieldMap = {};
+                    req.fieldMap[field] = value;
+                    req.fieldMap.id = id;
+                    ajax.get( "getTableRowDetail?database=" + window.database + "&table=" + window.table + "&id=" + id, function (obj) {
+                        req.columns = obj.res.columns;
+                        updateFieldForm(req, function(response){
+                            console.log(response)
+                        });
+                    });
+
+                }
+                return;
+            }
+        });
+        var is_checked = $(this).data("checked");
+        $(this).not("[data-switch-no-init]").bootstrapSwitch("state", is_checked);
+    });
+    init = false;
+
+}
+
+
 $(document).on("click", ".text-file-link", function () {
     var src = $(this).data("src");
     var content = getFileData( window.musicurl + src );
@@ -350,5 +444,46 @@ $(document).on("click", ".img-div", function () {
     layer.photos({
         photos: param
         ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+    });
+});
+
+
+$(document).on("change",".edit-input",function () {
+    var field = $(this).data("field");
+    var id = $(this).data("id");
+    var req = {};
+    req.database = window.database;
+    req.table = window.table;
+    req.fieldMap = {};
+    req.fieldMap[field] = $(this).val();
+    req.fieldMap.id = id;
+    ajax.get( "getTableRowDetail?database=" + window.database + "&table=" + window.table + "&id=" + id, function (obj) {
+        req.columns = obj.res.columns;
+        updateFieldForm(req, function(response){
+            console.log(response)
+        });
+    });
+});
+
+
+$(document).on("click", ".checkbox-edit-icon,.add-image-icon,.textarea-edit-icon,.date-edit-icon,.text-file-edit-icon", function () {
+    var id = $(this).data("id");
+    var field = $(this).data("target");
+
+    var data = {};
+    ajax.get( "getTableRowDetail?database=" + window.database + "&table=" + window.table + "&id=" + id, function (obj) {
+        data.columns = obj.res.columns;
+        data.extends = obj.res.fieldExtends;
+        data.fields = {};
+
+        for(var key in obj.res.detail){
+            if( key == field ){
+                data.fields[key] = obj.res.detail[key];
+                break;
+            }
+
+        }
+        var options = { "title": "修改" ,"width":700};
+        update_model(id, data, options);
     });
 });

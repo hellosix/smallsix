@@ -33,7 +33,7 @@
         <th>Note</th>
         <th>SqlDetail</th>
         <th>Param</th>
-        <th>Operate</th>
+        <th style="width: 100px">Operate</th>
     </tr>
     </thead>
     <tbody>
@@ -47,6 +47,7 @@
         <td id="sql-detail-{{$c.id}}" data-detail="{{$c.sqlDetail}}">{{$c.sqlDetail}}</td>
         <td id="sql-param-{{$c.id}}" data-detail={{$c.param}}>{{$c.param}}</td>
         <td>
+            <button class="btn btn-primary btn-xs edit-sql-api" data-id="{{$c.id}}" ><i class="icon-pencil"></i></button>
             <button class="btn btn-primary btn-xs run-sql-test" data-id="{{$c.id}}" ><i class="icon-play-circle"></i></button>
             <button class="btn btn-danger btn-xs remove-sql-api" data-id="{{$c.id}}"><i class="icon-trash"></i></button>
         </td>

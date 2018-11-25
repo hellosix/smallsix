@@ -218,9 +218,6 @@ var sparrow ={
             case 'string':
                 return 0 == obj.trim().length;
             break;
-            case 'number':
-                return 0 == obj;
-            break;
             case 'object':
                 if ( null == obj )
                 {
@@ -373,6 +370,34 @@ var sparrow ={
             url += key + "=" + param[key] + "&";
         }
         return url;
+    },
+    fix_static: function( url )
+    {
+        url += '';
+        if ( 0 === url.length )
+        {
+            return url;
+        }
+        if ( 0 !== url.indexOf( 'http' ) )
+        {
+            url = window.STATIC_URL + url;
+        }
+        return url;
+    },
+    contains: function( a, b )
+    {
+        if ( !a || !b )
+        {
+            return false;
+        }
+        if ( a.contains )
+        {
+            return a != b && a.contains( b );
+        }
+        else
+        {
+            return a.compareDocumentPosition( b ) & 16;
+        }
     }
 }
 

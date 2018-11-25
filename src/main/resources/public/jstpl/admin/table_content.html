@@ -1,23 +1,15 @@
 
 <table class="table table-hover">
-    <thead id="field-extends-detail" data-detail={{$res.fieldExtends|json_string}} data-columns={{$res.columns|json_string}} >
-    {{foreach from=$res.columns item=column}}
-    <th>{{field_note field=$column.cname field_extend=$res.fieldExtends}}<span data-field="{{$column.cname}}" class="table-sort-button icon-sort-by-attributes"></span></th>
-    {{/foreach}}
+    <thead id="field-extends-detail" >
+    {{header_note res=$res}}
     <th style="width: 75px">操作</th>
     </thead>
     <tbody class="tbody-row">
     {{foreach from=$res.list item=row}}
-    <tr>
-        {{foreach from=$row item=v key=k}}
-        <td {{if $k == "id" }}style="width:50px"{{/if}} >{{field_format value=$v field=$k field_extend=$res.fieldExtends}}</td>
-        {{/foreach}}
-        <td>
-            <button class="btn btn-primary btn-xs edit-field-button" data-id="{{$row.id}}" ><i class="icon-pencil"></i></button>
-            <button class="btn btn-danger btn-xs delete-row-button" data-id="{{$row.id}}"><i class="icon-trash "></i></button>
-        </td>
+    <tr id="row-{{$row.id}}">
+        {{include file="admin/table_content_row.html"}}
     </tr>
     {{/foreach}}
     </tbody>
 </table>
-{{make_page page=$res.page type="POST" tpl="admin_table_content" table=$res.table database=$res.database page_count=$res.pageCount id="table-container" right_fix=-1 url="getTableRowList?database,table"}}
+{{make_page page=$res.page type="POST" tpl="admin_table_content" table=$res.table database=$res.database page_count=$res.pageCount id="table-container" disable_total=true disable_jump=true right_fix=-1 url="getTableRowList?database,table"}}

@@ -31,10 +31,9 @@
         table_name = #{tableName},
         note = #{note},
         param = #{param},
-        api_name = #{apiName},
-        sql_detail = ${sqlDetail}
+        sql_detail = #{sqlDetail}
         WHERE
-        id = #{id}
+        api_name = #{apiName}
     </update>
 
     <delete id="removeSqlModel">

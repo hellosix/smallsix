@@ -15,10 +15,17 @@ window.guita= {
   },
   /**
    * 热卖吉他
-   * {"pageindex":1,"pageSize":5}
+   * {"pageindex":1,"pageSize":3}
    */
   hotguita: function(data, callback){
     ajax.async_post(window.apiurl + "14" ,data ,callback);
+  },
+  /**
+   * 获取吉他详情
+   * {"id":3}
+   */
+  getGuitaDetail: function(data, callback){
+    ajax.async_post(window.apiurl + "15" ,data ,callback);
   },
 
 }

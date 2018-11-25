@@ -101,13 +101,14 @@ public class AdminService {
 
     public Boolean updateFieldForm(FieldForm fieldForm) throws IOException {
         movePackage(fieldForm);
-        if( null != fieldForm.getFieldMap().get("id") ){
-            String sql = fieldForm.updateSql();
-            commonDao.update(sql);
-        }else{
-            String insertSql = fieldForm.insertSql();
-            commonDao.insert( insertSql );
-        }
+        String sql = fieldForm.updateSql();
+        commonDao.update(sql);
+        return true;
+    }
+    public Boolean addFieldForm(FieldForm fieldForm) throws IOException {
+        movePackage(fieldForm);
+        String insertSql = fieldForm.insertSql();
+        commonDao.insert( insertSql );
         return true;
     }
 

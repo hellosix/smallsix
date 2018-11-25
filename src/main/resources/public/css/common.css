@@ -17,25 +17,16 @@ html,body{
     height: 100%;
 }
 
-.img-item{
-    margin-right: 7px;
-}
-.video-item{
-    margin-right: 10px;
-}
-.music-item{
-    float: left;
-    width: 130px;
-    min-width: 130px;
-    height: 50px;
-    margin-right: 7px;
-}
 
 .blue-title{
     color:#65cece;
 }
 
 .tbody-row > tr > td{
+    max-width: 150px;
+}
+
+table.field-table > tbody > tr > td{
     max-width: 150px;
 }
 .string { color: green; }

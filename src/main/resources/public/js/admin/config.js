@@ -1,8 +1,8 @@
 /**
  * Created by lzz on 2018/10/4.
  */
-//window.domain="http://localhost:8182/";
-window.domain="http://39.105.114.48:8182/";
+window.domain="http://localhost:8182/";
+//window.domain="http://39.105.114.48:8182/";
 $(function(){
     autoGetUser(function(obj){
         window.user = obj.res;

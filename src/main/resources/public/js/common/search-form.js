@@ -1,6 +1,18 @@
 /**
  * Created by lzz on 2018/10/3.
  */
+$(document).on("change", ".search-select", function () {
+    var field = $(this).data("field");
+    var value = $(this).children('option:selected').val();
+    var paramList = [];
+    if( value !=  "all" ){
+        paramList.push( field + " like '%" + value + "%'");
+    }
+    loadSearchRes(paramList, function () {
+        console.log( '.search-select[data-field="' + field + '"]'  +"---"+ value );
+        $('.search-select[data-field="' + field + '"]').val( value );
+    });
+});
 
 $(document).on("click", ".search-item", function () {
     //换样式 //赋值
@@ -74,7 +86,7 @@ function getAllSearchParam() {
     return paramList;
 }
 
-function loadSearchRes(paramList) {
+function loadSearchRes(paramList, callback) {
     var data = {};
     data.table = window.table;
     data.database = window.database;
@@ -82,7 +94,10 @@ function loadSearchRes(paramList) {
     data.conditions = paramList;
     window.queryConditions = data.conditions;
     smarty.post("getTableRowList",JSON.stringify(data), "admin/table_content", "table-container",function () {
-
+        plugin_show_list_init();
+        if( typeof( callback ) == "function" ){
+            callback();
+        }
     });
 }
 
@@ -117,6 +132,7 @@ $(document).on("click", ".table-sort-button", function () {
             }
 
         }
+        plugin_show_list_init();
     });
 });
 

@@ -1202,6 +1202,16 @@ function form_tip_msg( name, msg, css )
  * @returns {undefined}
  */
 sparrow_form.encode = function( form_id, mod, result_arg ){
+	$(".field-tip[data-require='1']").each(function (index, item) {
+		var target = $(item).data("target");
+		var len = $('[data-name="' + target + '"] > li.error').length;
+		if( len == 0){
+			var value = $("[name='" + target + "']").val();
+			if( !value ){
+				$("#" + target + "_tip").addClass("sparrow_input_tip_error");
+			}
+		}
+	});
 	var form_dom = $( '#' + form_id );
 	//lzz modify
 	if( form_dom.find(".sparrow_input_tip_error:visible").length > 0 || form_dom.find(".sparrow_input_tip_info:visible").length > 0 ){
@@ -1215,7 +1225,7 @@ sparrow_form.encode = function( form_id, mod, result_arg ){
 	}
 	//lzz modify 4
 	var form_obj = "input:visible,textarea:visible,select:visible,checkbox:visible,radio:visible";
-	if( mod == 4 ){
+	if( mod == 4 || mod == 5 ){
 		form_obj = "input,textarea,select,checkbox,radio";
 	}
 	var black_list = { button: true, submit: true, reset: true, search: true};
@@ -1522,7 +1532,7 @@ $( document ).on( 'click', '.sparrow_input_tip_close', function(){
 	$( this ).parent().addClass( 'hide' );
 } );
 
-$( document ).ready(function () {
+function init_form_validate() {
 	// checkbox 默认选择
 	$("input[type='checkbox'][data-require='1']").each( function( i, item ){
 		var name = item.name;
@@ -1543,5 +1553,4 @@ $( document ).ready(function () {
 		var default_value = $(item).data("select-default");
 		sparrow_form.init_radio( name, default_value );
 	})
-
-});
+}

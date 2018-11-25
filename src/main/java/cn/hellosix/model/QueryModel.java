@@ -75,6 +75,8 @@ public class QueryModel {
         }
         if( null != this.sortList && !this.sortList.isEmpty() ){
             sql += " order by " + Joiner.on(",").join(this.sortList);
+        }else{
+            sql += " order by id desc ";
         }
         sql += " limit " + (this.page-1)*this.pageLength +","+ this.pageLength;
         return sql;

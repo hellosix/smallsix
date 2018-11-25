@@ -4,12 +4,13 @@
         <select class="form-control">
             {{foreach from=$valueInit item=row}}
                 {{if $value == $row.value }}
-                    <option selected="selected" value="{{$row.value}}" >{{$row.key}}</option>
+                    <option {{$valitate}}  selected="selected" value="{{$row.value}}" >{{$row.key}}</option>
                 {{else}}
-                    <option value="{{$row.value}}">{{$row.key}}</option>
+                    <option {{$valitate}}  value="{{$row.value}}">{{$row.key}}</option>
                 {{/if}}
             {{/foreach}}
         </select>
+        <div id="{{$field}}_tip" class="field-tip">{{$note}}必填</div>
     </div>
 </div>
 

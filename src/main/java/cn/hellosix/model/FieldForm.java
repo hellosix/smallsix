@@ -84,7 +84,9 @@ public class FieldForm {
         for(Map.Entry<String, Object> item : fieldMap.entrySet()){
             String key = item.getKey();
             Object value = item.getValue();
-            modifyList.add( key + "=" + getObjectStr(key, value) );
+            if( null!= value && !key.equals("id")){
+                modifyList.add( key + "=" + getObjectStr(key, value) );
+            }
         }
         sql += Joiner.on(",").join(modifyList) + " where id=" + this.fieldMap.get("id");
         System.out.println( sql );

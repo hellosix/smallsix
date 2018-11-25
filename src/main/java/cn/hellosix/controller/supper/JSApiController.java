@@ -75,6 +75,13 @@ public class JSApiController {
         return Response.Result(0, sqlModels);
     }
 
+    @RequestMapping(value = "/getSqlModel", method = RequestMethod.GET)
+    @ResponseBody
+    public Response getSqlModel(@RequestParam Integer id){
+        SqlModel sqlModel = service.getSqlModel(id);
+        return Response.Result(0, sqlModel);
+    }
+
 
     @CrossOrigin(origins = "*", maxAge = 3600)
     @RequestMapping(value = "/api/restful/{id}", method = RequestMethod.POST)

@@ -2,25 +2,25 @@
 (function($) {
     $.fn.upload = function(look_call_back){
         var  _this = $(this),
-        item_html = "<li class='item'></li>",
-        $add = $('<li class="item add"><svg class="icon" viewBox="0 0 1024 1024" version="1" xmlns="http://www.w3.org/2000/svg" width="200" height="200"><defs><style/></defs><path d="M737 436a174 174 0 0 1 172 172 172 172 0 0 1-172 172c-69 1-69 107 0 106 152-2 276-125 278-278S886 332 737 330c-69-1-69 105 0 106zM285 779a174 174 0 0 1-172-172 172 172 0 0 1 172-172c68-1 69-106 0-106A282 282 0 0 0 7 607a281 281 0 0 0 278 278c69 1 68-105 0-106z" fill="#4A5699"/><path d="M340 384a174 174 0 0 1 172-172 172 172 0 0 1 172 172c1 68 106 68 106 0a282 282 0 0 0-278-278 281 281 0 0 0-278 278c-1 68 105 68 106 0z" fill="#C45FA0"/><path d="M545 473c17 17 17 43 0 60L422 656a42 42 0 0 1-60-60l123-123c17-16 43-16 60 0z" fill="#F39A2B"/><path d="M485 473c17-16 44-16 60 0l123 123a42 42 0 0 1-60 60L485 533a42 42 0 0 1 0-60z" fill="#F39A2B"/><path d="M514 634c24 0 43 20 43 43v179a43 43 0 0 1-86 0V677c0-23 19-43 43-43z" fill="#E5594F"/></svg></li>'),
-        loading = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="300" height="300" class="progress"><g fill="rgba(17,89,164,0.1)"><path d="M 0 70 Q 75 39, 150 70 T 300 70 T 450 70 T 600 70 T 750 70 V 320 H 0 V 0"></path><animateTransform attributeName="transform" attributeType="XML" type="translate" from="0" to="-300" dur="1.5s" repeatCount="indefinite"></animateTransform></g><g fill="rgba(17,89,164,0.15)"><path d="M 0 70 Q 87.5 47, 175 70 T 350 70 T 525 70 T 700 70 T 875 70 T 1050 70 V 320 H 0 V 0"></path><animateTransform attributeName="transform" attributeType="XML" type="translate" from="0" to="-350" dur="3s" repeatCount="indefinite"></animateTransform></g></svg><div class="progressnum"></div>',
-        del = '<svg xmlns="http://www.w3.org/2000/svg" class="delete" version="1" viewBox="0 0 1024 1024"><path fill="#fff" d="M512 70a439 439 0 0 1 442 442 439 439 0 0 1-442 442A439 439 0 0 1 70 512 439 439 0 0 1 512 70m0-40a482 482 0 1 0 0 964 482 482 0 0 0 0-964zm114 253v-1c0-21-17-38-38-38H436c-21 0-38 17-38 38v1H282v74h460v-74H626zM321 396v346c0 21 17 38 38 38h306c21 0 38-17 38-38V396H321zm114 306h-76V474h76v228zm115 0h-76V474h76v228zm115 0h-76V474h76v228z"/></svg>',
-        look = '<svg xmlns="http://www.w3.org/2000/svg" class="look" version="1" viewBox="0 0 1024 1024"><path fill="#fff" d="M451 835a386 386 0 1 1 0-771 386 386 0 0 1 0 771zm0-675a291 291 0 1 0 0 581 291 291 0 0 0 0-581zm450 798c-15 0-30-5-42-17L658 740a58 58 0 0 1 83-82l201 201a58 58 0 0 1-41 99"/></svg>',
-        $input = $('<input type="file" name="file" />'),
-        $upload = $('<input type="hidden" />'),
-        _moveDom,_x,_y,inX,inY,item_w,item_h,
-        config = {
-            height:_this.attr("data-height") ? _this.attr("data-height") : 0,
-            width:_this.attr("data-width") ? _this.attr("data-width") : 1920,
-            type : _this.attr('data-type') ? _this.attr('data-type') : 'png,jpg,jpeg,gif,lrc',
-            upname : _this.attr("data-file") ? _this.attr("data-file") : 'file',
-            inputname : _this.attr("data-name") ? _this.attr("data-name") : 'upload',
-            num : _this.attr('data-num') ? _this.attr('data-num') : 10,
-            action : _this.attr('action') ? _this.attr('action') : "/index.php",
-            size : _this.attr('data-size') ? _this.attr('data-size') : 20480,
-            value : _this.attr("data-value") ? _this.attr("data-value") : ""
-        };
+            item_html = "<li class='item'></li>",
+            $add = $('<li class="item add"><svg class="icon" viewBox="0 0 1024 1024" version="1" xmlns="http://www.w3.org/2000/svg" width="200" height="200"><defs><style/></defs><path d="M737 436a174 174 0 0 1 172 172 172 172 0 0 1-172 172c-69 1-69 107 0 106 152-2 276-125 278-278S886 332 737 330c-69-1-69 105 0 106zM285 779a174 174 0 0 1-172-172 172 172 0 0 1 172-172c68-1 69-106 0-106A282 282 0 0 0 7 607a281 281 0 0 0 278 278c69 1 68-105 0-106z" fill="#4A5699"/><path d="M340 384a174 174 0 0 1 172-172 172 172 0 0 1 172 172c1 68 106 68 106 0a282 282 0 0 0-278-278 281 281 0 0 0-278 278c-1 68 105 68 106 0z" fill="#C45FA0"/><path d="M545 473c17 17 17 43 0 60L422 656a42 42 0 0 1-60-60l123-123c17-16 43-16 60 0z" fill="#F39A2B"/><path d="M485 473c17-16 44-16 60 0l123 123a42 42 0 0 1-60 60L485 533a42 42 0 0 1 0-60z" fill="#F39A2B"/><path d="M514 634c24 0 43 20 43 43v179a43 43 0 0 1-86 0V677c0-23 19-43 43-43z" fill="#E5594F"/></svg></li>'),
+            loading = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="300" height="300" class="progress"><g fill="rgba(17,89,164,0.1)"><path d="M 0 70 Q 75 39, 150 70 T 300 70 T 450 70 T 600 70 T 750 70 V 320 H 0 V 0"></path><animateTransform attributeName="transform" attributeType="XML" type="translate" from="0" to="-300" dur="1.5s" repeatCount="indefinite"></animateTransform></g><g fill="rgba(17,89,164,0.15)"><path d="M 0 70 Q 87.5 47, 175 70 T 350 70 T 525 70 T 700 70 T 875 70 T 1050 70 V 320 H 0 V 0"></path><animateTransform attributeName="transform" attributeType="XML" type="translate" from="0" to="-350" dur="3s" repeatCount="indefinite"></animateTransform></g></svg><div class="progressnum"></div>',
+            del = '<svg xmlns="http://www.w3.org/2000/svg" class="delete" version="1" viewBox="0 0 1024 1024"><path fill="#fff" d="M512 70a439 439 0 0 1 442 442 439 439 0 0 1-442 442A439 439 0 0 1 70 512 439 439 0 0 1 512 70m0-40a482 482 0 1 0 0 964 482 482 0 0 0 0-964zm114 253v-1c0-21-17-38-38-38H436c-21 0-38 17-38 38v1H282v74h460v-74H626zM321 396v346c0 21 17 38 38 38h306c21 0 38-17 38-38V396H321zm114 306h-76V474h76v228zm115 0h-76V474h76v228zm115 0h-76V474h76v228z"/></svg>',
+            look = '<svg xmlns="http://www.w3.org/2000/svg" class="look" version="1" viewBox="0 0 1024 1024"><path fill="#fff" d="M451 835a386 386 0 1 1 0-771 386 386 0 0 1 0 771zm0-675a291 291 0 1 0 0 581 291 291 0 0 0 0-581zm450 798c-15 0-30-5-42-17L658 740a58 58 0 0 1 83-82l201 201a58 58 0 0 1-41 99"/></svg>',
+            $input = $('<input type="file" name="file" />'),
+            $upload = $('<input type="hidden" />'),
+            _moveDom,_x,_y,inX,inY,item_w,item_h,
+            config = {
+                height:_this.attr("data-height") ? _this.attr("data-height") : 0,
+                width:_this.attr("data-width") ? _this.attr("data-width") : 1920,
+                type : _this.attr('data-type') ? _this.attr('data-type') : 'png,jpg,jpeg,gif,lrc',
+                upname : _this.attr("data-file") ? _this.attr("data-file") : 'file',
+                inputname : _this.attr("data-name") ? _this.attr("data-name") : 'upload',
+                num : _this.attr('data-num') ? _this.attr('data-num') : 10,
+                action : _this.attr('action') ? _this.attr('action') : "/index.php",
+                size : _this.attr('data-size') ? _this.attr('data-size') : 20480,
+                value : _this.attr("data-value") ? _this.attr("data-value") : ""
+            };
 
         _this.append($add.attr("data-num",config.num).attr("data-type",config.type))
             .append($input.attr("multiple",config.num > 1 ? "multiple" : false))
@@ -45,11 +45,11 @@
                 delfile($(e.currentTarget));
             })
             .on("click",'svg.delete',function(e)
-            { 
+            {
                 delfile($(e.currentTarget).parent("li.success"));
             })
             .on("click",'svg.look',function(e)
-            { 
+            {
                 if(look_call_back && typeof look_call_back == 'function')
                 {
                     look_call_back(_this,$(e.currentTarget).parent("li.success").data("url"));
@@ -59,9 +59,9 @@
                 var ethis = $(e.target);
                 _moveDom = $(this);
                 var offset = _moveDom.offset()
-                var thisOffset = _this.offset() 
+                var thisOffset = _this.offset()
                 var left = offset.left;
-                var top = offset.top;  
+                var top = offset.top;
                 _x=parseInt(left) + (e.pageX - parseInt(left)) + (thisOffset.left - offset.left);
                 _y=parseInt(top) + (e.pageY - parseInt(top)) + (thisOffset.top - offset.top);
                 item_w = _moveDom.width() + 2 + _moveDom.css("margin-right").replace("px",'') * 1;
@@ -84,15 +84,27 @@
 
                     if( value[i].indexOf(".mp3") > -1 ){
                         html = $("<li class='item success'></li>")
+                            .append(del)
+                            .append(typeof look_call_back == 'function' ? look : "")
+                            .data('url',value[i])
+                            .attr("data-filename",hash(value[i]))
                             .append("<p class='upload-file-name'>" + format_filename(value[i]) + "</p>")
                             .append("<audio class='upload-music-item' controls='controls' src='" + basepath + value[i] + "'></audio>").insertBefore($add);
                     }else if(value[i].indexOf(".mp4") > -1){
                         html = $("<li class='item success'></li>")
+                            .append(del)
+                            .append(typeof look_call_back == 'function' ? look : "")
+                            .data('url',value[i])
+                            .attr("data-filename",hash(value[i]))
                             .append("<p class='upload-file-name'>" + format_filename(value[i]) + "</p>")
                             .append("<video class='upload-video-item' controls='controls' src='" + basepath + value[i] + "'></video>").insertBefore($add);
                     }else if( value[i].indexOf(".lrc") > -1 ){
                         var content = get_file_data( basepath + value[i], 100 );
                         html = $("<li class='item success'></li>")
+                            .append(del)
+                            .append(typeof look_call_back == 'function' ? look : "")
+                            .data('url',value[i])
+                            .attr("data-filename",hash(value[i]))
                             .append("<p class='upload-file-name'>" + format_filename(value[i]) + "</p>")
                             .append("<div class='upload-file-content'>" + content + "</div>").insertBefore($add);
                     }else{
@@ -113,17 +125,17 @@
         {
             _this.data('num',0).addClass("empty");
         }
-        
+
         $(document).on("mousemove",function(e){
             if(_moveDom){
                 var x=e.pageX-_x;
                 var y=e.pageY-_y;
                 var thisI = _moveDom.index()
-                var offset = _this.offset() 
+                var offset = _this.offset()
                 var qh = _this.height() ? _this.height() : 134
-                _moveDom.css({top:y,left:x,zIndex:999,position:'absolute'}); 
+                _moveDom.css({top:y,left:x,zIndex:999,position:'absolute'});
                 inX = e.pageX - offset.left
-                inY = e.pageY - offset.top  
+                inY = e.pageY - offset.top
                 if(inY > (qh + 20)  || inY < 0)
                 {
                     _moveDom.addClass('delete')
@@ -134,7 +146,7 @@
                 inX = parseInt(inX / item_w)
                 inY = parseInt(inY / item_h)
                 inX = parseInt(inX + (_this.width() / item_w) * inY)
-                if(inX >= thisI) inX++ 
+                if(inX >= thisI) inX++
                 _this.children("li").not(_moveDom).css("margin-left",0)
                 _this.children("li").eq(inX).not(_moveDom).css("margin-left",item_w)
 
@@ -142,9 +154,9 @@
         }).on("mouseup",function(){
             if(_moveDom){
                 if(_moveDom.hasClass("delete") && _moveDom.data('filename'))
-                { 
-                     
-                    delfile(_moveDom); 
+                {
+
+                    delfile(_moveDom);
                     _moveDom=false;
                     _this.children("li").not(".add").css({"position":"relative","top":0,"left":0,'margin-left':0,'zIndex':0})
                     _this.children("li.add").css("margin-left",0)
@@ -155,20 +167,20 @@
                 if(inX !== false)
                 {
                     if(inX >=_this.children("li").size())
-                        newImg.insertBefore($add); 
+                        newImg.insertBefore($add);
                     else
-                        newImg.insertBefore(_this.children("li").eq(inX)); 
+                        newImg.insertBefore(_this.children("li").eq(inX));
                     _moveDom.remove();
                     setfilelist();
-                     _this.children("li").not(".add").css({"position":"relative","top":0,"left":0,'margin-left':0,'zIndex':0})
+                    _this.children("li").not(".add").css({"position":"relative","top":0,"left":0,'margin-left':0,'zIndex':0})
                     _this.children("li.add").css("margin-left",0)
                 }
-               
-                
+
+
             }
             _moveDom=false;
         }).on("dragenter",function(event){
-            event.preventDefault(); 
+            event.preventDefault();
         }).on("dragover",function(event){
             event.preventDefault();
             if($(event.target).hasClass("upload"))
@@ -197,18 +209,18 @@
             var fileObj = e;
             for (var item in fileObj) {
                 if(typeof fileObj[item] == 'object')
-                { 
+                {
                     var rs = addfile(fileObj[item],function(data,item,file){
                         item.insertBefore($add);
                         var formData = new FormData();
-                        formData.append(config.upname,data,file.name); 
+                        formData.append(config.upname,data,file.name);
                         _this.removeClass("empty");
                         $.ajax({
                             url : config.action,
                             type : "POST",
                             data : formData,
                             dataType:"text",
-                            processData : false, 
+                            processData : false,
                             contentType : false,
                             success:function(data){
                                 data = JSON.parse(data);
@@ -230,9 +242,9 @@
                                 var xhr = new XMLHttpRequest();
                                 xhr.upload.addEventListener("progress", function(evt){
                                     if (evt.lengthComputable) {
-                                        var percentComplete = Math.round(evt.loaded * 100 / evt.total); 
+                                        var percentComplete = Math.round(evt.loaded * 100 / evt.total);
                                         item.children("svg.progress").css("height",50 + (120 * percentComplete / 100)+"%");
-                                        item.children(".progressnum").text(percentComplete) 
+                                        item.children(".progressnum").text(percentComplete)
                                     }
                                 }, false);
                                 return xhr;
@@ -248,11 +260,11 @@
         }
 
         function addfile(file,callback)
-        { 
+        {
             //验证文件
             $input.val("");
             if(config.num == 1)
-            { 
+            {
                 _this.children(".item").not(".add").remove();
             }else
             {
@@ -272,7 +284,7 @@
             if(["png","jpg","jpeg","gif","bmp"].indexOf(exp) < 0 && size > config.size * 1024)
             {
                 var errorstr = "不能上传大于."+config.size+"KB 的文件!";
-            } 
+            }
             if(errorstr)
             {
                 html.append(getfileicon(exp))
@@ -288,27 +300,27 @@
             var r = new FileReader();
             r.readAsDataURL(file);
             r.onload = function()
-            { 
+            {
                 var thishash = hash(file.name) + hash(file.type) + hash(file.size.toString()) + hash(r.result);
                 if(_this.children('li[data-filename="'+thishash+'"]').size() > 0)
                 {
                     return false;
-                } 
-                
-                
+                }
+
+
                 html.attr("data-filename",thishash);
 
 
                 if(["png","jpg","jpeg","gif","bmp"].indexOf(exp) >= 0)
-                { 
+                {
                     var image = new Image();
                     image.src = r.result;
                     image.onload = function(){
                         var that = this;
                         // 默认按比例压缩
                         var w = that.width,
-                        h = that.height,
-                        scale = w / h;
+                            h = that.height,
+                            scale = w / h;
                         if(config.width && config.width < w)
                         {
                             w = config.width;
@@ -316,17 +328,17 @@
                         }else if(config.height && h > config.height)
                         {
                             h = config.height;
-                            w = h * scale;   
+                            w = h * scale;
                         }
                         var quality = 1;  // 默认图片质量为0.7
                         var canvas = document.createElement('canvas');
-                        var ctx = canvas.getContext('2d'); 
+                        var ctx = canvas.getContext('2d');
                         var anw = document.createAttribute("width");
                         anw.nodeValue = w;
                         var anh = document.createAttribute("height");
                         anh.nodeValue = h;
                         canvas.setAttributeNode(anw);
-                        canvas.setAttributeNode(anh); 
+                        canvas.setAttributeNode(anh);
                         ctx.drawImage(that, 0, 0, w, h);
                         // quality值越小，所绘制出的图像越模糊
                         var base64 = canvas.toDataURL('image/jpeg', quality );
@@ -336,7 +348,7 @@
                         var uploadFile = convertBase64UrlToBlob(base64);
                         callback(uploadFile,html,file);
                         return;
-                    }; 
+                    };
                 }else
                 {
                     var icon = getfileicon(exp);
@@ -347,10 +359,10 @@
 
                 }
             }
-            
+
         }
         function convertBase64UrlToBlob(urlData){
-            var arr = urlData.split(','), 
+            var arr = urlData.split(','),
                 mime = arr[0].match(/:(.*?);/)[1],
                 bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
             while(n--){
@@ -368,7 +380,7 @@
             else{
                 for (; i > -1; i--) hash += (hash << 5) + input[i];
             }
-            var value = hash & 0x7FFFFFFF; 
+            var value = hash & 0x7FFFFFFF;
             var retValue = '';
             do{
                 retValue += I64BIT_TABLE[value & 0x3F];
@@ -394,21 +406,23 @@
 
         function setfilelist()
         {
+            //lzz
+            $("#" + config.inputname + "_tip").removeClass("sparrow_input_tip_error");
             var filelist = [];
             _this.children('li.success').each(function(){
                 filelist.push($(this).data("url"));
-            }); 
+            });
             if(_this.children('li').not(".add").size() >= config.num &&  config.num > 1) $add.hide();
             else $add.show();
             if(_this.children('li').not(".add").size() == 0) _this.addClass('empty')
             $upload.val(filelist.join(","));
-             
+
         }
 
         function delfile(item)
         {
             item.fadeOut(333,function(){item.remove();
-            setfilelist()});
+                setfilelist()});
             _this.data('num',_this.data('num') - 1);
 
         }
@@ -440,6 +454,6 @@
             }
             return tpl_con;
         }
-    
+
     }
 })(jQuery);

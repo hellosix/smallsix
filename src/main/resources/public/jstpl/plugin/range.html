@@ -1,0 +1,15 @@
+<div class="form-group">
+    <label class="col-sm-2 control-label">{{$note}}</label>
+    <div class="col-sm-10">
+        <div style="float:left;background-color: #e4e4e6;border-radius: 10px;">
+            <div style="float: left;margin-right: 10px;margin-left: 0px;width: 90px;">
+                <input type="number" class="form-control" name="{{$field}}" {{$valitate}} value="{{$value}}">
+            </div>
+            <div style="float:left;padding-top: 7px;color: #fff;width:20px;"> - </div>
+            <div style="float: left;width: 90px;">
+                <input type="number" class="form-control" name="{{$field}}" {{$valitate}} value="{{$value}}" >
+            </div>
+        </div>
+        <div id="{{$field}}_tip" class="field-tip">{{$note}}必填</div>
+    </div>
+</div>

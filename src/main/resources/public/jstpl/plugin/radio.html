@@ -4,12 +4,13 @@
         {{foreach from=$valueInit item=row}}
         <label class="radio-inline">
             {{if $value == $row.value }}
-            <input type="radio" name="{{$field}}" checked value="{{$row.value}}"> {{$row.key}}
+            <input type="radio" {{$valitate}}  name="{{$field}}" checked value="{{$row.value}}"> {{$row.key}}
             {{else}}
-            <input type="radio" name="{{$field}}" value="{{$row.value}}"> {{$row.key}}
+            <input type="radio" {{$valitate}}  name="{{$field}}" value="{{$row.value}}"> {{$row.key}}
             {{/if}}
         </label>
         {{/foreach}}
+        <div id="{{$field}}_tip" class="field-tip">{{$note}}必填</div>
     </div>
 </div>
 

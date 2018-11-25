@@ -1,3 +1,5 @@
 {{foreach from=$res item=table}}
+{{if $table != "monitor" }}
 <li><a class="table-detail" data-table="{{$table}}" href="javascript:void(0)">{{$table}}</a></li>
+{{/if}}
 {{/foreach}}

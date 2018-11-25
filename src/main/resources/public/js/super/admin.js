@@ -54,7 +54,7 @@ $(document).on("click", "#api-list-button", function (res) {
                 data.databaseName = window.database;
                 data.tableName = window.table;
                 saveSql(data, function (response) {
-                    console.log(response);
+                    $("#api-list-button").click();
                 })
             }
         });
@@ -80,10 +80,26 @@ $(document).on("click", "#api-list-button", function (res) {
 
         $(".remove-sql-api").click(function () {
             var id = $(this).data("id");
-            removeSql(id, function (response) {
+            sparrow_win.confirm("确定删除？", function(){
+                removeSql(id, function (response) {
+                    $("#api-list-button").click();
+                });
+            })
+        });
 
+        $(".edit-sql-api").click(function () {
+            var id = $(this).data("id");
+            getSqlModel(id, function (response) {
+                console.log(response);
+                var res = response.res;
+                $('[name="sqlDetail"]').val(res.sqlDetail);
+                $('[name="param"]').val(res.param);
+                $('[name="apiName"]').val(res.apiName);
+                $('[name="note"]').val(res.note);
             });
         });
+
+
     });
 });
 
@@ -125,6 +141,7 @@ $(document).on("click", "#setting-field-button", function (res) {
                         updateFieldExtend(data, function (obj) {
                             setTimeout(function(){
                                 layer.closeAll();
+                                $("#setting-field-button").click();
                             }, 3000);
                         });
                         data.table = window.table;
@@ -134,6 +151,7 @@ $(document).on("click", "#setting-field-button", function (res) {
                         updateColumn(data, function (obj) {
                             setTimeout(function(){
                                 layer.closeAll();
+                                $("#setting-field-button").click();
                             }, 3000);
                         });
                     });
@@ -157,6 +175,7 @@ $(document).on("click", "#setting-field-button", function (res) {
                             addFieldExtend(data, function (obj) {
                                 setTimeout(function(){
                                     layer.closeAll();
+                                    $("#setting-field-button").click();
                                 }, 3000);
                             });
                         });
@@ -175,7 +194,7 @@ $(document).on("click", "#setting-field-button", function (res) {
                     data.database = window.database;
                     data.cname  = name;
                     removeColumn(data, function () {
-
+                        $("#setting-field-button").click();
                     });
                 });
             });

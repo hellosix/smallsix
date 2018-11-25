@@ -887,10 +887,19 @@ a:hover {
     color: #999;
     background-image: url(images/icon_info.png);
 }
-.sparrow_input_tip_error {
-    color: #f00;
-    background-image: url(images/icon_error.png);
+
+.sparrow_input_tip_error{
+    padding-left: 0px;
+    color: #ff6b72;
+    #background-image: url(images/icon_error.png);
 }
+.field-tip{
+    display: none;
+}
+.field-tip.sparrow_input_tip_error{
+    display: block;
+}
+
 .sparrow_input_tip_2.sparrow_input_tip_ok {
     height: 27px;
     line-height: 27px;

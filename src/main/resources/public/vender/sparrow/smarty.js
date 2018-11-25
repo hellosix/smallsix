@@ -1485,6 +1485,8 @@ window.smarty_plugin_page = function( page, key )
 		sparrow.error( '翻页出错了!' );
 	}
 	make_page_arg[ key ].apply( window, [ page ] );
+	//lzz
+	setTimeout("plugin_show_list_init()",100);
 }
 
 window.smarty_jump_page = function( key )
@@ -1762,6 +1764,7 @@ function smarty_function_make_page( params )
 		}
 		result_arr.push( jump_tmp_str );
 	}
+
 	result_arr.unshift( '<div class="sparrow_page_list">' );
 	result_arr.push( '</div>' );
 	return result_arr.join( '' );

@@ -1,11 +1,8 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">{{$note}}</label>
     <div class="col-sm-10">
-        {{foreach from=$valueInit item=row}}
-        <label class="checkbox-inline">
-            {{checkbox_show_value field=$field value=$value target=$row}}
-        </label>
-        {{/foreach}}
+        {{checkbox_show_value field=$field value=$value valitate=$valitate valueInit=$valueInit}}
+        <div id="{{$field}}_tip" class="field-tip">{{$note}}必填</div>
     </div>
 </div>
 

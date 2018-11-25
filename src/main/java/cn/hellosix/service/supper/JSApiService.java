@@ -74,6 +74,10 @@ public class JSApiService {
         return true;
     }
 
+    public SqlModel getSqlModel(Integer id){
+        return sqlModelDao.getSqlModelById(id);
+    }
+
     public List<SqlModel> getSqlModelList(String database, String table) {
         return sqlModelDao.getSqlModelList(database, table);
     }

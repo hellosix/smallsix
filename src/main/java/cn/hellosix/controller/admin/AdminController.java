@@ -15,10 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by lzz on 2018/10/1.
@@ -89,7 +86,7 @@ public class AdminController {
         }
         List<FieldExtend> fieldExtends = service.getFieldExtendList(database, table);
         Long tableCount = service.getTableCount(queryModel);
-        Integer pageCount = (new Double( Math.ceil(tableCount/pageLength) )).intValue();
+        Integer pageCount = (new Double( Math.ceil(Double.valueOf(tableCount)/Double.valueOf(pageLength)) )).intValue();
         Map<String, Object> resMap = new HashMap();
         resMap.put("list", list);
         resMap.put("columns", columns);
@@ -105,8 +102,24 @@ public class AdminController {
     @RequestMapping(value = "/getTableRowDetail", method = RequestMethod.GET)
     @ResponseBody
     public Response getTableRowDetail(@RequestParam String database,@RequestParam String table, @RequestParam int id){
+        List<Column> columns = new ArrayList<>();
+        List<Column> tmpColumns = service.getTableColumns(database, table);
         Map<String, Object> res = service.getTableRowDetail(database, table, id);
-        return Response.Result(0, res);
+        for(Map.Entry<String, Object> rowItem : res.entrySet()){
+            String key = rowItem.getKey();
+            for(Column column : tmpColumns){
+                if( key.equals( column.getCname() ) ){
+                    columns.add( column );
+                    break;
+                }
+            }
+        }
+        List<FieldExtend> fieldExtends = service.getFieldExtendList(database, table);
+        Map<String, Object> resMap = new HashMap();
+        resMap.put("detail", res);
+        resMap.put("columns", columns);
+        resMap.put("fieldExtends", fieldExtends);
+        return Response.Result(0, resMap);
     }
 
     @RequestMapping(value = "/deleteRow", method = RequestMethod.GET)
@@ -121,7 +134,7 @@ public class AdminController {
     @RequestMapping(value = "/getInitFieldForm", method = RequestMethod.GET)
     @ResponseBody
     public Response getInitFieldForm(@RequestParam String database,@RequestParam String table){
-        Map<String, Object> fieldMap = new HashMap<>();
+        Map<String, Object> fieldMap = new LinkedHashMap<>();
 
         Map<String, Object> item = service.getTableRowDetail(database, table);
         List<Column> columns = new ArrayList<>();
@@ -158,6 +171,19 @@ public class AdminController {
         Response res = Response.Error("update fail");
         try {
             service.updateFieldForm(fieldForm);
+            res = Response.Result(0, "success");
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    @RequestMapping(value = "/addFieldForm", method = RequestMethod.POST)
+    @ResponseBody
+    public Response addFieldForm(@RequestBody FieldForm fieldForm){
+        Response res = Response.Error("add fail");
+        try {
+            service.addFieldForm(fieldForm);
             res = Response.Info("success");
         }catch (IOException e) {
             e.printStackTrace();
