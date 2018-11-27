@@ -1,20 +1,45 @@
-/******************************** cn.hellosix.controller.supper.SearchFormController ********************************/
+/******************************** cn.hellosix.controller.supper.UserNotifyController ********************************/
 /**
- * @type POST 
- * @param  SearchForm{id=null, tableName='null', databaseName='null', htmlContent='null', active=0}
+ * @type GET
  */
-function  updateSearchForm(searchForm,callback){
-   ajax.async_post("/super/updateSearchForm",searchForm,callback);
+function  getUserNotifyList(callback){
+   ajax.async_get("/userNotify/getUserNotifyList",callback);
 }
 /**
  * @type GET 
- * @param  String 
- * @param  String
+ * @param  int
  */
-function  getSearchForm(database,table,callback){
-   ajax.async_get("/super/getSearchForm?database="+database+"&table="+table+"",callback);
+function  getUserNotify(id,callback){
+   ajax.async_get("/userNotify/getUserNotify?id="+id+"",callback);
+}
+/**
+ * @type GET 
+ * @param  int
+ */
+function  removeUserNotify(id,callback){
+   ajax.async_get("/userNotify/removeUserNotify?id="+id+"",callback);
+}
+/**
+ * @type POST 
+ * @param  cn.hellosix.model.UserNotify@6ccac6f4
+ */
+function  updateUserNotify(userNotify,callback){
+   ajax.async_post("/userNotify/updateUserNotify",userNotify,callback);
+}
+/**
+ * @type POST 
+ * @param  cn.hellosix.model.UserNotify@3453acd2
+ */
+function  addUserNotify(userNotify,callback){
+   ajax.async_post("/userNotify/addUserNotify",userNotify,callback);
 }
 /******************************** cn.hellosix.controller.supper.SuperController ********************************/
+/**
+ * @type GET
+ */
+function  getMenu(callback){
+   ajax.async_get("/super/getMenu",callback);
+}
 /**
  * @type GET 
  * @param  String
@@ -104,137 +129,7 @@ function  updateTableExtend(tableExtend,callback){
 function  getTableExtendDetail(database,table,callback){
    ajax.async_get("/super/getTableExtendDetail?database="+database+"&table="+table+"",callback);
 }
-/**
- * @type GET
- */
-function  getMenu(callback){
-   ajax.async_get("/super/getMenu",callback);
-}
-/******************************** cn.hellosix.controller.supper.TableAdminController ********************************/
-/**
- * @type GET 
- * @param  String
- */
-function  getTableExtendByDatabase(database,callback){
-   ajax.async_get("/super/getTableExtendByDatabase?database="+database+"",callback);
-}
-/**
- * @type POST 
- * @param  TableExtend{id=0, databaseName='null', tableName='null', note='null', options='null', style='null'}
- */
-function  addTableAndExtend(tableExtend,callback){
-   ajax.async_post("/super/addTableAndExtend",tableExtend,callback);
-}
-/**
- * @type GET 
- * @param  String 
- * @param  String
- */
-function  deleteTableAndExtend(database,table,callback){
-   ajax.async_get("/super/deleteTableAndExtend?database="+database+"&table="+table+"",callback);
-}
-/******************************** cn.hellosix.controller.supper.UserController ********************************/
-/**
- * @type GET 
- * @param  String 
- * @param  String
- */
-function  verifyLogin(username,password,callback){
-   ajax.async_get("/user/verifyLogin?username="+username+"&password="+password+"",callback);
-}
-/**
- * @type GET
- */
-function  logout(callback){
-   ajax.async_get("/user/logout",callback);
-}
-/**
- * @type GET
- */
-function  getUserList(callback){
-   ajax.async_get("/user/getUserList",callback);
-}
-/**
- * @type GET 
- * @param  int
- */
-function  getUser(id,callback){
-   ajax.async_get("/user/getUser?id="+id+"",callback);
-}
-/**
- * @type GET 
- * @param  int
- */
-function  removeUser(id,callback){
-   ajax.async_get("/user/removeUser?id="+id+"",callback);
-}
-/**
- * @type POST 
- * @param  User{id=null, username='null', password='null', head='null', phone='null', wechat='null', email='null', serviceTime=null, databaseName='null', menu='null', addTime=1543277787}
- */
-function  updateUser(user,callback){
-   ajax.async_post("/user/updateUser",user,callback);
-}
-/**
- * @type GET
- */
-function  autoGetUser(callback){
-   ajax.async_get("/user/autoGetUser",callback);
-}
-/**
- * @type GET
- */
-function  heartBeat(callback){
-   ajax.async_get("/user/heartbeat",callback);
-}
-/******************************** cn.hellosix.controller.admin.MonitorController ********************************/
-/**
- * @type GET 
- * @param  String
- */
-function  getGroupByUserAgent(database,callback){
-   ajax.async_get("/admin/monitor/getGroupByUserAgent?database="+database+"",callback);
-}
-/**
- * @type GET 
- * @param  String 
- * @param  int 
- * @param  int 
- * @param  String
- */
-function  getGroupByCountUid(database,startTime,endTime,date,callback){
-   ajax.async_get("/admin/monitor/getGroupByCountUid?database="+database+"&startTime="+startTime+"&endTime="+endTime+"&date="+date+"",callback);
-}
-/**
- * @type GET 
- * @param  String
- */
-function  getGroupByCountTotal(database,callback){
-   ajax.async_get("/admin/monitor/getGroupByCountTotal?database="+database+"",callback);
-}
-/**
- * @type GET 
- * @param  String 
- * @param  int
- */
-function  getTotalCount(database,beforeDay,callback){
-   ajax.async_get("/admin/monitor/getTotalCount?database="+database+"&beforeDay="+beforeDay+"",callback);
-}
-/**
- * @type GET 
- * @param  String
- */
-function  getMonitorDetail(database,callback){
-   ajax.async_get("/admin/monitor/getMonitorDetail?database="+database+"",callback);
-}
 /******************************** cn.hellosix.controller.admin.AdminController ********************************/
-/**
- * @type GET 
- * @param  String
- */
-function  getMenu(database,callback){
-   ajax.async_get("/admin/getMenu?database="+database+"",callback);
-}
 /**
  * @type GET
  */
@@ -248,6 +143,13 @@ function  getWechatSign(callback){
  */
 function  getTableExtend(database,table,callback){
    ajax.async_get("/admin/getTableExtend?database="+database+"&table="+table+"",callback);
+}
+/**
+ * @type GET 
+ * @param  String
+ */
+function  getMenu(database,callback){
+   ajax.async_get("/admin/getMenu?database="+database+"",callback);
 }
 /**
  * @type POST 
@@ -284,52 +186,17 @@ function  getInitFieldForm(database,table,callback){
 }
 /**
  * @type POST 
- * @param  cn.hellosix.model.FieldForm@1c52552f
+ * @param  cn.hellosix.model.FieldForm@629984eb
  */
 function  updateFieldForm(fieldForm,callback){
    ajax.async_post("/admin/updateFieldForm",fieldForm,callback);
 }
 /**
  * @type POST 
- * @param  cn.hellosix.model.FieldForm@1b0e9707
+ * @param  cn.hellosix.model.FieldForm@4c1d59cd
  */
 function  addFieldForm(fieldForm,callback){
    ajax.async_post("/admin/addFieldForm",fieldForm,callback);
-}
-/******************************** cn.hellosix.controller.supper.SystemAdviseController ********************************/
-/**
- * @type GET
- */
-function  getSystemAdviseList(callback){
-   ajax.async_get("/systemAdvise/getSystemAdviseList",callback);
-}
-/**
- * @type GET 
- * @param  int
- */
-function  getSystemAdvise(id,callback){
-   ajax.async_get("/systemAdvise/getSystemAdvise?id="+id+"",callback);
-}
-/**
- * @type GET 
- * @param  int
- */
-function  removeSystemAdvise(id,callback){
-   ajax.async_get("/systemAdvise/removeSystemAdvise?id="+id+"",callback);
-}
-/**
- * @type POST 
- * @param  cn.hellosix.model.SystemAdvise@287ae90c
- */
-function  updateSystemAdvise(systemAdvise,callback){
-   ajax.async_post("/systemAdvise/updateSystemAdvise",systemAdvise,callback);
-}
-/**
- * @type POST 
- * @param  cn.hellosix.model.SystemAdvise@3fcee3d9
- */
-function  addSystemAdvise(systemAdvise,callback){
-   ajax.async_post("/systemAdvise/addSystemAdvise",systemAdvise,callback);
 }
 /******************************** cn.hellosix.controller.supper.JSApiController ********************************/
 /**
@@ -393,41 +260,6 @@ function  getSqlModel(id,callback){
 function  apiRestful(id,param,httpServletRequest,callback){
    ajax.async_post("/super/api/restful/{id}",id,param,httpServletRequest,callback);
 }
-/******************************** cn.hellosix.controller.supper.UserNotifyController ********************************/
-/**
- * @type GET
- */
-function  getUserNotifyList(callback){
-   ajax.async_get("/userNotify/getUserNotifyList",callback);
-}
-/**
- * @type GET 
- * @param  int
- */
-function  getUserNotify(id,callback){
-   ajax.async_get("/userNotify/getUserNotify?id="+id+"",callback);
-}
-/**
- * @type GET 
- * @param  int
- */
-function  removeUserNotify(id,callback){
-   ajax.async_get("/userNotify/removeUserNotify?id="+id+"",callback);
-}
-/**
- * @type POST 
- * @param  cn.hellosix.model.UserNotify@77c3c037
- */
-function  updateUserNotify(userNotify,callback){
-   ajax.async_post("/userNotify/updateUserNotify",userNotify,callback);
-}
-/**
- * @type POST 
- * @param  cn.hellosix.model.UserNotify@10e5bf9c
- */
-function  addUserNotify(userNotify,callback){
-   ajax.async_post("/userNotify/addUserNotify",userNotify,callback);
-}
 /******************************** cn.hellosix.controller.supper.CreateAppController ********************************/
 /**
  * @type POST 
@@ -435,4 +267,172 @@ function  addUserNotify(userNotify,callback){
  */
 function  createApp(appMetaModel,callback){
    ajax.async_post("/super/create-app",appMetaModel,callback);
+}
+/******************************** cn.hellosix.controller.supper.SearchFormController ********************************/
+/**
+ * @type GET 
+ * @param  String 
+ * @param  String
+ */
+function  getSearchForm(database,table,callback){
+   ajax.async_get("/super/getSearchForm?database="+database+"&table="+table+"",callback);
+}
+/**
+ * @type POST 
+ * @param  SearchForm{id=null, tableName='null', databaseName='null', htmlContent='null', active=0}
+ */
+function  updateSearchForm(searchForm,callback){
+   ajax.async_post("/super/updateSearchForm",searchForm,callback);
+}
+/******************************** cn.hellosix.controller.supper.SystemAdviseController ********************************/
+/**
+ * @type GET 
+ * @param  int
+ */
+function  getSystemAdvise(id,callback){
+   ajax.async_get("/systemAdvise/getSystemAdvise?id="+id+"",callback);
+}
+/**
+ * @type GET
+ */
+function  getSystemAdviseList(callback){
+   ajax.async_get("/systemAdvise/getSystemAdviseList",callback);
+}
+/**
+ * @type GET 
+ * @param  int
+ */
+function  removeSystemAdvise(id,callback){
+   ajax.async_get("/systemAdvise/removeSystemAdvise?id="+id+"",callback);
+}
+/**
+ * @type POST 
+ * @param  cn.hellosix.model.SystemAdvise@63f9b562
+ */
+function  updateSystemAdvise(systemAdvise,callback){
+   ajax.async_post("/systemAdvise/updateSystemAdvise",systemAdvise,callback);
+}
+/**
+ * @type POST 
+ * @param  cn.hellosix.model.SystemAdvise@5426cb36
+ */
+function  addSystemAdvise(systemAdvise,callback){
+   ajax.async_post("/systemAdvise/addSystemAdvise",systemAdvise,callback);
+}
+/******************************** cn.hellosix.controller.supper.UserController ********************************/
+/**
+ * @type GET 
+ * @param  int
+ */
+function  getUser(id,callback){
+   ajax.async_get("/user/getUser?id="+id+"",callback);
+}
+/**
+ * @type GET
+ */
+function  logout(callback){
+   ajax.async_get("/user/logout",callback);
+}
+/**
+ * @type GET 
+ * @param  String 
+ * @param  String
+ */
+function  verifyLogin(username,password,callback){
+   ajax.async_get("/user/verifyLogin?username="+username+"&password="+password+"",callback);
+}
+/**
+ * @type GET
+ */
+function  getUserList(callback){
+   ajax.async_get("/user/getUserList",callback);
+}
+/**
+ * @type GET 
+ * @param  int
+ */
+function  removeUser(id,callback){
+   ajax.async_get("/user/removeUser?id="+id+"",callback);
+}
+/**
+ * @type POST 
+ * @param  User{id=null, username='null', password='null', head='null', phone='null', wechat='null', email='null', serviceTime=null, databaseName='null', menu='null', addTime=1543328681}
+ */
+function  updateUser(user,callback){
+   ajax.async_post("/user/updateUser",user,callback);
+}
+/**
+ * @type GET
+ */
+function  autoGetUser(callback){
+   ajax.async_get("/user/autoGetUser",callback);
+}
+/**
+ * @type GET
+ */
+function  heartBeat(callback){
+   ajax.async_get("/user/heartbeat",callback);
+}
+/******************************** cn.hellosix.controller.admin.MonitorController ********************************/
+/**
+ * @type GET 
+ * @param  String
+ */
+function  getGroupByCountTotal(database,callback){
+   ajax.async_get("/admin/monitor/getGroupByCountTotal?database="+database+"",callback);
+}
+/**
+ * @type GET 
+ * @param  String 
+ * @param  int
+ */
+function  getTotalCount(database,beforeDay,callback){
+   ajax.async_get("/admin/monitor/getTotalCount?database="+database+"&beforeDay="+beforeDay+"",callback);
+}
+/**
+ * @type GET 
+ * @param  String
+ */
+function  getMonitorDetail(database,callback){
+   ajax.async_get("/admin/monitor/getMonitorDetail?database="+database+"",callback);
+}
+/**
+ * @type GET 
+ * @param  String
+ */
+function  getGroupByUserAgent(database,callback){
+   ajax.async_get("/admin/monitor/getGroupByUserAgent?database="+database+"",callback);
+}
+/**
+ * @type GET 
+ * @param  String 
+ * @param  int 
+ * @param  int 
+ * @param  String
+ */
+function  getGroupByCountUid(database,startTime,endTime,date,callback){
+   ajax.async_get("/admin/monitor/getGroupByCountUid?database="+database+"&startTime="+startTime+"&endTime="+endTime+"&date="+date+"",callback);
+}
+/******************************** cn.hellosix.controller.supper.TableAdminController ********************************/
+/**
+ * @type GET 
+ * @param  String
+ */
+function  getTableExtendByDatabase(database,callback){
+   ajax.async_get("/super/getTableExtendByDatabase?database="+database+"",callback);
+}
+/**
+ * @type POST 
+ * @param  TableExtend{id=0, databaseName='null', tableName='null', note='null', options='null', style='null'}
+ */
+function  addTableAndExtend(tableExtend,callback){
+   ajax.async_post("/super/addTableAndExtend",tableExtend,callback);
+}
+/**
+ * @type GET 
+ * @param  String 
+ * @param  String
+ */
+function  deleteTableAndExtend(database,table,callback){
+   ajax.async_get("/super/deleteTableAndExtend?database="+database+"&table="+table+"",callback);
 }
