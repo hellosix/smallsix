@@ -49,6 +49,14 @@ public class AdminController {
         return "admin/user";
     }
 
+    @RequestMapping(value = "/getWechatSign", method = RequestMethod.GET)
+    @ResponseBody
+    public Response getWechatSign(){
+        WechatSign sign = service.getWechatSign();
+        return Response.Result(0, sign);
+    }
+
+
     @RequestMapping(value = "/getTableExtend", method = RequestMethod.GET)
     @ResponseBody
     public Response getTableExtend(@RequestParam String database, @RequestParam String table){

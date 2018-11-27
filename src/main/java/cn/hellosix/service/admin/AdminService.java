@@ -6,6 +6,7 @@ import cn.hellosix.dao.ITableExtendDao;
 import cn.hellosix.model.*;
 import cn.hellosix.util.FileUtil;
 import cn.hellosix.util.TimeUtil;
+import cn.hellosix.util.WechatUtil;
 import com.google.common.base.Joiner;
 import com.google.common.io.Files;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,11 @@ public class AdminService {
     private ITableExtendDao tableExtendDao;
     @Autowired
     private IFieldExtendDao fieldExtendDao;
+
+    public WechatSign getWechatSign(){
+        WechatSign sign = WechatUtil.sign("http://smurf7.com");
+        return sign;
+    }
 
     public TableExtend getTableExtend(String database, String table) {
         return tableExtendDao.getTableExtendDetail(database, table);
