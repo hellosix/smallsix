@@ -37,8 +37,8 @@ public class AdminService {
     @Autowired
     private IFieldExtendDao fieldExtendDao;
 
-    public WechatSign getWechatSign(){
-        WechatSign sign = WechatUtil.sign("http://smurf7.com");
+    public WechatSign getWechatSign(String url){
+        WechatSign sign = WechatUtil.sign(url);
         return sign;
     }
 

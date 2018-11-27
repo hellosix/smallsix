@@ -49,10 +49,11 @@ public class AdminController {
         return "admin/user";
     }
 
-    @RequestMapping(value = "/getWechatSign", method = RequestMethod.GET)
+    @RequestMapping(value = "/getWechatSign", method = RequestMethod.POST)
     @ResponseBody
-    public Response getWechatSign(){
-        WechatSign sign = service.getWechatSign();
+    public Response getWechatSign(@RequestBody Map<String, String> req){
+        String url = req.get("url");
+        WechatSign sign = service.getWechatSign(url);
         return Response.Result(0, sign);
     }
 
