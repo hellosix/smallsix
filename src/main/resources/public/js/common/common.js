@@ -32,7 +32,7 @@ function syntaxHighlight(json) {
     });
 }
 
-function timestampToDateTime(timestamp){
+function timestampToDate(timestamp){
     if( !timestamp ){
         timestamp = (new Date()).getTime();
     }
@@ -49,7 +49,7 @@ function timestampToDateTime(timestamp){
     return Y + '-' + M + '-' + D;
 }
 
-function timestampToDate(timestamp) {
+function timestampToDateTime(timestamp) {
     if( !timestamp ){
         timestamp = (new Date()).getTime();
     }

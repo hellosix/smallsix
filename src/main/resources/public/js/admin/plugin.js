@@ -50,6 +50,12 @@ smarty.parse("/plugin/number", {}, function (obj) {
 smarty.parse("/plugin/range", {}, function (obj) {
     layer.closeAll();
 });
+smarty.register_modifier("format_editor_value", function (val) {
+    if(!sparrow.empty(val)){
+        val = val.replace(/[\n\r]/g,"<br>");
+    }
+    return val;
+});
 smarty.register_function('checkbox_show_value', function (params) {
     var valueInit = params['valueInit'];
     var value = params['value'];
@@ -205,9 +211,13 @@ function field_format(field, value, fieldArr, id) {
                 if( type == "single-image" || type == "multi-image" ){
                     if(!sparrow.empty(value)){
                         var imgs = value.split(",");
-                        for(var j in imgs){
+                        for(var j = 0; j < imgs.length; j++){
                             if( imgs[j] ){
-                                res += '<img class="img-item" ' + fieldItem.style + ' src="' + window.imageurl + imgs[j] + '" width="30" height="30">';
+                                var hidestr = "";
+                                if( j > 2 ){
+                                    hidestr = "hidden";
+                                }
+                                res += '<img class="img-item ' + hidestr + '" ' + fieldItem.style + ' src="' + window.imageurl + imgs[j] + '" width="30" height="30">';
                             }
                         }
                         res = "<div class='img-div' data-detail='" + value +"'>" + res + "</div>";
@@ -216,6 +226,7 @@ function field_format(field, value, fieldArr, id) {
                 }else if( type == "text-file"){
                     res += "<div class='text-file-link' data-src='" + value + "' " + fieldItem.style + ">查看</div>";
                     res += "<div class='text-file-edit-icon'  data-target='" + field + "' data-id='" + id + "'>编辑</div>";
+                    res = "<div class='width-60'>" + res + "</div>"
                 }else if( type == "video" ){
                     if(!sparrow.empty(value)){
                         var videos = value.split(",");
@@ -279,9 +290,13 @@ function field_format(field, value, fieldArr, id) {
                         res += '</div>';
                     }
 
-                }else if( type == "textarea" || type == "editor-small" || type == "editor-big"){
+                }else if( type == "textarea" || type == "editor-small"){
                     res += "<div " + fieldItem.style +" class='field-ellipsis pull-left'>" + value + "</div>";
                     res += "<div class='textarea-edit-icon'  data-target='" + field + "' data-id='" + id + "'><span class='glyphicon glyphicon-pencil'></span></div>";
+                }else if(type == "editor-big"){
+                    res += "<div class='textarea-big-preview' data-target='" + field + "' data-id='" + id + "' " + fieldItem.style + ">查看</div>";
+                    res += "<div class='textarea-big-edit-icon'  data-target='" + field + "' data-id='" + id + "'>编辑</div>";
+                    res = "<div class='width-60'>" + res + "</div>"
                 }else{
                     if( field != "id" ){
                         res += "<input type='text' " + fieldItem.style + " value='" + value + "'  class='no-border-input edit-input'   data-field='" + field + "' data-id='" + id + "' />";
@@ -293,32 +308,37 @@ function field_format(field, value, fieldArr, id) {
         }
     }
     if( !res ){
-        res = "<div class='field-ellipsis'>" + value + "</div>";
+        if( field == "id" ){
+            res = "<div class='id-field'>" + value + "</div>";
+        }else{
+            res = "<div class='field-ellipsis'>" + value + "</div>";
+        }
     }
     return res;
 }
 
 
 function plugin_init(data) {
-    var fieldObj = data.extends;
-    for(var i = 0; i < fieldObj.length; i++){
-        var type = fieldObj[i].type;
-        var name = fieldObj[i].fieldName;
-        if( type == 'single-image' || type == 'multi-image' || type == 'text-file' || type == 'music' || type == 'video' ){
-            $("[data-name='" + name + "']").upload(
-                function(_this,data){
-                    alert(data)
-                }
-            );
+    setTimeout(function () {
+        var fieldObj = data.extends;
+        for(var i = 0; i < fieldObj.length; i++){
+            var type = fieldObj[i].type;
+            var name = fieldObj[i].fieldName;
+            if( type == 'single-image' || type == 'multi-image' || type == 'text-file' || type == 'music' || type == 'video' ){
+                $("[data-name='" + name + "']").upload(
+                    function(_this,data){
+                        alert(data)
+                    }
+                );
+            }
         }
-    }
+        time_init();
+        date_init();
 
-    time_init();
-    date_init();
-
-    window.editor = {};
-    editor_init("editor-small");
-    editor_init("editor-big");
+        window.editor = {};
+        editor_init("editor-small");
+        editor_init("editor-big");
+    }, 100 );
 
 }
 
@@ -408,6 +428,23 @@ function plugin_show_list_init() {
 
 }
 
+$(document).on("click",".textarea-big-preview", function () {
+    var id = $(this).data("id");
+    var field = $(this).data("target");
+    getInitFieldForm(window.database, window.table, function (data) {
+        var tableExtend = data.res.tableExtend;
+        getTableRowDetail(window.database, window.table, id, function (obj) {
+            var options = { "title": "修改","width":700, "height":600};
+            if( tableExtend.options && tableExtend.options != ""){
+                options = JSON.parse(tableExtend.options);
+                options.title = "预览";
+            }
+            smarty.open("/plugin/show_big_textarea", {"content":obj.res.detail[field]}, options, function(){
+
+            })
+        })
+    });
+});
 
 $(document).on("click", ".text-file-link", function () {
     var src = $(this).data("src");
@@ -466,7 +503,7 @@ $(document).on("change",".edit-input",function () {
 });
 
 
-$(document).on("click", ".checkbox-edit-icon,.add-image-icon,.textarea-edit-icon,.date-edit-icon,.text-file-edit-icon", function () {
+$(document).on("click", ".checkbox-edit-icon,.add-image-icon,.textarea-edit-icon,.textarea-big-edit-icon,.date-edit-icon,.text-file-edit-icon", function () {
     var id = $(this).data("id");
     var field = $(this).data("target");
 
@@ -475,6 +512,7 @@ $(document).on("click", ".checkbox-edit-icon,.add-image-icon,.textarea-edit-icon
         data.columns = obj.res.columns;
         data.extends = obj.res.fieldExtends;
         data.fields = {};
+        var tableExtend = obj.res.tableExtend;
 
         for(var key in obj.res.detail){
             if( key == field ){
@@ -484,6 +522,10 @@ $(document).on("click", ".checkbox-edit-icon,.add-image-icon,.textarea-edit-icon
 
         }
         var options = { "title": "修改" ,"width":700};
+        if( tableExtend.options && tableExtend.options != ""){
+            options = JSON.parse(tableExtend.options);
+            options.title = "修改" + options.title;
+        }
         update_model(id, data, options);
     });
 });

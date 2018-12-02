@@ -124,10 +124,12 @@ public class AdminController {
             }
         }
         List<FieldExtend> fieldExtends = service.getFieldExtendList(database, table);
+        TableExtend tableExtend = service.getTableExtend(database, table);
         Map<String, Object> resMap = new HashMap();
         resMap.put("detail", res);
         resMap.put("columns", columns);
         resMap.put("fieldExtends", fieldExtends);
+        resMap.put("tableExtend",tableExtend);
         return Response.Result(0, resMap);
     }
 
@@ -167,10 +169,12 @@ public class AdminController {
             fieldMap.put( column.getCname(), "");
         }
         List<FieldExtend> fieldExtends = service.getFieldExtendList(database, table);
+        TableExtend tableExtend = service.getTableExtend(database, table);
         Map<String, Object> res = new HashMap<>();
         res.put("extends", fieldExtends);
         res.put("fields", fieldMap);
         res.put("columns", columns);
+        res.put("tableExtend", tableExtend);
         return Response.Result(0, res);
     }
 

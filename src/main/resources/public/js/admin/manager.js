@@ -30,11 +30,16 @@ $(document).on("click", "#add-field-button", function () {
 $(document).on("click", ".edit-field-button", function () {
     var id = $(this).data("id");
     var data = {};
-    ajax.get( "getTableRowDetail?database=" + window.database + "&table=" + window.table + "&id=" + id, function (obj) {
+    getTableRowDetail(window.database,window.table, id, function (obj) {
         data.columns = obj.res.columns;
         data.extends = obj.res.fieldExtends;
         data.fields = obj.res.detail;
+        var tableExtend = obj.res.tableExtend;
         var options = { "title": "修改","width":700, "height":600};
+        if( tableExtend.options && tableExtend.options != ""){
+            options = JSON.parse(tableExtend.options);
+            options.title = "修改" + options.title;
+        }
         update_model(id, data, options);
     });
 });
@@ -60,7 +65,7 @@ function update_model(id, data, options) {
                 updateFieldForm(req, function(response){
                     closeAll();
                     layer.msg( "修改成功!", function () {
-                        ajax.get( "getTableRowDetail?database=" + window.database + "&table=" + window.table + "&id=" + id, function (obj) {
+                        getTableRowDetail(window.database,window.table, id, function (obj) {
                             var data = obj;
                             data.row = data.res.detail;
                             console.log(data);
@@ -69,7 +74,7 @@ function update_model(id, data, options) {
                                 param.fields = data.row;
                                 param.columns = obj.res.columns;
                                 param.extends = obj.res.fieldExtends;
-                                plugin_init(param);
+                                //plugin_init(param);
                                 plugin_show_list_init();
                             });
                         });
@@ -82,6 +87,11 @@ function update_model(id, data, options) {
 
 function add_mode(data) {
     var options = { "title": "添加","width":700, "height":600};
+    var tableExtend = data.tableExtend;
+    if( tableExtend.options && tableExtend.options != ""){
+        options = JSON.parse(tableExtend.options);
+        options.title = "添加" + options.title;
+    }
     smarty.open("/admin/field_form", data, options, function(){
         plugin_init(data);
         init_form_validate();
@@ -110,7 +120,7 @@ function add_mode(data) {
 $(document).on("click", ".delete-row-button", function () {
     var id = $(this).data("id");
     sparrow_win.confirm("确定删除？", function(){
-        ajax.get( "deleteRow?database=" + window.database + "&table=" + window.table + "&id=" + id, function (obj) {
+        deleteRow(window.database, window.table, id, function (obj) {
             layer.msg("删除成功", function () {
                 $("#row-" + id).remove();
             });

@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -147,7 +148,10 @@ public class AdminService {
             String key = field.getKey();
             //有可能多个上传
             String[] values = valueStr.split(",");
-            List<String> renameList = new ArrayList<>();
+            Map<String,String> valueMap = new HashMap<>();
+            for(String valueItem : values){
+                valueMap.put(valueItem, valueItem);
+            }
             boolean isFile = false;
             for(String file : files) {
                 for(String value : values){
@@ -162,7 +166,7 @@ public class AdminService {
                             File fileTo = new File(packPath + rename);
                             Files.move(fileFrom, fileTo);
                             FileUtil.deleteFile( packPath + value ); //删除原有到图片
-                            renameList.add( tmpValue );
+                            valueMap.put(value, tmpValue);
                         }catch (Exception ignore){
 
                         }
@@ -170,8 +174,8 @@ public class AdminService {
                 }
             }
             //命名后重改原来到值
-            if( !renameList.isEmpty() && isFile ){
-                field.setValue(Joiner.on(",").join(renameList) );
+            if( isFile ){
+                field.setValue(Joiner.on(",").join(valueMap.values()) );
             }
         }
     }

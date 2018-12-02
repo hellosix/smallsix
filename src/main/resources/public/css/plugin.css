@@ -6,9 +6,17 @@
     border: 1px solid #d7d7d7;
     border-bottom: 0px;
 }
+.editor.big {
+    border: 1px solid #d7d7d7;
+    height: 300px;
+}
 .editor {
     border: 1px solid #d7d7d7;
     height: 100px;
+}
+.editor > div > p {
+    word-wrap:break-word;
+    word-break:normal;
 }
 
 .field-ellipsis{
@@ -21,6 +29,20 @@
     text-overflow: inherit;
     overflow: visible;
 }
+.textarea-big-preview{
+    float: left;
+    color: #41cac0;
+    cursor: pointer;
+}
+.textarea-big-edit-icon{
+    vertical-align: middle;
+    text-align: center;
+    float: left;
+    margin-left: 5px;
+    color: #d4928a;
+    cursor: pointer;
+}
+
 .text-file-link{
     float: left;
     color: #41cac0;

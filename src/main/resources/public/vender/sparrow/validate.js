@@ -1377,9 +1377,17 @@ sparrow_form.encode = function( form_id, mod, result_arg ){
 		var editor = window.editor[fieldName];
 		var value = "";
 		if( type && type == "html" ){
-			value = editor.txt.html();
+			//value = editor.txt.html();
+			value = $("[name='"+ fieldName + "'] > div.w-e-text").html();
 		}else{
-			value = editor.txt.text();
+			//value = editor.txt.text();
+			value = $("[name='"+ fieldName + "'] > div.w-e-text").html();
+			if(!sparrow.empty(value)){
+				value = value.replace(/<p>/g,"");
+				value = value.replace(/<\/p>/g,"\n");
+				value = value.replace(/<br>/g,"\n");
+				value = value.replace(/^\s+|\s+$/g,'');
+			}
 		}
 		result[ fieldName ] = value;
 	});

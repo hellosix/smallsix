@@ -29,6 +29,10 @@ html,body{
 table.field-table > tbody > tr > td{
     max-width: 150px;
 }
+.width-60{
+    width: 60px;
+}
+
 .string { color: green; }
 .number { color: darkorange; }
 .boolean { color: blue; }
