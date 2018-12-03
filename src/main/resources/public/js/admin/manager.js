@@ -3,8 +3,12 @@
  */
 
 $(document).on("click", ".table-content", function (res) {
-    var detail = $(this).data("detail");
-    window.table = detail.tableName;
+    window.table = $(this).data("table");
+    /*
+    getTableExtend(window.database, window.table, function (obj) {
+
+    });
+    */
     show_table_content();
 });
 

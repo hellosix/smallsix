@@ -35,7 +35,7 @@ function  removeUser(id,callback){
 }
 /**
  * @type POST 
- * @param  User{id=null, username='null', password='null', head='null', phone='null', wechat='null', email='null', serviceTime=null, databaseName='null', menu='null', addTime=1543737026}
+ * @param  User{id=null, username='null', password='null', head='null', phone='null', wechat='null', email='null', serviceTime=null, databaseName='null', menu='null', addTime=1543844933}
  */
 function  updateUser(user,callback){
    ajax.async_post("/user/updateUser",user,callback);
@@ -119,6 +119,23 @@ function  apiRestful(id,param,httpServletRequest,callback){
  * @type GET 
  * @param  String
  */
+function  getGroupByUserAgent(database,callback){
+   ajax.async_get("/admin/monitor/getGroupByUserAgent?database="+database+"",callback);
+}
+/**
+ * @type GET 
+ * @param  String 
+ * @param  int 
+ * @param  int 
+ * @param  String
+ */
+function  getGroupByCountUid(database,startTime,endTime,date,callback){
+   ajax.async_get("/admin/monitor/getGroupByCountUid?database="+database+"&startTime="+startTime+"&endTime="+endTime+"&date="+date+"",callback);
+}
+/**
+ * @type GET 
+ * @param  String
+ */
 function  getGroupByCountTotal(database,callback){
    ajax.async_get("/admin/monitor/getGroupByCountTotal?database="+database+"",callback);
 }
@@ -136,23 +153,6 @@ function  getTotalCount(database,beforeDay,callback){
  */
 function  getMonitorDetail(database,callback){
    ajax.async_get("/admin/monitor/getMonitorDetail?database="+database+"",callback);
-}
-/**
- * @type GET 
- * @param  String
- */
-function  getGroupByUserAgent(database,callback){
-   ajax.async_get("/admin/monitor/getGroupByUserAgent?database="+database+"",callback);
-}
-/**
- * @type GET 
- * @param  String 
- * @param  int 
- * @param  int 
- * @param  String
- */
-function  getGroupByCountUid(database,startTime,endTime,date,callback){
-   ajax.async_get("/admin/monitor/getGroupByCountUid?database="+database+"&startTime="+startTime+"&endTime="+endTime+"&date="+date+"",callback);
 }
 /******************************** cn.hellosix.controller.supper.SystemAdviseController ********************************/
 /**

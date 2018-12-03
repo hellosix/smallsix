@@ -90,8 +90,8 @@ public class JSApiService {
             apiStr += "   * " + sqlModel.getNote() + "\n";
             apiStr += "   * " + sqlModel.getParam() + "\n";
             apiStr += "   */\n";
-            apiStr += "  " + sqlModel.getApiName() + ": function(data, callback){\n";
-            apiStr += "    ajax.async_post(window.apiurl + \"" +  + sqlModel.getId() + "\" ,data ,callback);";
+            apiStr += "  " + sqlModel.getApiName() + ": function(data, callback, errorback){\n";
+            apiStr += "    ajax.async_post(window.apiurl + \"" +  + sqlModel.getId() + "\" ,data ,callback,errorback);";
             apiStr += "\n  },\n";
         }
         apiStr += "\n}";
