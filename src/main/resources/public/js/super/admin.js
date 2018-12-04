@@ -53,6 +53,7 @@ $(document).on("click", "#api-list-button", function (res) {
             if(data){
                 data.databaseName = window.database;
                 data.tableName = window.table;
+                data.id = $("#save-sql-detail-form").data("id");
                 saveSql(data, function (response) {
                     $("#api-list-button").click();
                 })
@@ -89,6 +90,7 @@ $(document).on("click", "#api-list-button", function (res) {
 
         $(".edit-sql-api").click(function () {
             var id = $(this).data("id");
+            $("#save-sql-detail-form").data("id", id);
             getSqlModel(id, function (response) {
                 console.log(response);
                 var res = response.res;

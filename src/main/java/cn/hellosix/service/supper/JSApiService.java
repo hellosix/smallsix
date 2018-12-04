@@ -60,6 +60,7 @@ public class JSApiService {
     }
 
     public boolean removeSql(int id) {
+        sqlMap.remove(id);
         sqlModelDao.removeSqlModel(id);
         return true;
     }
@@ -69,6 +70,7 @@ public class JSApiService {
         if( null == res ){
             sqlModelDao.addSqlModel( sqlModel );
         }else{
+            sqlMap.remove(sqlModel.getId());
             sqlModelDao.updateSqlModel( sqlModel );
         }
         return true;
