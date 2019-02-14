@@ -506,9 +506,13 @@ $(document).on("change",".edit-input",function () {
 $(document).on("click", ".checkbox-edit-icon,.add-image-icon,.textarea-edit-icon,.textarea-big-edit-icon,.date-edit-icon,.text-file-edit-icon", function () {
     var id = $(this).data("id");
     var field = $(this).data("target");
+    editField(window.database, window.table, id, field);
 
-    var data = {};
-    ajax.get( "getTableRowDetail?database=" + window.database + "&table=" + window.table + "&id=" + id, function (obj) {
+});
+
+function  editField(database, table, id, field) {
+    ajax.get( "getTableRowDetail?database=" + database + "&table=" + table + "&id=" + id, function (obj) {
+        var data = {};
         data.columns = obj.res.columns;
         data.extends = obj.res.fieldExtends;
         data.fields = {};
@@ -528,4 +532,4 @@ $(document).on("click", ".checkbox-edit-icon,.add-image-icon,.textarea-edit-icon
         }
         update_model(id, data, options);
     });
-});
+}

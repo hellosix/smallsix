@@ -26,15 +26,23 @@ function show_table_content() {
     });
 }
 $(document).on("click", "#add-field-button", function () {
+    addRow(window.database, window.table);
+});
+
+function addRow(database, table) {
     getInitFieldForm(window.database, window.table, function (data) {
         add_mode(data.res);
     });
-});
+}
 
 $(document).on("click", ".edit-field-button", function () {
     var id = $(this).data("id");
-    var data = {};
-    getTableRowDetail(window.database,window.table, id, function (obj) {
+    editRow(window.database, window.table, id);
+});
+
+function editRow(database,table, id) {
+    getTableRowDetail(database,table, id, function (obj) {
+        var data = {};
         data.columns = obj.res.columns;
         data.extends = obj.res.fieldExtends;
         data.fields = obj.res.detail;
@@ -46,8 +54,7 @@ $(document).on("click", ".edit-field-button", function () {
         }
         update_model(id, data, options);
     });
-});
-
+}
 
 function update_model(id, data, options) {
     smarty.open("/admin/field_form", data, options, function(){
@@ -121,16 +128,21 @@ function add_mode(data) {
         });
     });
 }
+
 $(document).on("click", ".delete-row-button", function () {
     var id = $(this).data("id");
+    deleteRow(window.database, window.table, id);
+});
+
+function deleteRow(database, table, id) {
     sparrow_win.confirm("确定删除？", function(){
-        deleteRow(window.database, window.table, id, function (obj) {
+        deleteRow(database, table, id, function (obj) {
             layer.msg("删除成功", function () {
                 $("#row-" + id).remove();
             });
         });
     });
-});
+}
 
 
 smarty.register_function( 'header_note', function( params ){

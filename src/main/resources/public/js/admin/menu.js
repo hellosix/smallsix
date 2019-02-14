@@ -5,9 +5,17 @@
 $(document).on("click", ".load-iframe", function () {
     var data = {};
     data.src = $(this).data("src");
-    smarty.html("admin/load_iframe", data, "main-container", function () {
+    var type = $(this).data("type");
+    if( type == "browser" ){
+        smarty.html("admin/load_browser_iframe", data, "main-container", function () {
 
-    });
+        });
+    }else{
+        smarty.html("admin/load_iframe", data, "main-container", function () {
+
+        });
+    }
+
 });
 
 function initMenu() {
