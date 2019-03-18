@@ -98,7 +98,7 @@
 .date-edit-icon{
     vertical-align: middle;
     text-align: center;
-    height: 10px;
+    height: auto;
     padding-top: 3px;
     color: #37cac1;
     cursor: pointer;

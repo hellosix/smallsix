@@ -1,7 +1,9 @@
 {{foreach from=$row item=v key=k}}
 {{field_format id=$row.id value=$v field=$k field_extend=$res.fieldExtends}}
 {{/foreach}}
-<td>
-    <button class="btn btn-primary btn-xs edit-field-button" data-id="{{$row.id}}" ><i class="icon-pencil"></i></button>
-    <button class="btn btn-danger btn-xs delete-row-button" data-id="{{$row.id}}"><i class="icon-trash "></i></button>
+<td class="">
+    <div class="cell">
+        <button class="btn btn-primary btn-xs edit-field-button" data-id="{{$row.id}}" ><i class="icon-pencil"></i></button>
+        <button class="btn btn-danger btn-xs delete-row-button" data-id="{{$row.id}}"><i class="icon-trash "></i></button>
+    </div>
 </td>

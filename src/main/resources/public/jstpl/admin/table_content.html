@@ -1,15 +1,22 @@
-
-<table class="table table-hover">
-    <thead id="field-extends-detail" >
-    {{header_note res=$res}}
-    <th style="width: 75px">操作</th>
-    </thead>
-    <tbody class="tbody-row">
-    {{foreach from=$res.list item=row}}
-    <tr id="row-{{$row.id}}">
-        {{include file="admin/table_content_row.html"}}
-    </tr>
-    {{/foreach}}
-    </tbody>
-</table>
+<div class="c-table c-table--border J-table-height">
+    <table cellspacing="0" cellpadding="0" border="0" role="c-table">
+        <colgroup>
+            {{header_column res=$res}}
+            <col name="">
+        </colgroup>
+        <thead id="field-extends-detail" >
+            <tr>
+            {{header_note res=$res}}
+            <th style="width: 75px"><div class="cell">操作</div></th>
+            </tr>
+        </thead>
+        <tbody class="tbody-row">
+        {{foreach from=$res.list item=row}}
+        <tr id="row-{{$row.id}}">
+            {{include file="admin/table_content_row.html"}}
+        </tr>
+        {{/foreach}}
+        </tbody>
+    </table>
+</div>
 {{make_page page=$res.page type="POST" tpl="admin_table_content" table=$res.table database=$res.database page_count=$res.pageCount id="table-container" disable_total=true disable_jump=true right_fix=-1 url="getTableRowList?database,table"}}

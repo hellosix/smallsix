@@ -23,6 +23,13 @@ function show_table_content() {
     window.sortList = [];
     smarty.post("getTableRowList",JSON.stringify(data), "admin/table_content_div", "main-container",function (res) {
         plugin_show_list_init();
+
+        /*固定表格左边和右边列*/
+        $('[role="c-table"]').jqTable({
+            fixedLeft: true,
+            fixedRight: true
+        });
+
     });
 }
 $(document).on("click", "#add-field-button", function () {
@@ -144,6 +151,30 @@ function deleteRow(database, table, id) {
     });
 }
 
+smarty.register_function('header_column', function (params) {
+    var res = params['res'];
+    var columns = res.columns;
+    var arr = res['fieldExtends'];
+    var colstr = "";
+    for(var key in  columns){
+        var field =columns[key].cname;
+        if( !sparrow.empty(arr) ){
+            var exist = false;
+            for(var i in arr){
+                if(arr[i].fieldName == field){
+                    exist = true;
+                    if(arr[i].active != 0){
+                        colstr += '<col name="">';
+                    }
+                }
+            }
+            if( !exist ){
+                colstr += '<col name="">';
+            }
+        }
+    }
+    return colstr;
+});
 
 smarty.register_function( 'header_note', function( params ){
     var res = params['res'];
@@ -155,7 +186,7 @@ smarty.register_function( 'header_note', function( params ){
         if( !sparrow.empty(arr) ){
             for(var i in arr){
                 if( field == "id" ){
-                    res += "<th>ID<span data-field='" + field + "' class='table-sort-button icon-sort-by-attributes'></span></th>";
+                    res += "<th><div class='cell'>ID<span data-field='" + field + "' class='table-sort-button icon-sort-by-attributes'></span></div></th>";
                     break;
                 }else if(arr[i].fieldName == field){
                     if(arr[i].active == 1){
@@ -173,12 +204,12 @@ smarty.register_function( 'header_note', function( params ){
                                 }
                                 tmp += '</select> ';
 
-                                res += "<th>" + tmp + "</th>";
+                                res += "<th><div class='cell'>" + tmp + "</div></th>";
                             }else{
-                                res += "<th>" + arr[i].note + "<span data-field='" + field + "' class='table-sort-button icon-sort-by-attributes'></span></th>";
+                                res += "<th><div class='cell'>" + arr[i].note + "<span data-field='" + field + "' class='table-sort-button icon-sort-by-attributes'></span></div></th>";
                             }
                         }else{
-                            res += "<th>" + field + "<span data-field='" + field + "' class='table-sort-button icon-sort-by-attributes'></span></th>";
+                            res += "<th><div class='cell'>" + field + "<span data-field='" + field + "' class='table-sort-button icon-sort-by-attributes'></span></div></th>";
                         }
                     }
                 }
@@ -186,5 +217,5 @@ smarty.register_function( 'header_note', function( params ){
         }
     }
 
-    return res;
+    return  res;
 });

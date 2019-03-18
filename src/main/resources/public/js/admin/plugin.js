@@ -194,7 +194,7 @@ smarty.register_function( 'field_format', function( params ){
     if( sparrow.empty(res) ){
         return "";
     }
-    return "<td>" + res + "</td>";
+    return "<td class=''><div class='cell'>" + res + "</div></td>";
 });
 
 function field_format(field, value, fieldArr, id) {
