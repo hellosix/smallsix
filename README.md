@@ -21,6 +21,7 @@ use smallsix;
 
 
 用户目录配置
+```
 <li class="sub-menu menu-defult active">
     <a class="load-iframe" href="monitor">
         <i class="icon-bar-chart"></i>
@@ -39,5 +40,5 @@ use smallsix;
         <span>快速编辑</span>
     </a>
 </li>
-
+```
 
